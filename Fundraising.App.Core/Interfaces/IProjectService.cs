@@ -1,9 +1,6 @@
 ﻿using Fundraising.App.Core.Options;
-using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+
 
 namespace Fundraising.App.Core.Interfaces
 {
@@ -11,8 +8,8 @@ namespace Fundraising.App.Core.Interfaces
     {
         public OptionsProject CreateProject(OptionsProject optionProjrct);
         public List<OptionsProject> GetAllProjects();
-        public OptionsProject GetOptionsProjectById(int id);
-        public OptionsProject UpdateProject(OptionsProject optionsProject, int id);
-        public bool DeleteProject(int id);
+        public OptionsProject GetOptionsProjectById(int Id);
+        public OptionsProject UpdateProject(OptionsProject optionsProject, int Id);
+        public bool DeleteProject(int Id);
     }
 }

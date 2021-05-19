@@ -11,12 +11,31 @@ namespace Fundraising.App.Core.Options
         public string Title { get; set; }
         public string Description { get; set; }
         public string Category { get; set; }
-        public ProjectStatus projectStatus { get; set; }
-        public Member ProjectCreator { get; set; }
+        public ProjectStatus ProjectStatus { get; set; }
+        public Member Creator { get; set; }
         public DateTime CreatedDate { get; set; }
         public decimal AmountGathered { get; set; }
         public decimal TargetAmount { get; set; }
         public List<Reward> Rewards { get; set; }
+
+        public OptionsProject() { }
+        public OptionsProject(Project project)
+        {
+            if (project != null)
+            {
+                Title = project.Title;
+                Description = project.Description;
+                Category = project.Category;
+                ProjectStatus = project.ProjectStatus;
+                Creator = project.Creator;
+                TargetAmount = project.TargetAmount;
+                Rewards = project.Rewards;
+            }
+
+        }
+
+
     }
+
 }
 
