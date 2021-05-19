@@ -1,5 +1,6 @@
-﻿using Microsoft.EntityFrameworkCore;
-using Fundraising.App.Entities;
+﻿using Fundraising.App.Core.Entities;
+using Microsoft.EntityFrameworkCore;
+
 
 namespace Fundraising.App.Database
 {
