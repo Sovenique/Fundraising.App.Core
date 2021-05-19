@@ -4,7 +4,7 @@ using System;
 
 namespace Fundraising.App.Database
 {
-    internal class FundraisingAppDbContext : DbContext
+    public class FundraisingAppDbContext : DbContext
     {
         public DbSet<Member> Members { get; set; }
         public DbSet<Project> Projects { get; set; }
