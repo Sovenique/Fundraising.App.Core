@@ -1,9 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 
-namespace Fundraising.App.Entities
+
+namespace Fundraising.App.Core.Entities
 {
     public class Member
 

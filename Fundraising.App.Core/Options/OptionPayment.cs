@@ -1,7 +1,8 @@
-﻿using Fundraising.App.Entities;
+﻿using Fundraising.App.Core.Entities;
+
 using System;
 
-namespace Fundraising.App.Options
+namespace Fundraising.App.Core.Options
 {
     public class OptionPayment
     {
