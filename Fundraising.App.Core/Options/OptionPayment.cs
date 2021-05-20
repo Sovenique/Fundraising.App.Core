@@ -20,7 +20,7 @@ namespace Fundraising.App.Core.Options
                 Id = Payment.Id;
                 Backer = Payment.Backer;
                 Reward = Payment.Reward;
-                PaymentDate = DateTime.Now;
+                PaymentDate = Payment.PaymentDate;
             }
 
         }
