@@ -14,9 +14,9 @@ namespace Fundraising.App.Core.Services
     {
         private readonly FundraisingAppDbContext dbContext;
 
-        public MemberService(FundraisingAppDbContext _dbConext)
+        public MemberService(FundraisingAppDbContext _dbContext)
         {
-            dbContext = _dbConext;
+            dbContext = _dbContext;
         }
 
         public OptionMember CreateMember(OptionMember optionMember)
