@@ -8,7 +8,6 @@ namespace Fundraising.App.Core.Options
     {
         public int Id { get; set; }
         public Member Backer { get; set; }
-        public string Name { get; set; }
         public Reward Reward { get; set; }
         public DateTime PaymentDate { get; set; }
 
@@ -19,7 +18,7 @@ namespace Fundraising.App.Core.Options
             if (Payment != null)
             {
                 Id = Payment.Id;
-                Name = Payment.Backer.FirstName;
+                Backer = Payment.Backer;
                 PaymentDate = DateTime.Now;
             }
 
