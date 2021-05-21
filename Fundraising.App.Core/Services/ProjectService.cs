@@ -10,16 +10,12 @@ namespace Fundraising.App.Core.Services
 {
     public class ProjectService : IProjectService
     {
-        private readonly FundraisingAppDbContext dbContext;
+        private readonly FundraisingAppDbContext dbContext = new FundraisingAppDbContext();
         private object project;
-
-        public ProjectService(FundraisingAppDbContext _dbConext)
-        {
-            dbContext = _dbConext;
-        }
+        
         public OptionsProject CreateProject(OptionsProject optionProject)
         {
-            Project project = new()//If .... ?
+            Project project = new()
             {
                 Title = optionProject.Title,
                 Description = optionProject.Description,
@@ -27,8 +23,9 @@ namespace Fundraising.App.Core.Services
                 ProjectStatus = optionProject.ProjectStatus,
                 Creator = optionProject.Creator,
                 CreatedDate = DateTime.Now,
-                TargetAmount = optionProject.TargetAmount,
-                Rewards = optionProject.Rewards,//check if its necessary .. ???
+                AmountGathered = 0,//check 0
+                TargetAmount = optionProject.TargetAmount,//check if its necessary
+                Rewards = optionProject.Rewards,//check if its necessary
             };
             dbContext.Projects.Add(project);
             dbContext.SaveChanges();
@@ -57,7 +54,19 @@ namespace Fundraising.App.Core.Services
         {
             List<Project> projects = dbContext.Projects.ToList();
             List<OptionsProject> optionsProject = new();
-            projects.ForEach(project => optionsProject.Add(new OptionsProject(project)));
+            projects.ForEach(project => optionsProject.Add(new OptionsProject()
+            {
+                Id = project.Id,
+                Title = project.Title,
+                Description = project.Description,
+                Category = project.Category,
+                ProjectStatus = project.ProjectStatus,
+                Creator = project.Creator,
+                TargetAmount = project.TargetAmount,
+                Rewards = project.Rewards,
+                AmountGathered = project.AmountGathered//check if its necessery
+
+            }));
             return optionsProject;
         }
 
@@ -76,16 +85,6 @@ namespace Fundraising.App.Core.Services
             Project dbContextProject = dbContext.Projects.Find(Id);
             if (dbContextProject == null) return null;
             dbContextProject.Title = optionsProject.Title;
-            dbContextProject.Description = optionsProject.Description;
-            dbContextProject.Category = optionsProject.Category;
-            dbContextProject.ProjectStatus = optionsProject.ProjectStatus;
-            dbContextProject.Creator = optionsProject.Creator;
-            dbContextProject.CreatedDate = optionsProject.CreatedDate;
-            dbContextProject.AmountGathered = optionsProject.AmountGathered;
-            dbContextProject.TargetAmount = optionsProject.TargetAmount;
-            dbContextProject.Rewards = optionsProject.Rewards;
-
-
 
             dbContext.SaveChanges();
             return new OptionsProject(dbContextProject);

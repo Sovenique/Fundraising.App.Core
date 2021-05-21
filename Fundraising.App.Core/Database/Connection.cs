@@ -17,6 +17,6 @@ namespace Fundraising.App.Database
             optionsBuilder.UseSqlServer("Data Source = localhost; Initial Catalog= Fundraising.App; Integrated Security = true");
         }
 
-       
+
     }
 }
