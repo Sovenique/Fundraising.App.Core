@@ -17,14 +17,6 @@ namespace Fundraising.App.Database
             optionsBuilder.UseSqlServer("Data Source = localhost; Initial Catalog= Fundraising.App; Integrated Security = true");
         }
 
-        internal Project Find(int id)
-        {
-            throw new NotImplementedException();
-        }
-
-        internal Project Find(object id)
-        {
-            throw new NotImplementedException();
-        }
+       
     }
 }
