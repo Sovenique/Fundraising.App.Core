@@ -8,7 +8,7 @@ using System.Linq;
 
 namespace Fundraising.App.Core.Services
 {
-    public class MemberService : IMemberSerivce
+    public class MemberService : IMemberService
     {
         private readonly FundraisingAppDbContext dbContext;
 

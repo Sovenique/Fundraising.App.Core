@@ -3,7 +3,7 @@ using System.Collections.Generic;
 
 namespace Fundraising.App.Core.Interfaces
 {
-    public interface IMemberSerivce
+    public interface IMemberService
     {
         // CREATE
         public OptionMember CreateMember(OptionMember optionMember);
