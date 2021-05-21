@@ -19,7 +19,7 @@ namespace Fundraising.App.Core
             };
             using FundraisingAppDbContext dbContext = new();
             IMemberService memberService = new MemberService(dbContext);
-            memberService.CreateMember(test);
+            memberService.DeleteMember(2);
             
             
         }

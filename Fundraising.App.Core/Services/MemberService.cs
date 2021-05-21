@@ -41,9 +41,9 @@ namespace Fundraising.App.Core.Services
 
         public bool DeleteMember(int Id)
         {
-            Member dbContexMember = dbContext.Members.Find(Id);
-            if (dbContexMember == null) return false;
-            dbContext.Members.Remove(dbContexMember);
+            Member dbContextMember = dbContext.Members.Find(Id);
+            if (dbContextMember == null) return false;
+            dbContext.Members.Remove(dbContextMember);
             return true;
         }
 
