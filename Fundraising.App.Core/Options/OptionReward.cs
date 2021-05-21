@@ -1,6 +1,5 @@
 ﻿using Fundraising.App.Core.Entities;
 using System;
-using System.Collections.Generic;
 
 
 namespace Fundraising.App.Core.Options

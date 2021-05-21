@@ -1,5 +1,4 @@
 ﻿using Fundraising.App.Core.Entities;
-
 using System;
 
 namespace Fundraising.App.Core.Options
