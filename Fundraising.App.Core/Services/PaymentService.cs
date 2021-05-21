@@ -21,6 +21,7 @@ namespace Fundraising.App.Core.Services
         {
             Payment payment = new()
             {
+                CreditCard = optionPayment.CreditCard,
                 Backer = optionPayment.Backer,
                 Reward = optionPayment.Reward,
                 PaymentDate = DateTime.Now

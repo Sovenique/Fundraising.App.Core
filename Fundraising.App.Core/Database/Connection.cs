@@ -1,6 +1,6 @@
 ﻿using Fundraising.App.Core.Entities;
 using Microsoft.EntityFrameworkCore;
-using System;
+
 
 namespace Fundraising.App.Database
 {
@@ -14,7 +14,7 @@ namespace Fundraising.App.Database
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
-            optionsBuilder.UseSqlServer("Data Source = localhost; Initial Catalog= Fundraising.App; Integrated Security = true");
+            optionsBuilder.UseSqlServer("Server=tcp:siraxis.database.windows.net,1433;Initial Catalog=strSqlDemo;Persist Security Info=False;User ID=siraxis;Password={your_password};MultipleActiveResultSets=False;Encrypt=True;TrustServerCertificate=False;Connection Timeout=30;");
         }
 
 
