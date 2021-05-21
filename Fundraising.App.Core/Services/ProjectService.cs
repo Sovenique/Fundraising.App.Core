@@ -10,12 +10,16 @@ namespace Fundraising.App.Core.Services
 {
     public class ProjectService : IProjectService
     {
-        private readonly FundraisingAppDbContext dbContext = new FundraisingAppDbContext();
+        private readonly FundraisingAppDbContext dbContext;// new()????
         private object project;
-        
+
+        public ProjectService(FundraisingAppDbContext _dbConext)
+        {
+            dbContext = _dbConext;
+        }
         public OptionsProject CreateProject(OptionsProject optionProjrct)
         {
-            Project project = new()
+            Project project = new()//If .... ?
             {
                 Title = optionProjrct.Title,
                 Description = optionProjrct.Description,
@@ -85,6 +89,16 @@ namespace Fundraising.App.Core.Services
             Project dbContextProject = dbContext.Projects.Find(Id);
             if (dbContextProject == null) return null;
             dbContextProject.Title = optionsProject.Title;
+            dbContextProject.Description = optionsProject.Description;
+            dbContextProject.Category = optionsProject.Category;
+            dbContextProject.ProjectStatus = optionsProject.ProjectStatus;
+            dbContextProject.Creator = optionsProject.Creator;
+            dbContextProject.CreatedDate = optionsProject.CreatedDate;
+            dbContextProject.AmountGathered = optionsProject.AmountGathered;
+            dbContextProject.TargetAmount = optionsProject.TargetAmount;
+            dbContextProject.Rewards = optionsProject.Rewards;
+
+
 
             dbContext.SaveChanges();
             return new OptionsProject(dbContextProject);
