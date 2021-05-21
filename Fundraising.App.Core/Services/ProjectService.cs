@@ -57,19 +57,7 @@ namespace Fundraising.App.Core.Services
         {
             List<Project> projects = dbContext.Projects.ToList();
             List<OptionsProject> optionsProject = new();
-            projects.ForEach(project => optionsProject.Add(new OptionsProject()
-            {
-                Id = project.Id,
-                Title = project.Title,
-                Description = project.Description,
-                Category = project.Category,
-                ProjectStatus = project.ProjectStatus,
-                Creator = project.Creator,
-                TargetAmount = project.TargetAmount,
-                Rewards = project.Rewards,
-                AmountGathered = project.AmountGathered
-
-            }));
+            projects.ForEach(project => optionsProject.Add(new OptionsProject(project)));
             return optionsProject;
         }
 

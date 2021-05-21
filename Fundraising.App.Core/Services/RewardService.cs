@@ -53,13 +53,7 @@ namespace Fundraising.App.Core.Services
         {
             List<Reward> Rewards = dbContext.Rewards.ToList();
             List<OptionReward> optionRewards = new ();
-            Rewards.ForEach(Reward => optionRewards.Add(new OptionReward()
-            {
-                Id = Reward.Id,
-                Title = Reward.Title,
-                Description = Reward.Description,
-                CreatedDate = Reward.CreatedDate,
-             }));
+            Rewards.ForEach(Reward => optionRewards.Add(new OptionReward(Reward)));
 
             return optionRewards;
         }

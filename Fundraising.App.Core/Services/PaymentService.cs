@@ -46,7 +46,7 @@ namespace Fundraising.App.Core.Services
         {
             List<Payment> payments = dbContext.Payments.ToList();
             List<OptionPayment> optionPayments = new();
-            payments.ForEach(payment => optionPayments.Add(new OptionMember(payment)));
+            payments.ForEach(payment => optionPayments.Add(new OptionPayment(payment)));
             return optionPayments;
         }
 

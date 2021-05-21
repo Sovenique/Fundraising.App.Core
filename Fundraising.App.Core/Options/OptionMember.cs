@@ -18,23 +18,7 @@ namespace Fundraising.App.Core.Options
         public DateTime Birthday { get; set; }
         public DateTime CreatedDate { get; set; }
 
-        public Member GetMember()
-        {
-            Member member = new()
-            {
-                FirstName = FirstName,
-                LastName = LastName,
-                Address = Address,
-                Email = Email,
-                Username = Username,
-                Password = Password,
-                Phone = Phone,
-                Birthday = Birthday,
-                CreatedDate = DateTime.Now
-            };
-            return member;
-        }
-
+       
         public OptionMember() { }
         public OptionMember(Member Member)
         {
