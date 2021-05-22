@@ -20,7 +20,7 @@ namespace Fundraising.App.Core.Options
                 Id = Reward.Id;
                 Title = Reward.Title;
                 Description = Reward.Description;
-                CreatedDate = Reward.CreatedDate;
+                CreatedDate = DateTime.Now;
             }
         }
     }

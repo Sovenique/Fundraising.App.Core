@@ -8,18 +8,26 @@ namespace Fundraising.App.Core
 {
     public class Program
     {
+        
         static void Main(string[] args)
         {
-            Console.WriteLine("Hello World!");
 
-            OptionMember test = new ()
+
+
+            OptionMember test = new()
             {
-                FirstName = "Takis"
+                FirstName = "Aleka",
+                LastName = "Mavriki"
+
+
 
             };
+
+        
             using FundraisingAppDbContext dbContext = new();
             IMemberService memberService = new MemberService(dbContext);
-            memberService.DeleteMember(2);
+            memberService.CreateMember(test);
+         
             
             
         }

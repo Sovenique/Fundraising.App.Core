@@ -42,8 +42,11 @@ namespace Fundraising.App.Core.Services
         public bool DeleteMember(int Id)
         {
             Member dbContextMember = dbContext.Members.Find(Id);
+            
             if (dbContextMember == null) return false;
+            
             dbContext.Members.Remove(dbContextMember);
+            dbContext.SaveChanges();
             return true;
         }
 
@@ -72,6 +75,7 @@ namespace Fundraising.App.Core.Services
             // WHAT TO UPDATE?
             // example:
             dbContextMember.FirstName = optionMember.FirstName;
+            dbContextMember.LastName = optionMember.LastName;
 
             dbContext.SaveChanges();
             return new OptionMember(dbContextMember);
