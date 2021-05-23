@@ -10,10 +10,10 @@ namespace Fundraising.App.Core.Services
 {
     class RewardService : IRewardService
     {
-        private readonly FundraisingAppDbContext dbContext;
+        private readonly IApplicationDbContext dbContext;
         
 
-        public RewardService(FundraisingAppDbContext _dbContext)
+        public RewardService(IApplicationDbContext _dbContext)
         {
             dbContext = _dbContext;
         }

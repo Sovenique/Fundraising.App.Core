@@ -10,9 +10,9 @@ namespace Fundraising.App.Core.Services
 {
     public class MemberService : IMemberService
     {
-        private readonly FundraisingAppDbContext dbContext;
+        private readonly IApplicationDbContext dbContext;
 
-        public MemberService(FundraisingAppDbContext _dbContext)
+        public MemberService(IApplicationDbContext _dbContext)
         {
             dbContext = _dbContext;
         }
