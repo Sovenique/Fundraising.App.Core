@@ -10,9 +10,13 @@ namespace Fundraising.App.Core.Services
 {
     public class ProjectService : IProjectService
     {
-        private readonly FundraisingAppDbContext dbContext = new FundraisingAppDbContext();
-        private object project;
-        
+        private readonly IApplicationDbContext dbContext;
+
+        public ProjectService(IApplicationDbContext _dbContext) 
+        {
+            dbContext = _dbContext;
+        }
+
         public OptionsProject CreateProject(OptionsProject optionProject)
         {
             Project project = new()

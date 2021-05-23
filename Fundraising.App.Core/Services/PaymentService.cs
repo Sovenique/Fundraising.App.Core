@@ -10,9 +10,9 @@ namespace Fundraising.App.Core.Services
 {
     public class PaymentService : IPaymentService
     {
-        private readonly FundraisingAppDbContext dbContext;
+        private readonly IApplicationDbContext dbContext;
 
-        public PaymentService(FundraisingAppDbContext _dbContext)
+        public PaymentService(IApplicationDbContext _dbContext)
         {
             dbContext = _dbContext;
         }
