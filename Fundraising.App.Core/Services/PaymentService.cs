@@ -49,9 +49,6 @@ namespace Fundraising.App.Core.Services
             return optionPayments;
         }
 
-        public OptionPayment UpdatePayment(OptionPayment optionPayment, int Id)
-        {
-            throw new NotImplementedException();
-        }
+    
     }
 }
