@@ -19,7 +19,9 @@ namespace Fundraising.App.Database
 
             if (!LOCAL_DB)
             {
-                optionsBuilder.UseSqlServer("Server=tcp:siraxis.database.windows.net,1433;Initial Catalog=strSqlDemo;Persist Security Info=False;User ID=siraxis;Password=Omadaomada7;MultipleActiveResultSets=False;Encrypt=True;TrustServerCertificate=False;Connection Timeout=30;");
+               // optionsBuilder.UseSqlServer("Server=tcp:siraxis.database.windows.net,1433;Initial Catalog=strSqlDemo;Persist Security Info=False;User ID=siraxis;Password=Omadaomada7;MultipleActiveResultSets=False;Encrypt=True;TrustServerCertificate=False;Connection Timeout=30;");
+               // optionsBuilder.UseSqlServer("Server = tcp:fundraising.database.windows.net,1433; Initial Catalog = Fundraising.DB; Persist Security Info = False; User ID = fundraising; Password =Omadaomada7; MultipleActiveResultSets = False; Encrypt = True; TrustServerCertificate = False; Connection Timeout = 30;");
+                optionsBuilder.UseSqlServer("Server = tcp:fundraisingsql.database.windows.net,1433; Initial Catalog = Fundraising.Db; Persist Security Info = False; User ID = fundraising; Password = Omadaomada7; MultipleActiveResultSets = False; Encrypt = True; TrustServerCertificate = False; Connection Timeout = 30;");
             }
             else
             {
@@ -34,6 +36,11 @@ namespace Fundraising.App.Database
         public override int SaveChanges() 
         {
             return base.SaveChanges();
+        }
+
+        public async Task<int> SaveChangesAsync()
+        {
+            return await base.SaveChangesAsync();
         }
 
 
