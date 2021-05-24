@@ -72,10 +72,17 @@ namespace Fundraising.App.Core.Services
         {
             Member dbContextMember = dbContext.Members.Find(Id);
             if (dbContextMember == null) return null;
-            // WHAT TO UPDATE?
-            // example:
+
+            // Update all members even if some of them are not changed
             dbContextMember.FirstName = optionMember.FirstName;
             dbContextMember.LastName = optionMember.LastName;
+            dbContextMember.Address = optionMember.Address;
+            dbContextMember.Email = optionMember.Email;
+            dbContextMember.Username = optionMember.Username;
+            dbContextMember.Password = optionMember.Password;
+            dbContextMember.Phone = optionMember.Phone;
+            dbContextMember.Birthday = optionMember.Birthday;
+
 
             dbContext.SaveChanges();
             return new OptionMember(dbContextMember);
