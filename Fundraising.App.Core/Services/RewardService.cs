@@ -32,7 +32,7 @@ namespace Fundraising.App.Core.Services
             if (string.IsNullOrWhiteSpace(optionReward.Title) ||
               string.IsNullOrWhiteSpace(optionReward.Description))
             {
-                return new Result<Reward>(ErrorCode.BadRequest, "Not all required customer options provided.");
+                return new Result<Reward>(ErrorCode.BadRequest, "Not all required reward options provided.");
             }
 
             if (optionReward.Title.Length > 40)
@@ -127,7 +127,7 @@ namespace Fundraising.App.Core.Services
 
             if (reward == null)
             {
-                return new Result<Reward>(ErrorCode.NotFound, $"Customer with id #{Id} not found.");
+                return new Result<Reward>(ErrorCode.NotFound, $"Reward with id #{Id} not found.");
             }
 
             return new Result<Reward>
@@ -160,7 +160,7 @@ namespace Fundraising.App.Core.Services
 
             if (reward == null)
             {
-                return new Result<Reward>(ErrorCode.NotFound, $"Customer with id #{Id} not found.");
+                return new Result<Reward>(ErrorCode.NotFound, $"Reward with id #{Id} not found.");
             }
 
             reward.Title = optionReward.Title;
