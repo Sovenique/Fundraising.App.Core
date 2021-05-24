@@ -8,12 +8,15 @@ namespace Fundraising.App.Core.Interfaces
 {
     interface IRewardService
     {
+        Task<Result<Reward>> CreateRewardAsync(OptionReward optionReward);
 
-        Task<Result<List<Reward>>> GetRewardAsync();
-        Task<Result<List<Reward>>> CreateRewardAsync(OptionReward optionReward);
-        Task<Result<List<Reward>>> GetRewardByIdAsync(int id);
-        Task<Result<List<Reward>>> UpdateRewardAsync(OptionReward optionReward, int id);   
-        Task<Result<int>> DeleteRewardByIdAsync(int id);
+        Task<Result<int>> DeleteRewardByIdAsync(int Id);
+
+        Task<Result<List<Reward>>> GetAllRewardsAsync();
+
+        Task<Result<Reward>> GetRewardByIdAsync(int Id);
+
+        Task<Result<Reward>> UpdateRewardByIdAsync(OptionReward optionReward, int Id);
 
 
 
