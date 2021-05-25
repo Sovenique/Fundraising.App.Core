@@ -7,22 +7,25 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using Fundraising.App.Core.Entities;
 using Fundraising.App.Database;
+using Fundraising.App.Core.Interfaces;
+using Fundraising.App.Core.Options;
 
 namespace Fundraising.App.Web.Controllers
 {
     public class MembersController : Controller
     {
-        private readonly ApplicationDbContext _context;
+        private readonly IMemberService _memberService;
 
-        public MembersController(ApplicationDbContext context)
+        public MembersController(IMemberService memberService)
         {
-            _context = context;
+            _memberService = memberService;
         }
 
         // GET: Members
         public async Task<IActionResult> Index()
         {
-            return View(await _context.Members.ToListAsync());
+            var allMembersResult = await _memberService.GetAllMembersAsync();
+            return View(allMembersResult.Data);
         }
 
         // GET: Members/Details/5
@@ -33,14 +36,15 @@ namespace Fundraising.App.Web.Controllers
                 return NotFound();
             }
 
-            var member = await _context.Members
-                .FirstOrDefaultAsync(m => m.Id == id);
-            if (member == null)
+            var member = await _memberService
+                .GetMemberByIdAsync(id.Value);
+
+            if (member.Error != null || member.Data ==  null)
             {
                 return NotFound();
             }
 
-            return View(member);
+            return View(member.Data);
         }
 
         // GET: Members/Create
@@ -58,8 +62,19 @@ namespace Fundraising.App.Web.Controllers
         {
             if (ModelState.IsValid)
             {
-                _context.Add(member);
-                await _context.SaveChangesAsync();
+                await _memberService
+                    .CreateMemberAsync(new OptionMember {
+                        FirstName = member.FirstName,
+                        LastName = member.LastName,
+                        Address = member.Address,
+                        Email = member.Email,
+                        Username = member.Username,
+                        Password = member.Password,
+                        Phone = member.Phone,
+                        Birthday = member.Birthday,
+                        CreatedDate = DateTime.Now
+                    });
+
                 return RedirectToAction(nameof(Index));
             }
             return View(member);
@@ -73,12 +88,14 @@ namespace Fundraising.App.Web.Controllers
                 return NotFound();
             }
 
-            var member = await _context.Members.FindAsync(id);
-            if (member == null)
+            var member = await _memberService
+                .GetMemberByIdAsync(id.Value);
+
+            if (member.Error != null || member.Data == null)
             {
                 return NotFound();
             }
-            return View(member);
+            return View(member.Data);
         }
 
         // POST: Members/Edit/5
@@ -95,22 +112,21 @@ namespace Fundraising.App.Web.Controllers
 
             if (ModelState.IsValid)
             {
-                try
-                {
-                    _context.Update(member);
-                    await _context.SaveChangesAsync();
-                }
-                catch (DbUpdateConcurrencyException)
-                {
-                    if (!MemberExists(member.Id))
+
+                await _memberService
+                    .UpdateMemberByIdAsync(new OptionMember 
                     {
-                        return NotFound();
-                    }
-                    else
-                    {
-                        throw;
-                    }
-                }
+                        FirstName = member.FirstName,
+                        LastName = member.LastName,
+                        Address = member.Address,
+                        Email = member.Email,
+                        Username = member.Username,
+                        Password = member.Password,
+                        Phone = member.Phone,
+                        Birthday = member.Birthday
+                    }, id);
+
+
                 return RedirectToAction(nameof(Index));
             }
             return View(member);
@@ -124,9 +140,9 @@ namespace Fundraising.App.Web.Controllers
                 return NotFound();
             }
 
-            var member = await _context.Members
-                .FirstOrDefaultAsync(m => m.Id == id);
-            if (member == null)
+            var member = await _memberService.GetMemberByIdAsync(id.Value);
+        
+            if (member.Error != null || member.Data == null)
             {
                 return NotFound();
             }
@@ -139,15 +155,13 @@ namespace Fundraising.App.Web.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
-            var member = await _context.Members.FindAsync(id);
-            _context.Members.Remove(member);
-            await _context.SaveChangesAsync();
+            await _memberService.DeleteMemberByIdAsync(id);
             return RedirectToAction(nameof(Index));
         }
 
-        private bool MemberExists(int id)
-        {
-            return _context.Members.Any(e => e.Id == id);
-        }
+        //private bool MemberExists(int id)
+        //{
+        //    return _context.Members.Any(e => e.Id == id);
+        //}
     }
 }
