@@ -1,7 +1,6 @@
 ﻿using Fundraising.App.Core.Entities;
 using Fundraising.App.Core.Interfaces;
 using Fundraising.App.Core.Options;
-using Fundraising.App.Database;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -49,9 +48,6 @@ namespace Fundraising.App.Core.Services
             return optionPayments;
         }
 
-        public OptionPayment UpdatePayment(OptionPayment optionPayment, int Id)
-        {
-            throw new NotImplementedException();
-        }
+    
     }
 }

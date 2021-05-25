@@ -8,7 +8,6 @@ namespace Fundraising.App.Core.Interfaces
     {
         public OptionPayment CreatePayment(OptionPayment optionPayment);
         public List<OptionPayment> ReadAllPayments();
-        public OptionPayment UpdatePayment(OptionPayment optionPayment, int Id);
         public bool DeletePayment(int Id);
     }
 }
