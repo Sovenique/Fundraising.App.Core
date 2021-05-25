@@ -59,18 +59,18 @@ namespace Fundraising.App.Web.Controllers
             {
                 await _rewardService.
                     CreateRewardAsync(new OptionReward
-                {
-                    Title = reward.Title,
-                    Description = reward.Description,
-               
-                });
+                    {
+                        Title = reward.Title,
+                        Description = reward.Description,
+
+                    });
 
                 return RedirectToAction(nameof(Index));
             }
             return View(reward);
         }
 
-      
+
 
         // POST: Rewards/Edit/5
         // To protect from overposting attacks, enable the specific properties you want to bind to.
@@ -79,7 +79,7 @@ namespace Fundraising.App.Web.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Edit(int id, [Bind("Id,Title,Description,ProjectId,CreatedDate")] Reward reward)
         {
-     
+
 
             if (id != reward.Id)
             {
@@ -89,17 +89,17 @@ namespace Fundraising.App.Web.Controllers
 
             if (ModelState.IsValid)
             {
-                
-                 await _rewardService.
-                    UpdateRewardByIdAsync(new OptionReward
-                    {
-                        Title = reward.Title,
-                        Description = reward.Description,
 
-                    }, id);
-                    
-                    
-                
+                await _rewardService.
+                   UpdateRewardByIdAsync(new OptionReward
+                   {
+                       Title = reward.Title,
+                       Description = reward.Description,
+
+                   }, id);
+
+
+
                 return RedirectToAction(nameof(Index));
             }
             return View(reward);
@@ -129,10 +129,10 @@ namespace Fundraising.App.Web.Controllers
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
             await _rewardService.DeleteRewardByIdAsync(id);
-            
+
             return RedirectToAction(nameof(Index));
         }
 
-   
+
     }
 }
