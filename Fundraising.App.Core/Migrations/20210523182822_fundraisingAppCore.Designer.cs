@@ -9,7 +9,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace Fundraising.App.Core.Migrations
 {
-    [DbContext(typeof(FundraisingAppDbContext))]
+    [DbContext(typeof(ApplicationDbContext))]
     [Migration("20210523182822_fundraisingAppCore")]
     partial class fundraisingAppCore
     {

@@ -1,5 +1,8 @@
 ﻿using Fundraising.App.Core.Interfaces;
 using Fundraising.App.Core.Services;
+using Fundraising.App.Database;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 
 namespace Fundraising.App.Core
@@ -17,7 +20,18 @@ namespace Fundraising.App.Core
 
             return services;
             }
-      
+            public static IServiceCollection AddPersistence(this IServiceCollection services, IConfiguration configuration)
+            {
+            services.AddDbContext<ApplicationDbContext>(options =>
+                options.UseSqlServer(
+                    configuration.GetConnectionString("DefaultConnection"),
+                    b => b.MigrationsAssembly(typeof(ApplicationDbContext).Assembly.FullName))
+            );
+
+            services.AddScoped<IApplicationDbContext>(provider => provider.GetService<ApplicationDbContext>());
+
+            return services;
+            }
     }
 
 

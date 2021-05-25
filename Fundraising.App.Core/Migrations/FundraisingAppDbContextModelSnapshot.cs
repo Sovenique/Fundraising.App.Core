@@ -8,7 +8,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace Fundraising.App.Core.Migrations
 {
-    [DbContext(typeof(FundraisingAppDbContext))]
+    [DbContext(typeof(ApplicationDbContext))]
     partial class FundraisingAppDbContextModelSnapshot : ModelSnapshot
     {
         protected override void BuildModel(ModelBuilder modelBuilder)

@@ -1,46 +1,45 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+﻿using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.Rendering;
-using Microsoft.EntityFrameworkCore;
 using Fundraising.App.Core.Entities;
-using Fundraising.App.Database;
+using Fundraising.App.Core.Interfaces;
+using Fundraising.App.Core.Options;
 
 namespace Fundraising.App.Web.Controllers
 {
     public class RewardsController : Controller
     {
-        private readonly FundraisingAppDbContext _context;
+        private readonly IRewardService _rewardService;
 
-        public RewardsController(FundraisingAppDbContext context)
+        public RewardsController(IRewardService rewardService)
         {
-            _context = context;
+            _rewardService = rewardService;
         }
+
 
         // GET: Rewards
         public async Task<IActionResult> Index()
         {
-            return View(await _context.Rewards.ToListAsync());
+            var allRewardsResult = await _rewardService.GetAllRewardsAsync();
+
+            return View(allRewardsResult.Data);
         }
 
         // GET: Rewards/Details/5
-        public async Task<IActionResult> Details(int? id)
+        public async Task<IActionResult> Details(int? Id)
         {
-            if (id == null)
+            if (Id == null)
+            {
+                return NotFound();
+            }
+            var reward = await _rewardService.
+                GetRewardByIdAsync(Id.Value);
+
+            if (reward.Error != null || reward.Data == null)
             {
                 return NotFound();
             }
 
-            var reward = await _context.Rewards
-                .FirstOrDefaultAsync(m => m.Id == id);
-            if (reward == null)
-            {
-                return NotFound();
-            }
-
-            return View(reward);
+            return View(reward.Data);
         }
 
         // GET: Rewards/Create
@@ -58,28 +57,20 @@ namespace Fundraising.App.Web.Controllers
         {
             if (ModelState.IsValid)
             {
-                _context.Add(reward);
-                await _context.SaveChangesAsync();
+                await _rewardService.
+                    CreateRewardAsync(new OptionReward
+                {
+                    Title = reward.Title,
+                    Description = reward.Description,
+               
+                });
+
                 return RedirectToAction(nameof(Index));
             }
             return View(reward);
         }
 
-        // GET: Rewards/Edit/5
-        public async Task<IActionResult> Edit(int? id)
-        {
-            if (id == null)
-            {
-                return NotFound();
-            }
-
-            var reward = await _context.Rewards.FindAsync(id);
-            if (reward == null)
-            {
-                return NotFound();
-            }
-            return View(reward);
-        }
+      
 
         // POST: Rewards/Edit/5
         // To protect from overposting attacks, enable the specific properties you want to bind to.
@@ -88,29 +79,27 @@ namespace Fundraising.App.Web.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Edit(int id, [Bind("Id,Title,Description,ProjectId,CreatedDate")] Reward reward)
         {
+     
+
             if (id != reward.Id)
             {
                 return NotFound();
             }
 
+
             if (ModelState.IsValid)
             {
-                try
-                {
-                    _context.Update(reward);
-                    await _context.SaveChangesAsync();
-                }
-                catch (DbUpdateConcurrencyException)
-                {
-                    if (!RewardExists(reward.Id))
+                
+                 await _rewardService.
+                    UpdateRewardByIdAsync(new OptionReward
                     {
-                        return NotFound();
-                    }
-                    else
-                    {
-                        throw;
-                    }
-                }
+                        Title = reward.Title,
+                        Description = reward.Description,
+
+                    }, id);
+                    
+                    
+                
                 return RedirectToAction(nameof(Index));
             }
             return View(reward);
@@ -124,14 +113,14 @@ namespace Fundraising.App.Web.Controllers
                 return NotFound();
             }
 
-            var reward = await _context.Rewards
-                .FirstOrDefaultAsync(m => m.Id == id);
-            if (reward == null)
+            var reward = await _rewardService.GetRewardByIdAsync(id.Value);
+
+            if (reward.Error != null || reward.Data == null)
             {
                 return NotFound();
             }
 
-            return View(reward);
+            return View(reward.Data);
         }
 
         // POST: Rewards/Delete/5
@@ -139,15 +128,11 @@ namespace Fundraising.App.Web.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
-            var reward = await _context.Rewards.FindAsync(id);
-            _context.Rewards.Remove(reward);
-            await _context.SaveChangesAsync();
+            await _rewardService.DeleteRewardByIdAsync(id);
+            
             return RedirectToAction(nameof(Index));
         }
 
-        private bool RewardExists(int id)
-        {
-            return _context.Rewards.Any(e => e.Id == id);
-        }
+   
     }
 }

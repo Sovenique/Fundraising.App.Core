@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Fundraising.App.Core.Interfaces
 {
-    interface IRewardService
+    public interface IRewardService
     {
         Task<Result<Reward>> CreateRewardAsync(OptionReward optionReward);
 

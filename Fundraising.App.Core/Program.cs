@@ -3,7 +3,7 @@ using Fundraising.App.Core.Interfaces;
 using System;
 using Fundraising.App.Database;
 using Fundraising.App.Core.Services;
-using Fundraising.App.Core.tests;
+// using Fundraising.App.Core.tests;
 
 namespace Fundraising.App.Core
 {
@@ -12,12 +12,12 @@ namespace Fundraising.App.Core
         
         static void Main(string[] args)
         {
-            // DELETE MEMBERS
-            Test_1.Scenario_3();
-            // CREATE MEMBERS
-            Test_1.Scenario_1();
-            // DISPLAY MEMBERS
-            Test_1.Scenario_2();
+            //// DELETE MEMBERS
+            //Test_1.Scenario_3();
+            //// CREATE MEMBERS
+            //Test_1.Scenario_1();
+            //// DISPLAY MEMBERS
+            //Test_1.Scenario_2();
             
         }
     }

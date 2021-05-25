@@ -11,12 +11,12 @@ using System.Threading.Tasks;
 
 namespace Fundraising.App.Core.Services
 {
-    class RewardService : IRewardService
+    public class RewardService : IRewardService
     {
-        private readonly FundraisingAppDbContext _dbContext;
+        private readonly IApplicationDbContext _dbContext;
         private readonly ILogger<RewardService> _logger;
 
-        public RewardService(FundraisingAppDbContext dbContext, ILogger<RewardService> logger)
+        public RewardService(IApplicationDbContext dbContext, ILogger<RewardService> logger)
         {
             _dbContext = dbContext;
             _logger = logger;
