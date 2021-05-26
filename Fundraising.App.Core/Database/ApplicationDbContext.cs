@@ -17,6 +17,9 @@ namespace Fundraising.App.Database
           : base(options)
         {
         }
+
+  
+
         protected override void OnModelCreating(ModelBuilder builder)
         {
             builder.ApplyConfigurationsFromAssembly(Assembly.GetExecutingAssembly());

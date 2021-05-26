@@ -62,8 +62,9 @@ namespace Fundraising.App.Web.Controllers
                     {
                         Title = reward.Title,
                         Description = reward.Description,
+                        ProjectId = reward.ProjectId
 
-                    });
+                    }); ;
 
                 return RedirectToAction(nameof(Index));
             }
