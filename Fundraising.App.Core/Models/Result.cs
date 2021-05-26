@@ -10,6 +10,8 @@
         {
         }
 
+
+
         public Result(ErrorCode errorCode, string errorText)
         {
             Error = new Error

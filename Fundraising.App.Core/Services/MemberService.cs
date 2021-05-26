@@ -2,12 +2,10 @@
 using Fundraising.App.Core.Interfaces;
 using Fundraising.App.Core.Models;
 using Fundraising.App.Core.Options;
-using Fundraising.App.Database;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
 using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Threading.Tasks;
 
 namespace Fundraising.App.Core.Services
@@ -23,76 +21,7 @@ namespace Fundraising.App.Core.Services
             _logger = logger;
         }
 
-        public OptionMember CreateMember(OptionMember optionMember)
-        {
-            Member member = new()
-            {
-                FirstName = optionMember.FirstName,
-                LastName = optionMember.LastName,
-                Address = optionMember.Address,
-                Email = optionMember.Email,
-                Username = optionMember.Username,
-                Password = optionMember.Password,
-                Phone = optionMember.Phone,
-                Birthday = optionMember.Birthday,
-                CreatedDate = DateTime.Now
-            };
-
-            _dbContext.Members.Add(member);
-            _dbContext.SaveChanges();
-
-            return new OptionMember(member);
-
-        }
-
-        public bool DeleteMember(int Id)
-        {
-            Member dbContextMember = _dbContext.Members.Find(Id);
-            
-            if (dbContextMember == null) return false;
-            
-            _dbContext.Members.Remove(dbContextMember);
-            _dbContext.SaveChanges();
-            return true;
-        }
-
-        public List<OptionMember> ReadAllMembers()
-        {
-            List<Member> members = _dbContext.Members.ToList();
-            List<OptionMember> optionMembers = new();
-            members.ForEach(member => optionMembers.Add(new OptionMember(member)));
-            return optionMembers;
-        }
-
-        public OptionMember GetMemberById(int Id)
-        {
-            Member member = _dbContext.Members.Find(Id);
-            if(member == null)
-            {
-                return null;
-            }
-            return new OptionMember(member);
-        }
-
-        public OptionMember UpdateMember(OptionMember optionMember, int Id)
-        {
-            Member dbContextMember = _dbContext.Members.Find(Id);
-            if (dbContextMember == null) return null;
-
-            // Update all members even if some of them are not changed
-            dbContextMember.FirstName = optionMember.FirstName;
-            dbContextMember.LastName = optionMember.LastName;
-            dbContextMember.Address = optionMember.Address;
-            dbContextMember.Email = optionMember.Email;
-            dbContextMember.Username = optionMember.Username;
-            dbContextMember.Password = optionMember.Password;
-            dbContextMember.Phone = optionMember.Phone;
-            dbContextMember.Birthday = optionMember.Birthday;
-
-
-            _dbContext.SaveChanges();
-            return new OptionMember(dbContextMember);
-        }
+      
 
         public async Task<Result<Member>> CreateMemberAsync(OptionMember optionMember)
         {
@@ -167,7 +96,7 @@ namespace Fundraising.App.Core.Services
             }
 
             // REMOVE MEMBER FROM DATABASE
-            _dbContext.Members.Remove(memberToDelete.Data);
+             _dbContext.Members.Remove(memberToDelete.Data);
             try
             {
                 await _dbContext.SaveChangesAsync();
