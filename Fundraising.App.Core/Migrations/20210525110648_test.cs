@@ -3,12 +3,12 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace Fundraising.App.Core.Migrations
 {
-    public partial class fundraisingAppCore : Migration
+    public partial class test : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.CreateTable(
-                name: "Member",
+                name: "Members",
                 columns: table => new
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
@@ -25,11 +25,11 @@ namespace Fundraising.App.Core.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Member", x => x.Id);
+                    table.PrimaryKey("PK_Members", x => x.Id);
                 });
 
             migrationBuilder.CreateTable(
-                name: "Project",
+                name: "Projects",
                 columns: table => new
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
@@ -45,97 +45,100 @@ namespace Fundraising.App.Core.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Project", x => x.Id);
+                    table.PrimaryKey("PK_Projects", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_Project_Member_CreatorId",
+                        name: "FK_Projects_Members_CreatorId",
                         column: x => x.CreatorId,
-                        principalTable: "Member",
+                        principalTable: "Members",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Restrict);
                 });
 
             migrationBuilder.CreateTable(
-                name: "Reward",
+                name: "Rewards",
                 columns: table => new
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
+                    Title = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     Description = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    ProjectId = table.Column<int>(type: "int", nullable: false)
+                    ProjectId = table.Column<int>(type: "int", nullable: false),
+                    CreatedDate = table.Column<DateTime>(type: "datetime2", nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Reward", x => x.Id);
+                    table.PrimaryKey("PK_Rewards", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_Reward_Project_ProjectId",
+                        name: "FK_Rewards_Projects_ProjectId",
                         column: x => x.ProjectId,
-                        principalTable: "Project",
+                        principalTable: "Projects",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateTable(
-                name: "Payment",
+                name: "Payments",
                 columns: table => new
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
                     Amount = table.Column<decimal>(type: "decimal(18,2)", nullable: false),
+                    CreditCard = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     BackerId = table.Column<int>(type: "int", nullable: true),
                     RewardId = table.Column<int>(type: "int", nullable: true),
                     PaymentDate = table.Column<DateTime>(type: "datetime2", nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Payment", x => x.Id);
+                    table.PrimaryKey("PK_Payments", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_Payment_Member_BackerId",
+                        name: "FK_Payments_Members_BackerId",
                         column: x => x.BackerId,
-                        principalTable: "Member",
+                        principalTable: "Members",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Restrict);
                     table.ForeignKey(
-                        name: "FK_Payment_Reward_RewardId",
+                        name: "FK_Payments_Rewards_RewardId",
                         column: x => x.RewardId,
-                        principalTable: "Reward",
+                        principalTable: "Rewards",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Restrict);
                 });
 
             migrationBuilder.CreateIndex(
-                name: "IX_Payment_BackerId",
-                table: "Payment",
+                name: "IX_Payments_BackerId",
+                table: "Payments",
                 column: "BackerId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Payment_RewardId",
-                table: "Payment",
+                name: "IX_Payments_RewardId",
+                table: "Payments",
                 column: "RewardId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Project_CreatorId",
-                table: "Project",
+                name: "IX_Projects_CreatorId",
+                table: "Projects",
                 column: "CreatorId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Reward_ProjectId",
-                table: "Reward",
+                name: "IX_Rewards_ProjectId",
+                table: "Rewards",
                 column: "ProjectId");
         }
 
         protected override void Down(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.DropTable(
-                name: "Payment");
+                name: "Payments");
 
             migrationBuilder.DropTable(
-                name: "Reward");
+                name: "Rewards");
 
             migrationBuilder.DropTable(
-                name: "Project");
+                name: "Projects");
 
             migrationBuilder.DropTable(
-                name: "Member");
+                name: "Members");
         }
     }
 }

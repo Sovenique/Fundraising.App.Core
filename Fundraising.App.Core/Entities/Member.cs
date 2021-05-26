@@ -16,11 +16,9 @@ namespace Fundraising.App.Core.Entities
         public string Email { get; set; }
         public string Username { get; set; }
         public string Password { get; set; }
-        public string Phone { get; set; }
-        
+        public string Phone { get; set; } 
         public DateTime Birthday { get; set; }
         public DateTime CreatedDate { get; set; }
-        
         public List<Payment> PayedRewards { get; set;} 
         
 
