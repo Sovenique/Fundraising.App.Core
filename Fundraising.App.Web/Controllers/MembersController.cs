@@ -147,7 +147,7 @@ namespace Fundraising.App.Web.Controllers
                 return NotFound();
             }
 
-            return View(member);
+            return View(member.Data);
         }
 
         // POST: Members/Delete/5
