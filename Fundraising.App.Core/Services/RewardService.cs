@@ -12,17 +12,10 @@ namespace Fundraising.App.Core.Services
 {
     public class RewardService : IRewardService
     {
-<<<<<<< HEAD
-        private readonly IApplicationDbContext dbContext;
-        
-
-        public RewardService(IApplicationDbContext _dbContext)
-=======
         private readonly IApplicationDbContext _dbContext;
         private readonly ILogger<RewardService> _logger;
 
         public RewardService(IApplicationDbContext dbContext, ILogger<RewardService> logger)
->>>>>>> d0db14ba137226f61abded2a42f7b35f09ca7484
         {
             _dbContext = dbContext;
             _logger = logger;

@@ -12,16 +12,10 @@ namespace Fundraising.App.Core.Services
 {
     public class MemberService : IMemberService
     {
-<<<<<<< HEAD
-        private readonly IApplicationDbContext dbContext;
-
-        public MemberService(IApplicationDbContext _dbContext)
-=======
         private readonly IApplicationDbContext _dbContext;
         private readonly ILogger<MemberService> _logger;
 
         public MemberService(IApplicationDbContext dbContext, ILogger<MemberService> logger)
->>>>>>> d0db14ba137226f61abded2a42f7b35f09ca7484
         {
             _dbContext = dbContext;
             _logger = logger;

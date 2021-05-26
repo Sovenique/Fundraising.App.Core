@@ -9,15 +9,9 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace Fundraising.App.Core.Migrations
 {
-<<<<<<< HEAD:Fundraising.App.Core/Migrations/20210524114300_fundraisingAppCore.Designer.cs
-    [DbContext(typeof(FundraisingAppDbContext))]
-    [Migration("20210524114300_fundraisingAppCore")]
-    partial class fundraisingAppCore
-=======
     [DbContext(typeof(ApplicationDbContext))]
     [Migration("20210525110648_test")]
     partial class test
->>>>>>> d0db14ba137226f61abded2a42f7b35f09ca7484:Fundraising.App.Core/Migrations/20210525110648_test.Designer.cs
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {

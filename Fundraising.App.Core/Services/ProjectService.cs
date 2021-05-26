@@ -1,49 +1,25 @@
 ﻿using Fundraising.App.Core.Entities;
 using Fundraising.App.Core.Interfaces;
-using Fundraising.App.Core.Models;
 using Fundraising.App.Core.Options;
 using Fundraising.App.Database;
-using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.Logging;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Threading.Tasks;
 
 namespace Fundraising.App.Core.Services
 {
     public class ProjectService : IProjectService
     {
-        
-        private readonly IApplicationDbContext _dbContext;
-        private readonly ILogger<ProjectService> _logger;
+        private readonly IApplicationDbContext dbContext;
 
-        public ProjectService(IApplicationDbContext dbContext, ILogger<ProjectService> logger) 
+        public ProjectService(IApplicationDbContext _dbContext) 
         {
-            _dbContext = dbContext;
-            _logger = logger;
+            dbContext = _dbContext;
         }
 
-        public async Task<Result<Project>> CreateProjectAsync(OptionsProject optionProject)
+        public OptionsProject CreateProject(OptionsProject optionProject)
         {
-            if (optionProject == null)
-            {
-                return new Result<Project>(ErrorCode.BadRequest, "Null option.");
-            }
-            if (string.IsNullOrWhiteSpace(optionProject.Title) ||
-                string.IsNullOrWhiteSpace(optionProject.Description) ||
-                string.IsNullOrWhiteSpace(optionProject.Category) ||
-                string.IsNullOrWhiteSpace(optionProject.Creator.ToString()))//check with team!!
-            {
-                return new Result<Project>(ErrorCode.BadRequest, "Not all required project options provided.");
-            }
-            var projectWithSameTitle = await _dbContext.Projects.SingleOrDefaultAsync(cus => cus.Title == optionProject.Title);
-            if (projectWithSameTitle == null)
-            {
-                return new Result<Project>(ErrorCode.Conflict, $"Project with Title :{optionProject.Title} already exists.");
-            }
-
-            var newProject = new Project
+            Project project = new()
             {
                 Title = optionProject.Title,
                 Description = optionProject.Description,
@@ -55,117 +31,71 @@ namespace Fundraising.App.Core.Services
                 TargetAmount = optionProject.TargetAmount,//check if its necessary
                 Rewards = optionProject.Rewards,//check if its necessary
             };
-            await _dbContext.Projects.AddAsync(newProject);
-            try
+            dbContext.Projects.Add(project);
+            dbContext.SaveChanges();
+            return new OptionsProject
             {
-                await _dbContext.SaveChangesAsync();
-            }
-            catch (Exception ex)
-            {
-                _logger.LogError(ex.Message);
-                return new Result<Project>(ErrorCode.InternalServerError, "Could not save reward.");
-            }
-            return new Result<Project>
-            {
-                Data = newProject
-            };
-
-
-        }
-
-        public async Task<Result<int>> DeleteProjectByIdAsync(int Id)
-        {
-            var projectToDelete = await GetProjectByIdAsync(Id);
-            if (projectToDelete.Error != null || projectToDelete.Data == null)
-            {
-                return new Result<int>(ErrorCode.NotFound, $"Project with id #{Id} not found.");
-            }
-            _dbContext.Projects.Remove(projectToDelete.Data);
-            try
-            {
-                await _dbContext.SaveChangesAsync();
-            }
-            catch (Exception ex)
-            {
-                _logger.LogError(ex.Message);
-                return new Result<int>(ErrorCode.InternalServerError, $"Could not delete project with id #{Id}.");
-            }
-            return new Result<int>
-            {
-                Data = Id
-            };
-
-        }
-
-        public async Task<Result<List<Project>>> GetAllProjectsAsync()
-        {
-            var projects = await _dbContext.Projects.ToListAsync();
-
-            return new Result<List<Project>>
-            {
-                Data = projects.Count > 0 ? projects : new List<Project>()
+                Title = project.Title,
+                Description = project.Description,
+                Category = project.Category,
+                ProjectStatus = project.ProjectStatus,
+                Creator = project.Creator,
+                TargetAmount = project.TargetAmount,
+                Rewards = project.Rewards
             };
         }
 
-        public async Task<Result<Project>> GetProjectByIdAsync(int Id)
+        public bool DeleteProject(int Id)
         {
-            if (Id <= 0)
+            Project dbContextProject = dbContext.Projects.Find(Id);
+            if (dbContextProject == null) return false;
+            dbContext.Projects.Remove(dbContextProject);
+            return true;//message
+
+        }
+
+        public List<OptionsProject> GetAllProjects()
+        {
+            List<Project> projects = dbContext.Projects.ToList();
+            List<OptionsProject> optionsProject = new();
+            projects.ForEach(project => optionsProject.Add(new OptionsProject()
             {
-                return new Result<Project>(ErrorCode.BadRequest, "Invalid ID.");
-            }
-            var project = await _dbContext
-                .Projects
-                .SingleOrDefaultAsync(cus => cus.Id == Id);
+                Id = project.Id,
+                Title = project.Title,
+                Description = project.Description,
+                Category = project.Category,
+                ProjectStatus = project.ProjectStatus,
+                Creator = project.Creator,
+                TargetAmount = project.TargetAmount,
+                Rewards = project.Rewards,
+                AmountGathered = project.AmountGathered//check if its necessery
+
+            }));
+            return optionsProject;
+        }
+
+        public OptionsProject GetOptionsProjectById(int Id)
+        {
+            Project project = dbContext.Projects.Find(Id);
             if (project == null)
             {
-                return new Result<Project>(ErrorCode.NotFound, $"Project with id : #{Id} not found");
+                return null;//message
             }
-            return new Result<Project>
-            {
-                Data = project;
+            return new OptionsProject(project);
         }
 
-
-
-
-        public async Task<Result<Project>> UpdateProjectByIdAsync(OptionsProject optionsProject, int Id)
+        public OptionsProject UpdateProject(OptionsProject optionsProject, int Id)
         {
-            if (optionsProject == null)
-            {
-                return new Result<Project>(ErrorCode.BadRequest, "Null options.");
-            }
-            var project = await _dbContext
-                .Projects
-                .SingleOrDefaultAsync(cus => cus.Id == Id);
-            if (project == null)
-            {
-                return new Result<Project>(ErrorCode.NotFound, $"Project with id #{Id} not found.");
-            }
-            project.Title = optionsProject.Title;
-            project.Description = optionsProject.Description;
-            project.Category = optionsProject.Category;
-            project.ProjectStatus = optionsProject.ProjectStatus;
-            project.Creator = optionsProject.Creator;
-            project.CreatedDate = optionsProject.CreatedDate;
-            project.AmountGathered = optionsProject.AmountGathered;
-            project.TargetAmount = optionsProject.TargetAmount;
-            project.Rewards = optionsProject.Rewards;
+            Project dbContextProject = dbContext.Projects.Find(Id);
+            if (dbContextProject == null) return null;
+            dbContextProject.Title = optionsProject.Title;
 
-            try
-            {
-                await _dbContext.SaveChangesAsync();
-            }
-            catch(Exception ex)
-            {
-                _logger.LogError(ex.Message);
-                return new Result<Project>(ErrorCode.InternalServerError , $"Could not update project with id #{Id}.")
-            }
-            return new Result<Project>
-            {
-                Data = project
-            };
-    
+            dbContext.SaveChanges();
+            return new OptionsProject(dbContextProject);
+
+
+
+
         }
     }
 }
-
