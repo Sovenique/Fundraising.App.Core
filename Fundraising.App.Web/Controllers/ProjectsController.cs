@@ -9,10 +9,11 @@ using Fundraising.App.Core.Entities;
 using Fundraising.App.Database;
 using Fundraising.App.Core.Interfaces;
 using Fundraising.App.Core.Options;
-
+using Microsoft.AspNetCore.Authorization;
 
 namespace Fundraising.App.Web.Controllers
 {
+    [Authorize]
     public class ProjectsController : Controller
     {
         private readonly IProjectService _projectService;
