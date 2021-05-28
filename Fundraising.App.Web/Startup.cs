@@ -27,7 +27,7 @@ namespace Fundraising.App.Web
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddDefaultIdentity<IdentityUser>(options => options.SignIn.RequireConfirmedAccount = true)
-        .AddEntityFrameworkStores<ApplicationDbContext>();
+                         .AddEntityFrameworkStores<ApplicationDbContext>();
             services.AddControllersWithViews();
             services.AddPersistence(Configuration);
             services.AddCore();
