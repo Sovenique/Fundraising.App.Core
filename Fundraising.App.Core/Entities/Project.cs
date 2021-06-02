@@ -13,7 +13,8 @@ namespace Fundraising.App.Core.Entities
         public DateTime CreatedDate { get; set; }
         public decimal AmountGathered { get; set; }
         public decimal TargetAmount { get; set; }
-        public int MemberId { get; set; }
+        
+        public string CreatorId { get; set; }
         public Member Creator { get; set; }
         public List<Reward> Rewards { get; set; }
     }

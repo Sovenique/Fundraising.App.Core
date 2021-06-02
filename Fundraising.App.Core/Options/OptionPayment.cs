@@ -6,24 +6,24 @@ namespace Fundraising.App.Core.Options
     public class OptionPayment
     {
         public int Id { get; set; }
+        public decimal Amount { get; set; }
         public string CreditCard { get; set; }
-        public Member Backer { get; set; }
+   
         public Reward Reward { get; set; }
-        public DateTime PaymentDate { get; set; }
-
-
+        public int? PackageId { get; set; }
+        public Member Member { get; set; }
+        public int? MemberId { get; set; }
         public OptionPayment() { }
+
         public OptionPayment(Payment Payment)
         {
-            if (Payment != null)
-            {
-                Id = Payment.Id;
-                CreditCard = Payment.CreditCard;
-                Backer = Payment.Backer;
-                Reward = Payment.Reward;
-                PaymentDate = Payment.PaymentDate;
-            }
-
+            Id = Payment.Id;
+            Amount = Payment.Amount;
+            CreditCard = Payment.CreditCard;
+            Reward = Payment.Reward;
+            PackageId = Payment.RewardId;
+            Member = Payment.Member;
+            MemberId = Payment.MemberId;
         }
     }
 }

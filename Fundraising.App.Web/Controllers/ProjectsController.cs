@@ -1,12 +1,7 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.Rendering;
-using Microsoft.EntityFrameworkCore;
 using Fundraising.App.Core.Entities;
-using Fundraising.App.Database;
 using Fundraising.App.Core.Interfaces;
 using Fundraising.App.Core.Options;
 using Microsoft.AspNetCore.Authorization;
@@ -72,7 +67,7 @@ namespace Fundraising.App.Web.Controllers
                         Category = project.Category,
                         CreatedDate = DateTime.Now,
                         TargetAmount = project.TargetAmount,
-                        MemberId = ViewBag.UserId
+                        CreatorId = ViewBag.UserId
                     });
                 return RedirectToAction(nameof(Index));
             }

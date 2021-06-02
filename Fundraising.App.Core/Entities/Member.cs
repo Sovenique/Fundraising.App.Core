@@ -15,10 +15,11 @@ namespace Fundraising.App.Core.Entities
         public string Phone { get; set; } 
         public DateTime Birthday { get; set; }
         public DateTime CreatedDate { get; set; }
-        public List<Payment> PayedRewards { get; set;} 
-        
 
-    
+        public List<Project> Projects { get; set; }
+        public List<Payment> Payments { get; set; }
+
+
     }
 
 

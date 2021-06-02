@@ -31,7 +31,7 @@ namespace Fundraising.App.Core.Services
             var newPayment = new Payment
             {
                 CreditCard = optionPayment.CreditCard,
-                Backer = optionPayment.Backer,
+                Member = optionPayment.Member,
                 Reward = optionPayment.Reward,
                 PaymentDate = DateTime.Now
             };

@@ -11,7 +11,7 @@ namespace Fundraising.App.Core.Options
         public string Title { get; set; }
         public string Description { get; set; }
         public string Category { get; set; }
-        public int MemberId { get; set; }
+        public string CreatorId { get; set; }
         public Member Creator { get; set; }
         public DateTime CreatedDate { get; set; }
         public decimal AmountGathered { get; set; }
@@ -26,7 +26,7 @@ namespace Fundraising.App.Core.Options
                 Title = project.Title;
                 Description = project.Description;
                 Category = project.Category;
-                MemberId = project.MemberId;
+                CreatorId = project.CreatorId;
                 Creator = project.Creator;
                 TargetAmount = project.TargetAmount;
                 Rewards = project.Rewards;
