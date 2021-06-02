@@ -112,11 +112,14 @@ namespace Fundraising.App.Core.Migrations
                     b.Property<decimal>("Amount")
                         .HasColumnType("decimal(18,2)");
 
-                    b.Property<string>("BackerId")
-                        .HasColumnType("nvarchar(450)");
-
                     b.Property<string>("CreditCard")
                         .HasColumnType("nvarchar(max)");
+
+                    b.Property<int?>("MemberId")
+                        .HasColumnType("int");
+
+                    b.Property<string>("MemberId1")
+                        .HasColumnType("nvarchar(450)");
 
                     b.Property<DateTime>("PaymentDate")
                         .HasColumnType("datetime2");
@@ -126,7 +129,7 @@ namespace Fundraising.App.Core.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("BackerId");
+                    b.HasIndex("MemberId1");
 
                     b.HasIndex("RewardId");
 
@@ -154,9 +157,6 @@ namespace Fundraising.App.Core.Migrations
 
                     b.Property<string>("Description")
                         .HasColumnType("nvarchar(max)");
-
-                    b.Property<int>("MemberId")
-                        .HasColumnType("int");
 
                     b.Property<int>("ProjectStatus")
                         .HasColumnType("int");
@@ -192,6 +192,9 @@ namespace Fundraising.App.Core.Migrations
 
                     b.Property<string>("Title")
                         .HasColumnType("nvarchar(max)");
+
+                    b.Property<decimal>("Value")
+                        .HasColumnType("decimal(18,2)");
 
                     b.HasKey("Id");
 
@@ -333,15 +336,15 @@ namespace Fundraising.App.Core.Migrations
 
             modelBuilder.Entity("Fundraising.App.Core.Entities.Payment", b =>
                 {
-                    b.HasOne("Fundraising.App.Core.Entities.Member", "Backer")
-                        .WithMany("PayedRewards")
-                        .HasForeignKey("BackerId");
+                    b.HasOne("Fundraising.App.Core.Entities.Member", "Member")
+                        .WithMany("Payments")
+                        .HasForeignKey("MemberId1");
 
                     b.HasOne("Fundraising.App.Core.Entities.Reward", "Reward")
-                        .WithMany("Payments")
+                        .WithMany()
                         .HasForeignKey("RewardId");
 
-                    b.Navigation("Backer");
+                    b.Navigation("Member");
 
                     b.Navigation("Reward");
                 });
@@ -349,7 +352,7 @@ namespace Fundraising.App.Core.Migrations
             modelBuilder.Entity("Fundraising.App.Core.Entities.Project", b =>
                 {
                     b.HasOne("Fundraising.App.Core.Entities.Member", "Creator")
-                        .WithMany()
+                        .WithMany("Projects")
                         .HasForeignKey("CreatorId");
 
                     b.Navigation("Creator");
@@ -357,11 +360,13 @@ namespace Fundraising.App.Core.Migrations
 
             modelBuilder.Entity("Fundraising.App.Core.Entities.Reward", b =>
                 {
-                    b.HasOne("Fundraising.App.Core.Entities.Project", null)
+                    b.HasOne("Fundraising.App.Core.Entities.Project", "Project")
                         .WithMany("Rewards")
                         .HasForeignKey("ProjectId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
+
+                    b.Navigation("Project");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>
@@ -417,17 +422,14 @@ namespace Fundraising.App.Core.Migrations
 
             modelBuilder.Entity("Fundraising.App.Core.Entities.Member", b =>
                 {
-                    b.Navigation("PayedRewards");
+                    b.Navigation("Payments");
+
+                    b.Navigation("Projects");
                 });
 
             modelBuilder.Entity("Fundraising.App.Core.Entities.Project", b =>
                 {
                     b.Navigation("Rewards");
-                });
-
-            modelBuilder.Entity("Fundraising.App.Core.Entities.Reward", b =>
-                {
-                    b.Navigation("Payments");
                 });
 #pragma warning restore 612, 618
         }
