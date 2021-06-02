@@ -70,10 +70,9 @@ namespace Fundraising.App.Web.Controllers
                         Title = project.Title,
                         Description = project.Description,
                         Category = project.Category,
-                        ProjectStatus = project.ProjectStatus,
                         CreatedDate = DateTime.Now,
-                        AmountGathered = project.AmountGathered,
-                        TargetAmount = project.TargetAmount
+                        TargetAmount = project.TargetAmount,
+                        MemberId = ViewBag.UserId
                     });
                 return RedirectToAction(nameof(Index));
             }
@@ -119,7 +118,6 @@ namespace Fundraising.App.Web.Controllers
                             Title = project.Title,
                             Description = project.Description,
                             Category = project.Category,
-                            ProjectStatus = project.ProjectStatus,
                             AmountGathered = project.AmountGathered,
                             TargetAmount = project.TargetAmount
                         }, id);

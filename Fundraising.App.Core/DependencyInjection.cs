@@ -1,6 +1,8 @@
-﻿using Fundraising.App.Core.Interfaces;
+﻿using Fundraising.App.Core.Entities;
+using Fundraising.App.Core.Interfaces;
 using Fundraising.App.Core.Services;
 using Fundraising.App.Database;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -12,11 +14,14 @@ namespace Fundraising.App.Core
       
             public static IServiceCollection AddCore(this IServiceCollection services)
             {
-                services.AddScoped<IMemberService, MemberService>();
                 services.AddScoped<IProjectService, ProjectService>();
                 services.AddScoped<IRewardService, RewardService>();
                 services.AddScoped<IPaymentService, PaymentService>();
-
+            services.AddIdentity<Member, IdentityRole>()
+                       .AddClaimsPrincipalFactory<UserClaimsPrincipalFactory<Member, IdentityRole>>()
+                       .AddEntityFrameworkStores<ApplicationDbContext>()
+                       .AddDefaultTokenProviders()
+                       .AddDefaultUI();
 
             return services;
             }

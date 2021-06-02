@@ -48,7 +48,7 @@ namespace Fundraising.App.Core.Services
                 Title = optionProject.Title,
                 Description = optionProject.Description,
                 Category = optionProject.Category,
-                ProjectStatus = optionProject.ProjectStatus,
+          
                 Creator = optionProject.Creator,
                 CreatedDate = DateTime.Now,
                 AmountGathered = 0,//check 0
@@ -145,10 +145,6 @@ namespace Fundraising.App.Core.Services
             project.Title = optionsProject.Title;
             project.Description = optionsProject.Description;
             project.Category = optionsProject.Category;
-            project.ProjectStatus = optionsProject.ProjectStatus;
-            project.Creator = optionsProject.Creator;
-            project.CreatedDate = DateTime.Now;
-            project.AmountGathered = optionsProject.AmountGathered;
             project.TargetAmount = optionsProject.TargetAmount;
             project.Rewards = optionsProject.Rewards;
 

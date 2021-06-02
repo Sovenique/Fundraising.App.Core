@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace Fundraising.App.Database
 {
-    public class ApplicationDbContext : IdentityDbContext, IApplicationDbContext
+    public class ApplicationDbContext : IdentityDbContext<Member>, IApplicationDbContext
     {
         public DbSet<Member> Members { get; set; }
         public DbSet<Project> Projects { get; set; }

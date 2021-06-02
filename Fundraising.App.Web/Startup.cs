@@ -26,8 +26,7 @@ namespace Fundraising.App.Web
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddDefaultIdentity<IdentityUser>(options => options.SignIn.RequireConfirmedAccount = true)
-                         .AddEntityFrameworkStores<ApplicationDbContext>();
+     
             services.AddControllersWithViews();
             services.AddPersistence(Configuration);
             services.AddCore();

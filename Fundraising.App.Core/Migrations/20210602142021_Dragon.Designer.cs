@@ -10,8 +10,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Fundraising.App.Core.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20210527003412_1")]
-    partial class _1
+    [Migration("20210602142021_Dragon")]
+    partial class Dragon
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -20,45 +20,6 @@ namespace Fundraising.App.Core.Migrations
                 .HasAnnotation("Relational:MaxIdentifierLength", 128)
                 .HasAnnotation("ProductVersion", "5.0.6")
                 .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
-
-            modelBuilder.Entity("Fundraising.App.Core.Entities.Member", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
-
-                    b.Property<string>("Address")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<DateTime>("Birthday")
-                        .HasColumnType("datetime2");
-
-                    b.Property<DateTime>("CreatedDate")
-                        .HasColumnType("datetime2");
-
-                    b.Property<string>("Email")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("FirstName")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("LastName")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("Password")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("Phone")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("Username")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("Members");
-                });
 
             modelBuilder.Entity("Fundraising.App.Core.Entities.Payment", b =>
                 {
@@ -70,8 +31,8 @@ namespace Fundraising.App.Core.Migrations
                     b.Property<decimal>("Amount")
                         .HasColumnType("decimal(18,2)");
 
-                    b.Property<int?>("BackerId")
-                        .HasColumnType("int");
+                    b.Property<string>("BackerId")
+                        .HasColumnType("nvarchar(450)");
 
                     b.Property<string>("CreditCard")
                         .HasColumnType("nvarchar(max)");
@@ -107,11 +68,14 @@ namespace Fundraising.App.Core.Migrations
                     b.Property<DateTime>("CreatedDate")
                         .HasColumnType("datetime2");
 
-                    b.Property<int?>("CreatorId")
-                        .HasColumnType("int");
+                    b.Property<string>("CreatorId")
+                        .HasColumnType("nvarchar(450)");
 
                     b.Property<string>("Description")
                         .HasColumnType("nvarchar(max)");
+
+                    b.Property<int>("MemberId")
+                        .HasColumnType("int");
 
                     b.Property<int>("ProjectStatus")
                         .HasColumnType("int");
@@ -218,6 +182,10 @@ namespace Fundraising.App.Core.Migrations
                         .IsConcurrencyToken()
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<string>("Discriminator")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<string>("Email")
                         .HasMaxLength(256)
                         .HasColumnType("nvarchar(256)");
@@ -269,6 +237,8 @@ namespace Fundraising.App.Core.Migrations
                         .HasFilter("[NormalizedUserName] IS NOT NULL");
 
                     b.ToTable("AspNetUsers");
+
+                    b.HasDiscriminator<string>("Discriminator").HasValue("IdentityUser");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserClaim<string>", b =>
@@ -355,6 +325,31 @@ namespace Fundraising.App.Core.Migrations
                     b.ToTable("AspNetUserTokens");
                 });
 
+            modelBuilder.Entity("Fundraising.App.Core.Entities.Member", b =>
+                {
+                    b.HasBaseType("Microsoft.AspNetCore.Identity.IdentityUser");
+
+                    b.Property<string>("Address")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTime>("Birthday")
+                        .HasColumnType("datetime2");
+
+                    b.Property<DateTime>("CreatedDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("FirstName")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("LastName")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Phone")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasDiscriminator().HasValue("Member");
+                });
+
             modelBuilder.Entity("Fundraising.App.Core.Entities.Payment", b =>
                 {
                     b.HasOne("Fundraising.App.Core.Entities.Member", "Backer")
@@ -439,11 +434,6 @@ namespace Fundraising.App.Core.Migrations
                         .IsRequired();
                 });
 
-            modelBuilder.Entity("Fundraising.App.Core.Entities.Member", b =>
-                {
-                    b.Navigation("PayedRewards");
-                });
-
             modelBuilder.Entity("Fundraising.App.Core.Entities.Project", b =>
                 {
                     b.Navigation("Rewards");
@@ -452,6 +442,11 @@ namespace Fundraising.App.Core.Migrations
             modelBuilder.Entity("Fundraising.App.Core.Entities.Reward", b =>
                 {
                     b.Navigation("Payments");
+                });
+
+            modelBuilder.Entity("Fundraising.App.Core.Entities.Member", b =>
+                {
+                    b.Navigation("PayedRewards");
                 });
 #pragma warning restore 612, 618
         }
