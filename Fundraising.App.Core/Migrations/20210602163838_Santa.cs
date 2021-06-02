@@ -3,7 +3,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace Fundraising.App.Core.Migrations
 {
-    public partial class Test2 : Migration
+    public partial class Santa : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {

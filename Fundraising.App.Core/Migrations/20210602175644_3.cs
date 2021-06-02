@@ -2,7 +2,7 @@
 
 namespace Fundraising.App.Core.Migrations
 {
-    public partial class Hydra : Migration
+    public partial class _3 : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {

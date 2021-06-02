@@ -1,12 +1,9 @@
 ﻿using Fundraising.App.Core.Entities;
 using Fundraising.App.Core.Interfaces;
-using Fundraising.App.Core.Models;
 using Fundraising.App.Core.Options;
-using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
-using System;
 using System.Collections.Generic;
-using System.Threading.Tasks;
+using System.Linq;
 
 namespace Fundraising.App.Core.Services
 {
@@ -20,167 +17,77 @@ namespace Fundraising.App.Core.Services
             _dbContext = dbContext;
             _logger = logger;
         }
-        //CREATE
-        public async Task<Result<Reward>> CreateRewardAsync(OptionReward optionReward)
+        // CREATE
+        // --------------------------------------------------------
+        public OptionReward CreateReward(OptionReward optionReward)
         {
-            if (optionReward == null)
-            {
-                return new Result<Reward>(ErrorCode.BadRequest, "Null options.");
-            }
-            //validation
-            if (string.IsNullOrWhiteSpace(optionReward.Title) ||
-              string.IsNullOrWhiteSpace(optionReward.Description))
-            {
-                return new Result<Reward>(ErrorCode.BadRequest, "Not all required reward options provided.");
-            }
 
-            if (optionReward.Title.Length > 40)
-            {
-                return new Result<Reward>(ErrorCode.BadRequest, "Invalid vat number.");
-            }
 
-            var rewardWithSameTitle = await _dbContext.Rewards.SingleOrDefaultAsync(cus => cus.Title == optionReward.Title);
-
-            if (rewardWithSameTitle != null)
-            {
-                return new Result<Reward>(ErrorCode.Conflict, $"Reward with #{optionReward.Title} already exists.");
-            }
-            //operation
-            var newReward = new Reward
+            Reward reward = new()
             {
                 Title = optionReward.Title,
-
                 Description = optionReward.Description,
-
-                CreatedDate = DateTime.Now
+                Value = optionReward.Value,
+                ProjectId = optionReward.ProjectId
 
             };
 
-            await _dbContext.Rewards.AddAsync(newReward);
-            try
-            {
-                await _dbContext.SaveChangesAsync();
-            }
-            catch (Exception ex)
-            {
-                _logger.LogError(ex.Message);
+            _dbContext.Rewards.Add(reward);
+            _dbContext.SaveChanges();
 
-                return new Result<Reward>(ErrorCode.InternalServerError, "Could not save reward.");
-            }
-            return new Result<Reward>
-            {
-                Data = newReward
-            };
-
-
+            return new OptionReward(reward);
         }
-        //DELETE
-        public async Task<Result<int>> DeleteRewardByIdAsync(int Id)
+
+        // DELETE
+        // --------------------------------------------------------
+        public bool DeleteReward(int Id)
         {
-            var rewardToDelete = await GetRewardByIdAsync(Id);
-            //validation
-            if (rewardToDelete.Error != null || rewardToDelete.Data == null)
-            {
-                return new Result<int>(ErrorCode.NotFound, $"Reward with id #{Id} not found.");
-            }
-            //operation
-            _dbContext.Rewards.Remove(rewardToDelete.Data);
+            Reward dbContextReward = _dbContext.Rewards.Find(Id);
 
-            try
-            {
-                await _dbContext.SaveChangesAsync();
-            }
-            catch (Exception ex)
-            {
-                _logger.LogError(ex.Message);
+            if (dbContextReward == null) return false;
 
-                return new Result<int>(ErrorCode.InternalServerError, "Could not delete reward.");
-            }
-
-            return new Result<int>
-            {
-                Data = Id
-            };
+            _dbContext.Rewards.Remove(dbContextReward);
+            _dbContext.SaveChanges();
+            return true;
         }
-        //GET ALL
-        public async Task<Result<List<Reward>>> GetAllRewardsAsync()
+
+        // READ / ALL
+        // --------------------------------------------------------
+        public List<OptionReward> GetAllRewards()
         {
-            var rewards = await _dbContext.Rewards.ToListAsync();
-            //operation
-            return new Result<List<Reward>>
-            {
-                Data = rewards.Count > 0 ? rewards : new List<Reward>()
-            };
+            List<Reward> rewards = _dbContext.Rewards.ToList();
+            List<OptionReward> optionReward = new();
+            rewards.ForEach(reward => optionReward.Add(new OptionReward(reward)));
+            return optionReward;
         }
-        //GET SINGLE
-        public async Task<Result<Reward>> GetRewardByIdAsync(int Id)
+
+        // READ / BY ID
+        // --------------------------------------------------------
+        public OptionReward GetRewardById(int Id)
         {
-            //validation
-            if (Id <= 0)
-            {
-                return new Result<Reward>(ErrorCode.BadRequest, "Id cannot be less than or equal to zero.");
-            }
-            //operation
-            var reward = await _dbContext
-                .Rewards
-                .SingleOrDefaultAsync(cus => cus.Id == Id);
-            //validation
+            Reward reward = _dbContext.Rewards.Find(Id);
             if (reward == null)
             {
-                return new Result<Reward>(ErrorCode.NotFound, $"Reward with id #{Id} not found.");
+                return null;
             }
-            
-            return new Result<Reward>
-            {
-                Data = reward
-            };
+            return new OptionReward(reward);
         }
-        //UPDATE
-        public async Task<Result<Reward>>UpdateRewardByIdAsync(OptionReward optionReward, int Id)
+
+        // UPDATE
+        // --------------------------------------------------------
+        public OptionReward UpdateReward(OptionReward optionReward, int Id)
         {
-            //validation
-            if (optionReward == null)
-            {
-                return new Result<Reward>(ErrorCode.BadRequest, "Null options.");
-            }
-            
-            if (optionReward.Title.Length > 40)
-            {
-                return new Result<Reward>(ErrorCode.BadRequest, "Invalid vat number.");
-            }
+            Reward dbContextReward = _dbContext.Rewards.Find(Id);
+            if (dbContextReward == null) return null;
 
-            var rewardWithSameTitle = await _dbContext.Rewards.SingleOrDefaultAsync(cus => cus.Title == optionReward.Title);
+            dbContextReward.Title = optionReward.Title;
+            dbContextReward.Description = optionReward.Description;
+            dbContextReward.Value = optionReward.Value;
+            dbContextReward.Project = optionReward.Project;
 
-            if (rewardWithSameTitle != null)
-            {
-                return new Result<Reward>(ErrorCode.Conflict, $"Reward with #{optionReward.Title} already exists.");
-            }
-            var reward = await _dbContext
-                .Rewards
-                .SingleOrDefaultAsync(cus => cus.Id == Id);
+            _dbContext.SaveChanges();
+            return new OptionReward(dbContextReward);
 
-            if (reward == null)
-            {
-                return new Result<Reward>(ErrorCode.NotFound, $"Reward with id #{Id} not found.");
-            }
-            //operation
-            reward.Title = optionReward.Title;
-            reward.Description = optionReward.Description;
-
-            try
-            {
-                await _dbContext.SaveChangesAsync();
-            }
-            catch (Exception ex)
-            {
-                _logger.LogError(ex.Message);
-
-                return new Result<Reward>(ErrorCode.InternalServerError, "Could not save reward.");
-            }
-            return new Result<Reward>
-            {
-                Data = reward
-            };
         }
     }
 }

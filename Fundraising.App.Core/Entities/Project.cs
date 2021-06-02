@@ -8,23 +8,32 @@ namespace Fundraising.App.Core.Entities
         public int Id { get; set; }
         public string Title { get; set; }
         public string Description { get; set; }
-        public string Category { get; set; }
+        public Category Category { get; set; }
         public ProjectStatus ProjectStatus { get; set; }
         public DateTime CreatedDate { get; set; }
         public decimal AmountGathered { get; set; }
         public decimal TargetAmount { get; set; }
-        
+
         public string CreatorId { get; set; }
         public Member Creator { get; set; }
         public List<Reward> Rewards { get; set; }
     }
+    public enum ProjectStatus
+    {
+        ON_HOLD,
+        IN_PROGRESS,
+        COMPLETED
+    }
 
-        public enum ProjectStatus
-        {
-             ON_HOLD,       
-             IN_PROGRESS,  
-             COMPLETED      
-        }
-
+    public enum Category
+    {
+        ARTS,
+        TECHNOLOGY,
+        CHEMICAL,
+        ELECTRICAL,
+        FOOD,
+        MUSIC,
+        SOCIAL
+    }
 
 }

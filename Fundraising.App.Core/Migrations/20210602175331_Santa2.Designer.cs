@@ -10,8 +10,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Fundraising.App.Core.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20210602160229_Test2")]
-    partial class Test2
+    [Migration("20210602175331_Santa2")]
+    partial class Santa2
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -148,8 +148,8 @@ namespace Fundraising.App.Core.Migrations
                     b.Property<decimal>("AmountGathered")
                         .HasColumnType("decimal(18,2)");
 
-                    b.Property<string>("Category")
-                        .HasColumnType("nvarchar(max)");
+                    b.Property<int>("Category")
+                        .HasColumnType("int");
 
                     b.Property<DateTime>("CreatedDate")
                         .HasColumnType("datetime2");

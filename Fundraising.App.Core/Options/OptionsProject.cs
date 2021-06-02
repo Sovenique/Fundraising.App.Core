@@ -10,7 +10,7 @@ namespace Fundraising.App.Core.Options
         public int Id { get; set; }
         public string Title { get; set; }
         public string Description { get; set; }
-        public string Category { get; set; }
+        public Category Category { get; set; }
         public string CreatorId { get; set; }
         public Member Creator { get; set; }
         public DateTime CreatedDate { get; set; }
@@ -23,6 +23,7 @@ namespace Fundraising.App.Core.Options
         {
             if (project != null)
             {
+                Id = project.Id;
                 Title = project.Title;
                 Description = project.Description;
                 Category = project.Category;

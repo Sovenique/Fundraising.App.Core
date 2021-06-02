@@ -10,8 +10,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Fundraising.App.Core.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20210602160535_Hydra")]
-    partial class Hydra
+    [Migration("20210602163838_Santa")]
+    partial class Santa
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
