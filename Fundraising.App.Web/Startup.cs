@@ -1,5 +1,6 @@
 using Fundraising.App.Core;
 using Fundraising.App.Database;
+using Fundraising.App.Web.Services;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.HttpsPolicy;
@@ -26,11 +27,12 @@ namespace Fundraising.App.Web
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-     
-            services.AddControllersWithViews();
             services.AddPersistence(Configuration);
             services.AddCore();
-            
+            services.AddSingleton<ICurrentUserService, CurrentUserService>();
+            services.AddHttpContextAccessor();
+            services.AddControllersWithViews();
+
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
