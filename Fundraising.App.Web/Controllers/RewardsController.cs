@@ -3,9 +3,11 @@ using Microsoft.AspNetCore.Mvc;
 using Fundraising.App.Core.Entities;
 using Fundraising.App.Core.Interfaces;
 using Fundraising.App.Core.Options;
+using Microsoft.AspNetCore.Authorization;
 
 namespace Fundraising.App.Web.Controllers
 {
+    [Authorize]
     public class RewardsController : Controller
     {
         private readonly IRewardService _rewardService;
