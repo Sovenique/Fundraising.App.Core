@@ -51,9 +51,6 @@ namespace Fundraising.App.Web.Controllers
             }
             return View(await projectQuery.AsNoTracking().ToListAsync());
 
-
-
-
         }
 
 
