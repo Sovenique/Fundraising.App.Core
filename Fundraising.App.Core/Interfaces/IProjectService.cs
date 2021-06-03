@@ -11,6 +11,8 @@ namespace Fundraising.App.Core.Interfaces
         public List<OptionsProject> GetAllProjects();
         // READ BY ID
         public OptionsProject GetProjectById(int Id);
+        // READ BY CREATOR ID
+        public List<OptionsProject> GetProjectByCreatorId(string CreatorId);
         // UPDATE
         public OptionsProject UpdateProject(OptionsProject optionsProject, int Id);
         // DELETE

@@ -13,6 +13,8 @@ namespace Fundraising.App.Core.Interfaces
         public List<OptionReward> GetAllRewards();
         // READ BY ID
         public OptionReward GetRewardById(int Id);
+        // READ BY PROJECT ID
+        public List<OptionReward> GetAllRewardByProjectId(int ProjectId);
         // UPDATE
         public OptionReward UpdateReward(OptionReward optionReward, int Id);
         // DELETE

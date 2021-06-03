@@ -73,6 +73,20 @@ namespace Fundraising.App.Core.Services
             return new OptionsProject(project);
         }
 
+        // READ / BY CREATOR ID
+        // --------------------------------------------------------
+        public List<OptionsProject> GetProjectByCreatorId(string CreatorId)
+        {
+            List<OptionsProject> optionProjects = new();
+            var projects = _dbContext.Projects.Where(project => project.CreatorId == CreatorId).ToList();
+            projects.ForEach(project =>
+                optionProjects.Add(new OptionsProject(project))
+            );
+
+            return optionProjects;
+
+        }
+
         // UPDATE
         // --------------------------------------------------------
         public OptionsProject UpdateProject(OptionsProject optionsProject, int Id)

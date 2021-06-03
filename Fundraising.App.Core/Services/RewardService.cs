@@ -73,6 +73,18 @@ namespace Fundraising.App.Core.Services
             return new OptionReward(reward);
         }
 
+        // READ / BY PROJECT ID
+        // --------------------------------------------------------
+        public List<OptionReward> GetAllRewardByProjectId(int ProjectId)
+        {
+            List<OptionReward> optionRewards = new();
+            List<Reward> rewards = _dbContext.Rewards.Where(reward => reward.ProjectId == ProjectId).ToList();
+            rewards.ForEach(reward =>
+               optionRewards.Add(new OptionReward(reward))
+                );
+            return optionRewards;
+        }
+
         // UPDATE
         // --------------------------------------------------------
         public OptionReward UpdateReward(OptionReward optionReward, int Id)

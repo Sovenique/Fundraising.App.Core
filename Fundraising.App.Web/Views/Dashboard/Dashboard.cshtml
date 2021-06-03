@@ -1,0 +1,58 @@
+﻿@model List<Fundraising.App.Core.Options.OptionsProject>
+
+@{
+    ViewData["Title"] = "Index";
+
+}
+
+<br />
+<br />
+<h3> @ViewBag.User.Name Projects</h3>
+<ul class="list-group">
+    @{ var i = 0; }
+    @foreach (var project in @ViewBag.UserOptionProjects)
+    {
+        i++;
+        <li class="@(i % 2 == 0 ? "list-group-item list-group-item-secondary" : "list-group-item")">
+            <div class="row">
+                <div class="col-8">
+                    @i @project.Title:
+                </div>
+                <div class="col-2">
+                    @project.AmountGathered / @project.TargetAmount
+                </div>
+                <div class="col-2">
+                    <a asp-action="EditProject" asp-route-ProjectId="@project.Id">Edit Project</a>
+                </div>
+            </div>
+        </li>
+    }
+</ul>
+
+
+<br />
+<br />
+<h3>All Projects</h3>
+<ul class="list-group">
+    @{ i = 0; }
+    @foreach (var project in @ViewBag.OptionProjects)
+    {
+        i++;
+        <li class="@(i % 2 == 0 ? "list-group-item list-group-item-secondary" : "list-group-item")">
+            <div class="row">
+                <div class="col-8">
+                    @project.Title:
+                </div>
+                <div class="col-2">
+                    @project.AmountGathered / @project.TargetAmount
+                </div>
+                <div class="col-2">
+                    <a asp-action="BuyReward" asp-route-UserId="@ViewBag.User.UserId" asp-route-ProjectId="@project.Id">Buy a Package</a>
+                </div>
+            </div>
+        </li>
+    }
+</ul>
+
+
+
