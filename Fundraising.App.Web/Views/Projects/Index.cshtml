@@ -9,6 +9,28 @@
 <p>
     <a asp-action="Create">Create New</a>
 </p>
+
+    <form method="get" asp-action="Index">
+        <p>
+            <input type="search" placeholder="Enter Project Name" 
+                   value="@ViewData["GetProjectName"]"
+                   name="projectSearch" style="width:auto;"/>
+            <input type="submit" value="search" class="="btn btn-primary"/>
+            <a asp-action="Index">Search Projects</a>
+
+
+        </p>
+
+
+
+
+
+
+    </form>
+
+
+
+
 <table class="table">
     <thead>
         <tr>

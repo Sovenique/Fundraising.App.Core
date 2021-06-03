@@ -9,9 +9,11 @@ using Fundraising.App.Web.Services;
 using Fundraising.App.Core.Interfaces;
 using Fundraising.App.Core.Options;
 using System;
+using Microsoft.AspNetCore.Authorization;
 
 namespace Fundraising.App.Web.Controllers
 {
+    [Authorize]
     public class PaymentsController : Controller
     {
         private readonly ApplicationDbContext _context;

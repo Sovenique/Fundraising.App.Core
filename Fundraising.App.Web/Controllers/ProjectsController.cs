@@ -37,6 +37,32 @@ namespace Fundraising.App.Web.Controllers
             var applicationDbContext = _context.Projects.Include(p => p.Creator);
             return View(await applicationDbContext.ToListAsync());
         }
+        [HttpGet]
+        public async Task<IActionResult> Index(string projectSearch)
+        {
+            ViewData["ProjectDetails"] = projectSearch;
+
+            var projectQuery = from x in _context.Projects select x;
+
+            if(!String.IsNullOrEmpty(projectSearch))
+            {
+                projectQuery = projectQuery.Where(x => x.Title
+                .Contains(projectSearch));
+            }
+            return View(await projectQuery.AsNoTracking().ToListAsync());
+
+
+
+
+        }
+
+
+
+
+
+
+
+
 
         // GET: Details
         public async Task<IActionResult> Details(int? id)
