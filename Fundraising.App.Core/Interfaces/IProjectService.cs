@@ -15,5 +15,7 @@ namespace Fundraising.App.Core.Interfaces
         public OptionsProject UpdateProject(OptionsProject optionsProject, int Id);
         // DELETE
         public bool DeleteProject(int Id);
+
+        public OptionsProject UpdateProjectAmount(OptionsProject optionsProject, int Id);
     }
 }

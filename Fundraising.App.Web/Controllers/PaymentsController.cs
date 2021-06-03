@@ -77,17 +77,14 @@ namespace Fundraising.App.Web.Controllers
             if (ModelState.IsValid)
             {
                 var memberId = _currentUserService.UserId;
-                ViewBag.RewardId = new SelectList(_context.Rewards, "Id", "Id", payment.RewardId);
+            
+                ViewBag.RewardId = new SelectList(_context.Rewards, "Id", "Id", payment.RewardId).SelectedValue;
                 int tmpId = ViewBag.RewardId;
-
                 var reward = _rewardService.GetRewardById(tmpId);
                 var projectId = _projectService.GetProjectById(reward.ProjectId);
                 var finalId = projectId.Id;
                 
-                var optionsProject = new OptionsProject
-                {
-                    AmountGathered = payment.Amount
-                };
+             
                
                await _paymentService.CreatePaymentAsync(new OptionPayment
                 {
@@ -95,12 +92,12 @@ namespace Fundraising.App.Web.Controllers
                     Amount = payment.Amount,
                     CreditCard = payment.CreditCard,
                     Reward = payment.Reward,
-                    PackageId = payment.RewardId,
+                    RewardId = payment.RewardId,
                     MemberId = memberId
-                },  optionsProject, finalId);
+                },  finalId);
 
 
-                await _context.SaveChangesAsync();
+          
                 return RedirectToAction(nameof(Index));
             }
         

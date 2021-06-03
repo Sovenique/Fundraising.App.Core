@@ -10,7 +10,7 @@ namespace Fundraising.App.Core.Options
         public string CreditCard { get; set; }
    
         public Reward Reward { get; set; }
-        public int? PackageId { get; set; }
+        public int? RewardId { get; set; }
         public Member Member { get; set; }
         public string MemberId { get; set; }
         public OptionPayment() { }
@@ -21,7 +21,7 @@ namespace Fundraising.App.Core.Options
             Amount = Payment.Amount;
             CreditCard = Payment.CreditCard;
             Reward = Payment.Reward;
-            PackageId = Payment.RewardId;
+            RewardId = Payment.RewardId;
             Member = Payment.Member;
             MemberId = Payment.MemberId;
         }

@@ -91,6 +91,18 @@ namespace Fundraising.App.Core.Services
             return new OptionsProject(dbContextProject);
 
         }
+
+        public OptionsProject UpdateProjectAmount(OptionsProject optionsProject, int Id)
+        {
+            Project dbContextProject = _dbContext.Projects.Find(Id);
+            if (dbContextProject == null) return null;
+
+            dbContextProject.AmountGathered = optionsProject.AmountGathered;
+           
+            _dbContext.SaveChanges();
+            return new OptionsProject(dbContextProject);
+
+        }
     }
 }
 

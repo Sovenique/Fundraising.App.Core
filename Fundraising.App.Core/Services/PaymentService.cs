@@ -26,7 +26,7 @@ namespace Fundraising.App.Core.Services
             _rewardService = rewardService;
         }
 
-        public async Task<Result<Payment>> CreatePaymentAsync(OptionPayment optionPayment, OptionsProject optionsProject, int Id)
+        public async Task<Result<Payment>> CreatePaymentAsync(OptionPayment optionPayment, int Id)
         {
             if(optionPayment == null)
             {
@@ -43,10 +43,10 @@ namespace Fundraising.App.Core.Services
     
             var project = _projectService.GetProjectById(Id);
             var currentAmount = project.AmountGathered;
-            var totalAmount = currentAmount + optionPayment.Amount;
+            var totalAmount = currentAmount + newPayment.Amount;
 
 
-            _projectService.UpdateProject(new OptionsProject
+            _projectService.UpdateProjectAmount(new OptionsProject
 
             {
                 AmountGathered = totalAmount  
