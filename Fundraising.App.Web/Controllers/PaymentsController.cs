@@ -1,22 +1,37 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
+﻿using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using Fundraising.App.Core.Entities;
 using Fundraising.App.Database;
+using Fundraising.App.Web.Services;
+using Fundraising.App.Core.Interfaces;
+using Fundraising.App.Core.Options;
 
 namespace Fundraising.App.Web.Controllers
 {
     public class PaymentsController : Controller
     {
         private readonly ApplicationDbContext _context;
+        private readonly ICurrentUserService _currentUserService;
+        private readonly IRewardService _rewardService;
+        private readonly IProjectService _projectService;
+        private readonly IPaymentService _paymentService;
 
-        public PaymentsController(ApplicationDbContext context)
+
+        public PaymentsController(ApplicationDbContext context, ICurrentUserService currentUserService, 
+            IRewardService rewardService,
+            IProjectService projectService,
+            IPaymentService paymentService)
+        
+        
         {
             _context = context;
+            _currentUserService = currentUserService;
+            _rewardService = rewardService;
+            _projectService = projectService;
+            _paymentService = paymentService;
         }
 
         // GET: Payments
@@ -48,7 +63,7 @@ namespace Fundraising.App.Web.Controllers
         // GET: Payments/Create
         public IActionResult Create()
         {
-            ViewData["RewardId"] = new SelectList(_context.Rewards, "Id", "Id");
+            ViewBag.RewardId = new SelectList(_context.Rewards, "Id", "Id");
             return View();
         }
 
@@ -57,15 +72,38 @@ namespace Fundraising.App.Web.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Id,Amount,CreditCard,PaymentDate,RewardId,MemberId")] Payment payment)
+        public async Task<IActionResult> Create([Bind("Id,Amount,CreditCard,PaymentDate,RewardId")] Payment payment)
         {
             if (ModelState.IsValid)
             {
-                _context.Add(payment);
+                var memberId = _currentUserService.UserId;
+                ViewBag.RewardId = new SelectList(_context.Rewards, "Id", "Id", payment.RewardId);
+                int tmpId = ViewBag.RewardId;
+
+                var reward = _rewardService.GetRewardById(tmpId);
+                var projectId = _projectService.GetProjectById(reward.ProjectId);
+                var finalId = projectId.Id;
+                
+                var optionsProject = new OptionsProject
+                {
+                    AmountGathered = payment.Amount
+                };
+               
+               await _paymentService.CreatePaymentAsync(new OptionPayment
+                {
+                    Id = payment.Id,
+                    Amount = payment.Amount,
+                    CreditCard = payment.CreditCard,
+                    Reward = payment.Reward,
+                    PackageId = payment.RewardId,
+                    MemberId = memberId
+                },  optionsProject, finalId);
+
+
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
-            ViewData["RewardId"] = new SelectList(_context.Rewards, "Id", "Id", payment.RewardId);
+        
             return View(payment);
         }
 

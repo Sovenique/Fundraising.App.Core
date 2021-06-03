@@ -10,8 +10,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Fundraising.App.Core.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20210602163838_Santa")]
-    partial class Santa
+    [Migration("20210603002739_Blizzard")]
+    partial class Blizzard
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -117,10 +117,7 @@ namespace Fundraising.App.Core.Migrations
                     b.Property<string>("CreditCard")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int?>("MemberId")
-                        .HasColumnType("int");
-
-                    b.Property<string>("MemberId1")
+                    b.Property<string>("MemberId")
                         .HasColumnType("nvarchar(450)");
 
                     b.Property<DateTime>("PaymentDate")
@@ -131,7 +128,7 @@ namespace Fundraising.App.Core.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("MemberId1");
+                    b.HasIndex("MemberId");
 
                     b.HasIndex("RewardId");
 
@@ -148,8 +145,8 @@ namespace Fundraising.App.Core.Migrations
                     b.Property<decimal>("AmountGathered")
                         .HasColumnType("decimal(18,2)");
 
-                    b.Property<string>("Category")
-                        .HasColumnType("nvarchar(max)");
+                    b.Property<int>("Category")
+                        .HasColumnType("int");
 
                     b.Property<DateTime>("CreatedDate")
                         .HasColumnType("datetime2");
@@ -340,7 +337,7 @@ namespace Fundraising.App.Core.Migrations
                 {
                     b.HasOne("Fundraising.App.Core.Entities.Member", "Member")
                         .WithMany("Payments")
-                        .HasForeignKey("MemberId1");
+                        .HasForeignKey("MemberId");
 
                     b.HasOne("Fundraising.App.Core.Entities.Reward", "Reward")
                         .WithMany()

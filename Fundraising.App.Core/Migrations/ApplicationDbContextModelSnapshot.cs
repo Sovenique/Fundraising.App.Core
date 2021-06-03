@@ -115,10 +115,7 @@ namespace Fundraising.App.Core.Migrations
                     b.Property<string>("CreditCard")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int?>("MemberId")
-                        .HasColumnType("int");
-
-                    b.Property<string>("MemberId1")
+                    b.Property<string>("MemberId")
                         .HasColumnType("nvarchar(450)");
 
                     b.Property<DateTime>("PaymentDate")
@@ -129,7 +126,7 @@ namespace Fundraising.App.Core.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("MemberId1");
+                    b.HasIndex("MemberId");
 
                     b.HasIndex("RewardId");
 
@@ -338,7 +335,7 @@ namespace Fundraising.App.Core.Migrations
                 {
                     b.HasOne("Fundraising.App.Core.Entities.Member", "Member")
                         .WithMany("Payments")
-                        .HasForeignKey("MemberId1");
+                        .HasForeignKey("MemberId");
 
                     b.HasOne("Fundraising.App.Core.Entities.Reward", "Reward")
                         .WithMany()

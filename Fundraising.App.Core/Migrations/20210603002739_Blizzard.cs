@@ -3,7 +3,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace Fundraising.App.Core.Migrations
 {
-    public partial class Santa : Migration
+    public partial class Blizzard : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -166,7 +166,7 @@ namespace Fundraising.App.Core.Migrations
                         .Annotation("SqlServer:Identity", "1, 1"),
                     Title = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     Description = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    Category = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    Category = table.Column<int>(type: "int", nullable: false),
                     ProjectStatus = table.Column<int>(type: "int", nullable: false),
                     CreatedDate = table.Column<DateTime>(type: "datetime2", nullable: false),
                     AmountGathered = table.Column<decimal>(type: "decimal(18,2)", nullable: false),
@@ -217,15 +217,14 @@ namespace Fundraising.App.Core.Migrations
                     CreditCard = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     PaymentDate = table.Column<DateTime>(type: "datetime2", nullable: false),
                     RewardId = table.Column<int>(type: "int", nullable: true),
-                    MemberId1 = table.Column<string>(type: "nvarchar(450)", nullable: true),
-                    MemberId = table.Column<int>(type: "int", nullable: true)
+                    MemberId = table.Column<string>(type: "nvarchar(450)", nullable: true)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Payments", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_Payments_AspNetUsers_MemberId1",
-                        column: x => x.MemberId1,
+                        name: "FK_Payments_AspNetUsers_MemberId",
+                        column: x => x.MemberId,
                         principalTable: "AspNetUsers",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Restrict);
@@ -277,9 +276,9 @@ namespace Fundraising.App.Core.Migrations
                 filter: "[NormalizedUserName] IS NOT NULL");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Payments_MemberId1",
+                name: "IX_Payments_MemberId",
                 table: "Payments",
-                column: "MemberId1");
+                column: "MemberId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Payments_RewardId",

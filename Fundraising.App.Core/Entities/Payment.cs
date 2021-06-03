@@ -13,7 +13,7 @@ namespace Fundraising.App.Core.Entities
         public virtual Reward Reward { get; set; }
         public int? RewardId { get; set; }
         public virtual Member Member { get; set; }
-        public int? MemberId { get; set; }
+        public string MemberId { get; set; }
         
             
       

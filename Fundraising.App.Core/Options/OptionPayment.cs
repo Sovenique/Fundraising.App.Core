@@ -12,7 +12,7 @@ namespace Fundraising.App.Core.Options
         public Reward Reward { get; set; }
         public int? PackageId { get; set; }
         public Member Member { get; set; }
-        public int? MemberId { get; set; }
+        public string MemberId { get; set; }
         public OptionPayment() { }
 
         public OptionPayment(Payment Payment)

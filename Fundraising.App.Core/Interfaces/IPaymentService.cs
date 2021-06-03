@@ -8,7 +8,7 @@ namespace Fundraising.App.Core.Interfaces
 {
     public interface IPaymentService
     {
-        Task<Result<Payment>> CreatePaymentAsync(OptionPayment optionPayment);
+        Task<Result<Payment>> CreatePaymentAsync(OptionPayment optionPayment, OptionsProject optionsProject, int Id);
         Task<Result<List<Payment>>> GetAllPaymentsAsync();
         Task<Result<Payment>> GetPaymentByIdAsync(int Id);
         Task<Result<int>> DeletePaymentByIdAsync(int Id);

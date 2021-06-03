@@ -6,7 +6,6 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
 using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Threading.Tasks;
 
 namespace Fundraising.App.Core.Services
@@ -15,14 +14,19 @@ namespace Fundraising.App.Core.Services
     {
         private readonly IApplicationDbContext _dbContext;
         private readonly ILogger<PaymentService> _logger;
+        private readonly IProjectService _projectService;
+        private readonly IRewardService _rewardService;
 
-        public PaymentService(IApplicationDbContext dbContext, ILogger<PaymentService> logger)
+        public PaymentService(IApplicationDbContext dbContext, ILogger<PaymentService> logger,
+            IProjectService projectService, IRewardService rewardService)
         {
             _dbContext = dbContext;
             _logger = logger;
+            _projectService = projectService;
+            _rewardService = rewardService;
         }
 
-        public async Task<Result<Payment>> CreatePaymentAsync(OptionPayment optionPayment)
+        public async Task<Result<Payment>> CreatePaymentAsync(OptionPayment optionPayment, OptionsProject optionsProject, int Id)
         {
             if(optionPayment == null)
             {
@@ -33,8 +37,21 @@ namespace Fundraising.App.Core.Services
                 CreditCard = optionPayment.CreditCard,
                 Member = optionPayment.Member,
                 Reward = optionPayment.Reward,
-                PaymentDate = DateTime.Now
+                PaymentDate = DateTime.Now,
+                Amount = optionPayment.Amount
             };
+    
+            var project = _projectService.GetProjectById(Id);
+            var currentAmount = project.AmountGathered;
+            var totalAmount = currentAmount + optionPayment.Amount;
+
+
+            _projectService.UpdateProject(new OptionsProject
+
+            {
+                AmountGathered = totalAmount  
+            
+            }, Id);
 
             await _dbContext.Payments.AddAsync(newPayment);
             try
