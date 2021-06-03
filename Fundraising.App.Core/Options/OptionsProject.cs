@@ -26,6 +26,7 @@ namespace Fundraising.App.Core.Options
                 Id = project.Id;
                 Title = project.Title;
                 Description = project.Description;
+                AmountGathered = project.AmountGathered;
                 Category = project.Category;
                 CreatorId = project.CreatorId;
                 Creator = project.Creator;

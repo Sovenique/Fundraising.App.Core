@@ -8,6 +8,7 @@ using Fundraising.App.Database;
 using Fundraising.App.Web.Services;
 using Fundraising.App.Core.Interfaces;
 using Fundraising.App.Core.Options;
+using System;
 
 namespace Fundraising.App.Web.Controllers
 {
@@ -81,8 +82,9 @@ namespace Fundraising.App.Web.Controllers
                 ViewBag.RewardId = new SelectList(_context.Rewards, "Id", "Id", payment.RewardId).SelectedValue;
                 int tmpId = ViewBag.RewardId;
                 var reward = _rewardService.GetRewardById(tmpId);
-                var projectId = _projectService.GetProjectById(reward.ProjectId);
-                var finalId = projectId.Id;
+                var project = _projectService.GetProjectById(reward.ProjectId);
+                var currentAmount = project.AmountGathered;
+                var finalId = project.Id;
                 
              
                
@@ -92,6 +94,7 @@ namespace Fundraising.App.Web.Controllers
                     Amount = payment.Amount,
                     CreditCard = payment.CreditCard,
                     Reward = payment.Reward,
+                    PaymentDate = DateTime.Now,
                     RewardId = payment.RewardId,
                     MemberId = memberId
                 },  finalId);
