@@ -26,11 +26,11 @@ namespace Fundraising.App.Core.Services
             _rewardService = rewardService;
         }
 
-        public async Task<Result<Payment>> CreatePaymentAsync(OptionPayment optionPayment, int Id)
+        public async Task<Result<OptionPayment>> CreatePaymentAsync(OptionPayment optionPayment, int Id)
         {
-            if(optionPayment == null)
+            if (optionPayment == null)
             {
-                return new Result<Payment>(ErrorCode.BadRequest, "Null option.");
+                return new Result<OptionPayment>(ErrorCode.BadRequest, "Null option.");
             }
             var newPayment = new Payment
             {
@@ -40,7 +40,7 @@ namespace Fundraising.App.Core.Services
                 PaymentDate = DateTime.Now,
                 Amount = optionPayment.Amount
             };
-    
+
             var project = _projectService.GetProjectById(Id);
             var currentAmount = project.AmountGathered;
             var totalAmount = currentAmount + newPayment.Amount;
@@ -49,8 +49,8 @@ namespace Fundraising.App.Core.Services
             _projectService.UpdateProjectAmount(new OptionsProject
 
             {
-                AmountGathered = totalAmount  
-            
+                AmountGathered = totalAmount
+
             }, Id);
 
             await _dbContext.Payments.AddAsync(newPayment);
@@ -61,22 +61,22 @@ namespace Fundraising.App.Core.Services
             catch (Exception ex)
             {
                 _logger.LogError(ex.Message);
-                return new Result<Payment>(ErrorCode.InternalServerError, "Could not save reward.");
+                return new Result<OptionPayment>(ErrorCode.InternalServerError, "Could not save reward.");
             }
-            return new Result<Payment>
+            return new Result<OptionPayment>
             {
-                Data = newPayment
+                Data = new OptionPayment(newPayment)
             };
         }
 
         public async Task<Result<int>> DeletePaymentByIdAsync(int Id)
         {
-            var paymentToDelete = await GetPaymentByIdAsync(Id);
-            if (paymentToDelete.Error != null || paymentToDelete.Data == null)
+            var paymentToDelete = await _dbContext.Payments.SingleOrDefaultAsync(payment => payment.Id == Id);
+            if (paymentToDelete == null)
             {
                 return new Result<int>(ErrorCode.NotFound, $"Payment with id #{Id} not found.");
             }
-            _dbContext.Payments.Remove(paymentToDelete.Data);
+            _dbContext.Payments.Remove(paymentToDelete);
             try
             {
                 await _dbContext.SaveChangesAsync();
@@ -92,32 +92,37 @@ namespace Fundraising.App.Core.Services
             };
         }
 
-        public async Task<Result<List<Payment>>> GetAllPaymentsAsync()
+        public async Task<Result<List<OptionPayment>>> GetAllPaymentsAsync()
         {
             var payments = await _dbContext.Payments.ToListAsync();
+            List<OptionPayment> optionPayments = new();
 
-            return new Result<List<Payment>>
+            payments.ForEach(payment =>
+                optionPayments.Add(new OptionPayment(payment))
+            );
+
+            return new Result<List<OptionPayment>>
             {
-                Data = payments.Count > 0 ? payments : new List<Payment>()
+                Data = payments.Count > 0 ? optionPayments : new List<OptionPayment>()
             };
         }
 
-        public async Task<Result<Payment>> GetPaymentByIdAsync(int Id)
+        public async Task<Result<OptionPayment>> GetPaymentByIdAsync(int Id)
         {
             if (Id <= 0)
             {
-                return new Result<Payment>(ErrorCode.BadRequest, "Invalid ID.");
+                return new Result<OptionPayment>(ErrorCode.BadRequest, "Invalid ID.");
             }
             var payment = await _dbContext
                 .Payments
                 .SingleOrDefaultAsync(cus => cus.Id == Id);
             if (payment == null)
             {
-                return new Result<Payment>(ErrorCode.NotFound, $"Project with id : #{Id} not found");
+                return new Result<OptionPayment>(ErrorCode.NotFound, $"Project with id : #{Id} not found");
             }
-            return new Result<Payment>
+            return new Result<OptionPayment>
             {
-                Data = payment
+                Data = new OptionPayment(payment)
             };
         }
 
