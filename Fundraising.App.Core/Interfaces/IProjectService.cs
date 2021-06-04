@@ -22,11 +22,11 @@ namespace Fundraising.App.Core.Interfaces
         Task<Result<Project>> GetProjectByCreatorIdAsync(string CreatorId);
         // UPDATE
         public OptionsProject UpdateProject(OptionsProject optionsProject, int Id);
-        Task<Result<Project>> UpdateProjectAsync(OptionsProject optionsProject, string CreatorId);
+        Task<Result<Project>> UpdateProjectAsync(OptionsProject optionsProject, int id);
 
         // DELETE
         public bool DeleteProject(int Id);
-        Task<Result<string>> DeleteProjectAsync(string CreatorId);
+        Task<Result<int>> DeleteProjectAsync(int id);
 
         public OptionsProject UpdateProjectAmount(OptionsProject optionsProject, int Id);
     }

@@ -227,7 +227,7 @@ namespace Fundraising.App.Core.Services
         }
         public async Task<Result<Project>> UpdateProjectAsync(OptionsProject optionsProject , int id)
         {
-            var projectToUpdate = await _dbContext.Projects.SingleOrDefaultAsync(proj => proj.id == id);
+            var projectToUpdate = await _dbContext.Projects.SingleOrDefaultAsync(proj => proj.Id == id);
             if ( projectToUpdate == null)
             {
                 return new Result<Project>(ErrorCode.NotFound, $"Project with id #{id} not found.");
