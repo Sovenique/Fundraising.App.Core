@@ -40,8 +40,8 @@ namespace Fundraising.App.Web.Controllers
         // GET: Payments
         public async Task<IActionResult> Index()
         {
-            var applicationDbContext = _context.Payments.Include(p => p.Reward);
-            return View(await applicationDbContext.ToListAsync());
+            var allPayments = await _paymentService.GetAllPaymentsAsync();
+            return View(allPayments.Data);
         }
 
         // GET: Payments/Details/5
