@@ -1,9 +1,13 @@
 ﻿using Fundraising.App.Core.Entities;
 using Fundraising.App.Core.Interfaces;
+using Fundraising.App.Core.Models;
 using Fundraising.App.Core.Options;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Logging;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
 
 namespace Fundraising.App.Core.Services
 {
@@ -11,10 +15,11 @@ namespace Fundraising.App.Core.Services
     {
 
         private readonly IApplicationDbContext _dbContext;
-
-        public ProjectService(IApplicationDbContext dbContext)
+        private readonly ILogger<ProjectService> _logger;
+        public ProjectService(IApplicationDbContext dbContext, ILogger<ProjectService> logger)
         {
             _dbContext = dbContext;
+            _logger = logger;
         }
 
         // CREATE
@@ -38,6 +43,49 @@ namespace Fundraising.App.Core.Services
 
             return new OptionsProject(project);
         }
+        public async Task<Result<Project>> CreateProjectAsync(OptionsProject optionsProject)
+        {
+            if (optionsProject == null)
+            {
+                return new Result<Project>(ErrorCode.BadRequest, "Null options.");
+            }
+            if (string.IsNullOrWhiteSpace(optionsProject.Creator.ToString()) ||
+               string.IsNullOrWhiteSpace(optionsProject.Description) ||
+               string.IsNullOrWhiteSpace(optionsProject.AmountGathered.ToString()) ||
+               string.IsNullOrWhiteSpace(optionsProject.TargetAmount.ToString()) ||
+               string.IsNullOrWhiteSpace(optionsProject.Category.ToString()))
+            {
+                return new Result<Project>(ErrorCode.BadRequest, "Not all required project options provided.");
+            }
+            if (optionsProject.TargetAmount >= 0)
+            {
+                return new Result<Project>(ErrorCode.BadRequest, "Invalid Target Amount number.");
+            }
+            var newProject = new Project
+            {
+                Title = optionsProject.Title,
+                Description = optionsProject.Description,
+                CreatedDate = DateTime.Now,
+                Category = optionsProject.Category,
+                TargetAmount = optionsProject.TargetAmount,
+                CreatorId = optionsProject.CreatorId
+            };
+            await _dbContext.Projects.AddAsync(newProject);
+            try
+            {
+                await _dbContext.SaveChangesAsync();
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex.Message);
+
+                return new Result<Project>(ErrorCode.InternalServerError, "Could not save project.");
+            }
+            return new Result<Project>
+            {
+                Data = newProject
+            };
+        }
 
         // DELETE
         // --------------------------------------------------------
@@ -51,6 +99,31 @@ namespace Fundraising.App.Core.Services
 
         }
 
+        public async Task<Result<int>> DeleteProjectAsync(int id)
+        {
+            var projectToDelete = await GetProjectByIdAsync(id);
+            if (projectToDelete.Error != null || projectToDelete.Data == null)
+            {
+                return new Result<int>(ErrorCode.NotFound, $"Project with id #{id} not found.");
+            }
+            _dbContext.Projects.Remove(projectToDelete.Data);
+            try
+            {
+                await _dbContext.SaveChangesAsync();
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex.Message);
+
+                return new Result<int>(ErrorCode.InternalServerError, "Could not delete project.");
+            }
+            return new Result<int>
+            {
+                Data = id
+            };
+        }
+
+
         // READ / ALL
         // --------------------------------------------------------
         public List<OptionsProject> GetAllProjects()
@@ -59,6 +132,16 @@ namespace Fundraising.App.Core.Services
             List<OptionsProject> optionsProject = new();
             projects.ForEach(project => optionsProject.Add(new OptionsProject(project)));
             return optionsProject;
+        }
+
+        public async Task<Result<List<Project>>> GetAllProjectsAsync()
+        {
+            var projects = await _dbContext.Projects.ToListAsync();
+
+            return new Result<List<Project>>
+            {
+                Data = projects.Count > 0 ? projects : new List<Project>()
+            };
         }
 
         // READ / BY ID
@@ -71,6 +154,24 @@ namespace Fundraising.App.Core.Services
                 return null;
             }
             return new OptionsProject(project);
+        }
+        public async Task<Result<Project>> GetProjectByIdAsync(int id)
+        {
+            if (id <0)
+            {
+                return new Result<Project>(ErrorCode.BadRequest, "CreatorId cannot be null.");
+            }
+            var project = await _dbContext
+               .Projects
+               .SingleOrDefaultAsync(pro => pro.Id == id);
+            if (project == null)
+            {
+                return new Result<Project>(ErrorCode.NotFound, $"Product with CreatorId #{id} not found.");
+            }
+            return new Result<Project>
+            {
+                Data = project
+            };
         }
 
         // READ / BY CREATOR ID
@@ -85,6 +186,25 @@ namespace Fundraising.App.Core.Services
 
             return optionProjects;
 
+        }
+
+        public async Task<Result<Project>> GetProjectByCreatorIdAsync(string CreatorId)
+        {
+            if (CreatorId == null)
+            {
+                return new Result<Project>(ErrorCode.BadRequest, "CreatorId cannot be null.");
+            }
+            var project = await _dbContext
+               .Projects
+               .SingleOrDefaultAsync(pro => pro.CreatorId == CreatorId);
+            if (project == null)
+            {
+                return new Result<Project>(ErrorCode.NotFound, $"Product with CreatorId #{CreatorId} not found.");
+            }
+            return new Result<Project>
+            {
+                Data = project
+            };
         }
 
         // UPDATE
@@ -103,6 +223,34 @@ namespace Fundraising.App.Core.Services
 
             _dbContext.SaveChanges();
             return new OptionsProject(dbContextProject);
+
+        }
+        public async Task<Result<Project>> UpdateProjectAsync(OptionsProject optionsProject , int id)
+        {
+            var projectToUpdate = await _dbContext.Projects.SingleOrDefaultAsync(proj => proj.id == id);
+            if ( projectToUpdate == null)
+            {
+                return new Result<Project>(ErrorCode.NotFound, $"Project with id #{id} not found.");
+            }
+            projectToUpdate.Title = optionsProject.Title;
+            projectToUpdate.Creator = optionsProject.Creator;
+            projectToUpdate.Description = optionsProject.Description;
+            projectToUpdate.AmountGathered = optionsProject.AmountGathered;
+            projectToUpdate.Category = optionsProject.Category;
+            try
+            {
+                await _dbContext.SaveChangesAsync();
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex.Message);
+
+                return new Result<Project>(ErrorCode.InternalServerError, "Could not save project.");
+            }
+            return new Result<Project>
+            {
+                Data = projectToUpdate
+            };
 
         }
 
