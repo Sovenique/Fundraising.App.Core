@@ -10,19 +10,19 @@ namespace Fundraising.App.Core.Interfaces
     {
         // CREATE
         public OptionsProject CreateProject(OptionsProject optionProject);
-        Task<Result<Project>> CreateProjectAsync(OptionsProject optionsProject);
+        Task<Result<OptionsProject>> CreateProjectAsync(OptionsProject optionsProject);
         // READ ALL
         public List<OptionsProject> GetAllProjects();
-        Task<Result<List<Project>>> GetAllProjectsAsync();
+        Task<Result<List<OptionsProject>>> GetAllProjectsAsync();
         // READ BY ID
         public OptionsProject GetProjectById(int Id);
-        Task<Result<Project>> GetProjectByIdAsync(int id);
+        Task<Result<OptionsProject>> GetProjectByIdAsync(int id);
         // READ BY CREATOR ID
         public List<OptionsProject> GetProjectByCreatorId(string CreatorId);
-        Task<Result<Project>> GetProjectByCreatorIdAsync(string CreatorId);
+        Task<Result<OptionsProject>> GetProjectByCreatorIdAsync(string CreatorId);
         // UPDATE
         public OptionsProject UpdateProject(OptionsProject optionsProject, int Id);
-        Task<Result<Project>> UpdateProjectAsync(OptionsProject optionsProject, int id);
+        Task<Result<OptionsProject>> UpdateProjectAsync(OptionsProject optionsProject, int id);
 
         // DELETE
         public bool DeleteProject(int Id);
