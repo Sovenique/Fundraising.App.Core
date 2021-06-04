@@ -3,7 +3,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace Fundraising.App.Core.Migrations
 {
-    public partial class Blizzard : Migration
+    public partial class one : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -171,6 +171,7 @@ namespace Fundraising.App.Core.Migrations
                     CreatedDate = table.Column<DateTime>(type: "datetime2", nullable: false),
                     AmountGathered = table.Column<decimal>(type: "decimal(18,2)", nullable: false),
                     TargetAmount = table.Column<decimal>(type: "decimal(18,2)", nullable: false),
+                    ProjectImage = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     CreatorId = table.Column<string>(type: "nvarchar(450)", nullable: true)
                 },
                 constraints: table =>

@@ -8,6 +8,7 @@ using Fundraising.App.Web.Services;
 using System.Linq;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.AspNetCore.Mvc.Rendering;
+using System;
 
 namespace Fundraising.App.Web.Controllers
 {
@@ -88,8 +89,10 @@ namespace Fundraising.App.Web.Controllers
                     Title = reward.Title,
                     Description = reward.Description,
                     Value = reward.Value,
-                    ProjectId = reward.ProjectId
+                    ProjectId = reward.ProjectId,
+                    CreatedDate = DateTime.Now
                 });
+                return RedirectToAction(nameof(Index));
             }
             return View(reward);
         }

@@ -10,8 +10,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Fundraising.App.Core.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20210603002739_Blizzard")]
-    partial class Blizzard
+    [Migration("20210604002339_one")]
+    partial class one
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -155,6 +155,9 @@ namespace Fundraising.App.Core.Migrations
                         .HasColumnType("nvarchar(450)");
 
                     b.Property<string>("Description")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("ProjectImage")
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<int>("ProjectStatus")
