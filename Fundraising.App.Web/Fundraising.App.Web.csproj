@@ -27,4 +27,8 @@
     <ProjectReference Include="..\Fundraising.App.Core\Fundraising.App.Core.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="wwwroot\Images\" />
+  </ItemGroup>
+
 </Project>

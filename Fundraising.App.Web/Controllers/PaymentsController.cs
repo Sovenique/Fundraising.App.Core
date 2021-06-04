@@ -79,7 +79,7 @@ namespace Fundraising.App.Web.Controllers
         {
             if (ModelState.IsValid)
             {
-                var memberId = _currentUserService.UserId;
+              
             
                 ViewBag.RewardId = new SelectList(_context.Rewards, "Id", "Id", payment.RewardId).SelectedValue;
                 int tmpId = ViewBag.RewardId;
@@ -93,13 +93,13 @@ namespace Fundraising.App.Web.Controllers
                await _paymentService.CreatePaymentAsync(new OptionPayment
                 {
                     Id = payment.Id,
-                    Amount = payment.Amount,
+                    Amount = reward.Value,
                     CreditCard = payment.CreditCard,
                     Reward = payment.Reward,
                     PaymentDate = DateTime.Now,
                     RewardId = payment.RewardId,
-                    MemberId = memberId
-                },  finalId);
+                    MemberId = _currentUserService.UserId
+            },  finalId);
 
 
           

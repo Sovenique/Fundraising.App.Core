@@ -28,7 +28,8 @@ namespace Fundraising.App.Core.Services
                 Title = optionReward.Title,
                 Description = optionReward.Description,
                 Value = optionReward.Value,
-                ProjectId = optionReward.ProjectId
+                ProjectId = optionReward.ProjectId,
+                CreatedDate = optionReward.CreatedDate
 
             };
 
