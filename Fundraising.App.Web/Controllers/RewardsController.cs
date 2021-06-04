@@ -9,6 +9,8 @@ using System.Linq;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using System;
+using Microsoft.Extensions.Logging;
+using Fundraising.App.Core.Services;
 
 namespace Fundraising.App.Web.Controllers
 {
@@ -18,18 +20,22 @@ namespace Fundraising.App.Web.Controllers
 
         private readonly ICurrentUserService _currentUserService;
         private readonly IApplicationDbContext _context;
+        private readonly ILogger<PaymentService> _logger;
         private readonly IRewardService _rewardService;
         private readonly IProjectService _projectService;
 
 
-        public RewardsController(ICurrentUserService currentUserService,
-                  IApplicationDbContext context,
-                  IRewardService rewardService,
-                  IProjectService projectService)
-
+        public RewardsController(
+            ICurrentUserService currentUserService,
+            ILogger<PaymentService> logger,
+            IApplicationDbContext context,
+            IRewardService rewardService,
+            IProjectService projectService
+            )
         {
             _currentUserService = currentUserService;
             _context = context;
+            _logger = logger;
             _rewardService = rewardService;
             _projectService = projectService;
         }
@@ -187,5 +193,9 @@ namespace Fundraising.App.Web.Controllers
             return _context.Rewards.Any(e => e.Id == id);
         }
     }
+
+
+
+
 }
 
