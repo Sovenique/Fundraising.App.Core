@@ -36,22 +36,17 @@ namespace Fundraising.App.Web.Controllers
         // GET: Projects
         public async Task<IActionResult> Index()
         {
-            var applicationDbContext = _context.Projects.Include(p => p.Creator);
-            return View(await applicationDbContext.ToListAsync());
+            //var applicationDbContext = _context.Projects.Include(p => p.Creator);
+            //return View(await applicationDbContext.ToListAsync());
+            var result = await _projectService.GetAllProjectsAsync();
+            return View(result.Data);
         }
         [HttpGet]
         public async Task<IActionResult> Index(string projectSearch)
         {
             ViewData["ProjectDetails"] = projectSearch;
-
-            var projectQuery = from x in _context.Projects select x;
-
-            if(!String.IsNullOrEmpty(projectSearch))
-            {
-                projectQuery = projectQuery.Where(x => x.Title
-                .Contains(projectSearch));
-            }
-            return View(await projectQuery.AsNoTracking().ToListAsync());
+            var result =  await _projectService.GetProjectsSearchByTitleAsync(projectSearch);
+            return View(result.Data);
 
         }
 

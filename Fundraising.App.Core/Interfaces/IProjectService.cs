@@ -28,6 +28,7 @@ namespace Fundraising.App.Core.Interfaces
         public bool DeleteProject(int Id);
         Task<Result<int>> DeleteProjectAsync(int id);
 
+        Task<Result<List<OptionsProject>>> GetProjectsSearchByTitleAsync(string title_search);
         public OptionsProject UpdateProjectAmount(OptionsProject optionsProject, int Id);
     }
 }

@@ -271,6 +271,31 @@ namespace Fundraising.App.Core.Services
             return new OptionsProject(dbContextProject);
 
         }
+
+        // SEARCH BY TITLE
+        // --------------------------------------------------------
+        public async Task<Result<List<OptionsProject>>> GetProjectsSearchByTitleAsync(string title_search)
+        {
+            if(String.IsNullOrEmpty(title_search))
+            {
+                var AllProjects = await GetAllProjectsAsync();
+                return new Result<List<OptionsProject>>
+                {
+                    Data = AllProjects.Data.Count > 0 ? AllProjects.Data : new List<OptionsProject>()
+                };
+            }
+            var projects = await _dbContext.Projects.ToListAsync();
+            var result_projects = projects.Where(x => x.Title.Contains(title_search)).ToList();
+            List<OptionsProject> optionsProjects = new();
+
+            result_projects.ForEach(project =>
+                optionsProjects.Add(new OptionsProject(project))
+            );
+            return new Result<List<OptionsProject>>
+            {
+                Data = optionsProjects.Count > 0 ? optionsProjects : new List<OptionsProject>()
+            };
+        }
     }
 }
 
