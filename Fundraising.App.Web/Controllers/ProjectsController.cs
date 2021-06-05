@@ -9,6 +9,8 @@ using Fundraising.App.Web.Services;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using System.Linq;
+using Microsoft.AspNetCore.Http;
+using System.IO;
 
 namespace Fundraising.App.Web.Controllers
 {
@@ -91,10 +93,16 @@ namespace Fundraising.App.Web.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Id,Title,Description,CreatedDate,Category,AmountGathered,TargetAmount,CreatorId")] Project project)
+        public async Task<IActionResult> Create([Bind("Id,Title,Description,CreatedDate,Category,AmountGathered,TargetAmount,CreatorId")] Project project, [Bind("file")] IFormFile file)
         {
             if (ModelState.IsValid)
             {
+                var filePath = Path.Combine(Directory.GetCurrentDirectory(), @"wwwroot\ProjectImages", file.FileName);
+                using (var stream = new FileStream(filePath,
+                FileMode.Create))
+                {
+                    await file.CopyToAsync(stream);
+                }
 
                 _projectService.CreateProject(new OptionsProject
 
@@ -104,7 +112,8 @@ namespace Fundraising.App.Web.Controllers
                     Category = project.Category,
                     CreatedDate = DateTime.Now,
                     TargetAmount = project.TargetAmount,
-                    CreatorId = _currentUserService.UserId
+                    CreatorId = _currentUserService.UserId,
+                    ImagePath = file.FileName
                 });
 
                 return RedirectToAction(nameof(Index));

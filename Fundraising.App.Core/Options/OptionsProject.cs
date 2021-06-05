@@ -17,6 +17,7 @@ namespace Fundraising.App.Core.Options
         public DateTime CreatedDate { get; set; }
         public decimal AmountGathered { get; set; }
         public decimal TargetAmount { get; set; }
+        public string ImagePath { get; set; }
         public List<Reward> Rewards { get; set; }
 
         public OptionsProject() { }
@@ -34,6 +35,7 @@ namespace Fundraising.App.Core.Options
                 Creator = project.Creator;
                 TargetAmount = project.TargetAmount;
                 Rewards = project.Rewards;
+                ImagePath = project.ImagePath;
             }
 
         }

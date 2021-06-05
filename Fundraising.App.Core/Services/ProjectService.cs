@@ -35,7 +35,8 @@ namespace Fundraising.App.Core.Services
                 CreatedDate = DateTime.Now,
                 Category = optionProject.Category,
                 TargetAmount = optionProject.TargetAmount,
-                CreatorId = optionProject.CreatorId
+                CreatorId = optionProject.CreatorId,
+                ImagePath = optionProject.ImagePath
             };
 
             _dbContext.Projects.Add(project);
@@ -68,7 +69,8 @@ namespace Fundraising.App.Core.Services
                 CreatedDate = DateTime.Now,
                 Category = optionsProject.Category,
                 TargetAmount = optionsProject.TargetAmount,
-                CreatorId = optionsProject.CreatorId
+                CreatorId = optionsProject.CreatorId,
+                ImagePath = optionProject.ImagePath
             };
             await _dbContext.Projects.AddAsync(newProject);
             try
