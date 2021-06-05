@@ -70,7 +70,7 @@ namespace Fundraising.App.Core.Services
                 Category = optionsProject.Category,
                 TargetAmount = optionsProject.TargetAmount,
                 CreatorId = optionsProject.CreatorId,
-                ImagePath = optionProject.ImagePath
+                ImagePath = optionsProject.ImagePath
             };
             await _dbContext.Projects.AddAsync(newProject);
             try
