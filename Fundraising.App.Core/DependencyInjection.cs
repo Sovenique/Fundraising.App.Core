@@ -17,7 +17,8 @@ namespace Fundraising.App.Core
                 services.AddScoped<IProjectService, ProjectService>();
                 services.AddScoped<IRewardService, RewardService>();
                 services.AddScoped<IPaymentService, PaymentService>();
-            services.AddIdentity<Member, IdentityRole>()
+                services.AddScoped<IMemberService, MemberService>();
+                services.AddIdentity<Member, IdentityRole>()
                        .AddClaimsPrincipalFactory<UserClaimsPrincipalFactory<Member, IdentityRole>>()
                        .AddEntityFrameworkStores<ApplicationDbContext>()
                        .AddDefaultTokenProviders()

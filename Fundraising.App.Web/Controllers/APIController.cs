@@ -15,30 +15,81 @@ namespace Fundraising.App.Web.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class ProjectsAPIController : ControllerBase
+    public class APIController : ControllerBase
     {
         private readonly IApplicationDbContext _context;
         private readonly IProjectService _projectService;
+        private readonly IRewardService _rewardService; 
+        private readonly IPaymentService _paymentService;
+        private readonly IMemberService _memberService;
         private readonly ICurrentUserService _currentUserService;
 
-        public ProjectsAPIController(
+        public APIController(
             IApplicationDbContext context,
             ICurrentUserService currentUserService,
-            IProjectService projectService
+            IProjectService projectService,
+            IRewardService rewardService,
+            IPaymentService paymentService,
+            IMemberService memberService
             )
         {
             _context = context;
+            _currentUserService = currentUserService;
             _projectService = projectService;
-            _projectService = projectService;
+            _rewardService = rewardService;
+            _paymentService = paymentService;
+            _memberService = memberService;
         }
 
-        // GET: api/ProjectsAPI
-        [HttpGet]
+        // GET: /api/API/GetProjects
+        [HttpGet("GetProjects")]
         public async Task<ActionResult<IEnumerable<OptionsProject>>> GetProjects()
         {
             var AllProjects = await _projectService.GetAllProjectsAsync();
             return AllProjects.Data;
         }
+
+        // GET: /api/API/GetProjectByCreatorId
+        [HttpGet("GetProjectByCreatorId")]
+        public async Task<ActionResult<List<OptionsProject>>> GetProjectByCreatorId()
+        {
+            string creatorId = _currentUserService.UserId;
+            var AllProjects = await _projectService.GetProjectByCreatorIdAsync(creatorId);
+            return AllProjects.Data;
+        }
+
+        // GET: /api/API/GetPaymentsOfProjects
+        [HttpGet("GetPaymentsOfProjects")]
+        public ActionResult<IEnumerable<ProjectPayments>> GetPaymentsOfProjects()
+        {
+            var members = _memberService.GetAllMembers();
+            var payments = _paymentService.GetAllPayments();
+            return new[]
+            {
+                new ProjectPayments {
+                    ProjectName = "project1",
+                    MemberEmail = "vasilas.cei@gmail.com" ,
+                    Value = 100,
+                    Date = DateTime.Now
+                },
+                new ProjectPayments {
+                    ProjectName = "project2",
+                    MemberEmail = "vasilas.cei@gmail.com" ,
+                    Value = 200,
+                    Date = DateTime.Now
+                }
+            };
+        }
+
+        public class ProjectPayments
+        {
+            public string ProjectName { get; set; }
+            public string MemberEmail { get; set; }
+            public decimal Value { get; set; }
+            public DateTime Date { get; set; }
+
+        }
+
 
         // GET: api/ProjectsAPI/5
         [HttpGet("{id}")]

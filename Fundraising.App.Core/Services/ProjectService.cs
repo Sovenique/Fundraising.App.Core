@@ -194,22 +194,28 @@ namespace Fundraising.App.Core.Services
 
         }
 
-        public async Task<Result<OptionsProject>> GetProjectByCreatorIdAsync(string CreatorId)
+        public async Task<Result<List<OptionsProject>>> GetProjectByCreatorIdAsync(string CreatorId)
         {
             if (CreatorId == null)
             {
-                return new Result<OptionsProject>(ErrorCode.BadRequest, "CreatorId cannot be null.");
+                return new Result<List<OptionsProject>>(ErrorCode.BadRequest, "CreatorId cannot be null.");
             }
-            var project = await _dbContext
+            var projects =  _dbContext
                .Projects
-               .SingleOrDefaultAsync(pro => pro.CreatorId == CreatorId);
-            if (project == null)
+               .Where(pro => pro.CreatorId == CreatorId);
+            if (projects == null)
             {
-                return new Result<OptionsProject>(ErrorCode.NotFound, $"Product with CreatorId #{CreatorId} not found.");
+                return new Result<List<OptionsProject>>(ErrorCode.NotFound, $"Product with CreatorId #{CreatorId} not found.");
             }
-            return new Result<OptionsProject>
+
+            List<OptionsProject> optionsProjects = new();
+            await projects.ForEachAsync(project=>
+                optionsProjects.Add(new OptionsProject(project))
+            );
+
+            return new Result<List<OptionsProject>>
             {
-                Data = new OptionsProject(project)
+                Data = optionsProjects
             };
         }
 

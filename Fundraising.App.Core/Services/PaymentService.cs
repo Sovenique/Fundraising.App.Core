@@ -7,6 +7,7 @@ using Microsoft.Extensions.Logging;
 using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
+using System.Linq;
 
 namespace Fundraising.App.Core.Services
 {
@@ -38,7 +39,9 @@ namespace Fundraising.App.Core.Services
                 Member = optionPayment.Member,
                 Reward = optionPayment.Reward,
                 PaymentDate = DateTime.Now,
-                Amount = optionPayment.Amount
+                Amount = optionPayment.Amount,
+                MemberId = optionPayment.MemberId,
+                RewardId = optionPayment.RewardId
             };
 
             var project = _projectService.GetProjectById(Id);
@@ -105,6 +108,16 @@ namespace Fundraising.App.Core.Services
             {
                 Data = payments.Count > 0 ? optionPayments : new List<OptionPayment>()
             };
+        }
+
+        public List<OptionPayment> GetAllPayments()
+        {
+            var payments = _dbContext.Payments.ToList();
+            List<OptionPayment> optionPayments = new();
+            payments.ForEach(payment =>
+                optionPayments.Add(new OptionPayment(payment))
+            );
+            return optionPayments;
         }
 
         public async Task<Result<OptionPayment>> GetPaymentByIdAsync(int Id)

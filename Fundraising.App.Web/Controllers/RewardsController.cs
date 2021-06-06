@@ -73,7 +73,7 @@ namespace Fundraising.App.Web.Controllers
             var Id = _currentUserService.UserId;
             var projects = _projectService.GetAllProjects();
             var currentProjects = projects.Where(x => x.CreatorId == Id).ToList();
-            ViewBag.ProjectId = new SelectList(currentProjects, "Id", "Id");
+            ViewBag.ProjectId = new SelectList(currentProjects, "Id", "Title");
             return View();
         }
 
@@ -86,7 +86,7 @@ namespace Fundraising.App.Web.Controllers
             var projects = _projectService.GetAllProjects();
             var currentProjects = projects.Where(x => x.CreatorId == Id).ToList();
 
-            ViewBag.ProjectId = new SelectList(currentProjects, "Id", "Id" ,reward.Id);
+            ViewBag.ProjectId = new SelectList(currentProjects, "Id", "Title");
 
             if (ModelState.IsValid)
             {

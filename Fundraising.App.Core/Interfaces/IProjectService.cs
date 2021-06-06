@@ -19,7 +19,7 @@ namespace Fundraising.App.Core.Interfaces
         Task<Result<OptionsProject>> GetProjectByIdAsync(int id);
         // READ BY CREATOR ID
         public List<OptionsProject> GetProjectByCreatorId(string CreatorId);
-        Task<Result<OptionsProject>> GetProjectByCreatorIdAsync(string CreatorId);
+        Task<Result<List<OptionsProject>>> GetProjectByCreatorIdAsync(string CreatorId);
         // UPDATE
         public OptionsProject UpdateProject(OptionsProject optionsProject, int Id);
         Task<Result<OptionsProject>> UpdateProjectAsync(OptionsProject optionsProject, int id);
