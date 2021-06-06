@@ -26,9 +26,9 @@
 <table class="table">
     <thead>
         <tr>
-            <th>
+            @*<th>
                 @Html.DisplayNameFor(model => model.ImagePath)
-            </th>
+            </th>*@
             <th>
                 Image
             </th>
@@ -59,11 +59,11 @@
     <tbody>
 @foreach (var item in Model) {
         <tr>
-            <td>
+            @*<td>
                 @Html.DisplayFor(modelItem => item.ImagePath)
-            </td>
+            </td>*@
             <td>
-                <img src="./ProjectImages/@item.ImagePath" width="40" height="40">
+                <img src="./ProjectImages/@item.ImagePath" width="80" height="80">
             </td>
             <td>
                 @Html.DisplayFor(modelItem => item.Title)

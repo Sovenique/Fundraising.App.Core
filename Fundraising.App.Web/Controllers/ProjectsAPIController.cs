@@ -8,6 +8,8 @@ using Microsoft.EntityFrameworkCore;
 using Fundraising.App.Core.Entities;
 using Fundraising.App.Database;
 using Fundraising.App.Core.Interfaces;
+using Fundraising.App.Web.Services;
+using Fundraising.App.Core.Options;
 
 namespace Fundraising.App.Web.Controllers
 {
@@ -16,17 +18,26 @@ namespace Fundraising.App.Web.Controllers
     public class ProjectsAPIController : ControllerBase
     {
         private readonly IApplicationDbContext _context;
+        private readonly IProjectService _projectService;
+        private readonly ICurrentUserService _currentUserService;
 
-        public ProjectsAPIController(IApplicationDbContext context)
+        public ProjectsAPIController(
+            IApplicationDbContext context,
+            ICurrentUserService currentUserService,
+            IProjectService projectService
+            )
         {
             _context = context;
+            _projectService = projectService;
+            _projectService = projectService;
         }
 
         // GET: api/ProjectsAPI
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<Project>>> GetProjects()
+        public async Task<ActionResult<IEnumerable<OptionsProject>>> GetProjects()
         {
-            return await _context.Projects.ToListAsync();
+            var AllProjects = await _projectService.GetAllProjectsAsync();
+            return AllProjects.Data;
         }
 
         // GET: api/ProjectsAPI/5
