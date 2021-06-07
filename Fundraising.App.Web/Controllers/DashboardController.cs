@@ -39,10 +39,12 @@ namespace Fundraising.App.Web.Controllers
         {
             List<OptionsProject> userOptionProjects = _projectService.GetProjectByCreatorId(_currentUserService.UserId);
             List<OptionsProject> optionProjects = _projectService.GetAllProjects();
+            var myProjects = _projectService.GetMyBackedProjectsAsync(_currentUserService.UserId);
             
             ViewData["User"] = _currentUserService;
             ViewData["UserOptionProjects"] = userOptionProjects;
             ViewData["OptionProjects"] = optionProjects;
+            ViewData["myProjects"] = myProjects;
 
             return View();
         }

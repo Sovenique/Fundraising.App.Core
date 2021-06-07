@@ -30,5 +30,7 @@ namespace Fundraising.App.Core.Interfaces
 
         Task<Result<List<OptionsProject>>> GetProjectsSearchByTitleAsync(string title_search);
         public OptionsProject UpdateProjectAmount(OptionsProject optionsProject, int Id);
+
+        Task<Result<List<OptionsProject>>> GetMyBackedProjectsAsync(string UserId);
     }
 }

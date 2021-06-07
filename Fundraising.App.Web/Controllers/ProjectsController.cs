@@ -246,8 +246,6 @@ namespace Fundraising.App.Web.Controllers
 
 
 
-
-
         public enum ProjectStatus
         {
             ON_HOLD,

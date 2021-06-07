@@ -1,4 +1,5 @@
-﻿using Fundraising.App.Core.Entities;
+﻿using AutoMapper;
+using Fundraising.App.Core.Entities;
 using Fundraising.App.Core.Interfaces;
 using Fundraising.App.Core.Models;
 using Fundraising.App.Core.Options;
@@ -16,10 +17,13 @@ namespace Fundraising.App.Core.Services
 
         private readonly IApplicationDbContext _dbContext;
         private readonly ILogger<ProjectService> _logger;
-        public ProjectService(IApplicationDbContext dbContext, ILogger<ProjectService> logger)
+        private readonly IMapper _mapper;
+        public ProjectService(IApplicationDbContext dbContext, ILogger<ProjectService> logger,
+            IMapper mapper)
         {
             _dbContext = dbContext;
             _logger = logger;
+            _mapper = mapper;
         }
 
         // CREATE
@@ -303,6 +307,34 @@ namespace Fundraising.App.Core.Services
             };
         }
 
+        public async Task<Result<List<OptionsProject>>> GetMyBackedProjectsAsync(string UserId)
+        {
+
+            if (UserId == null)
+            {
+                return new Result<List<OptionsProject>>(ErrorCode.BadRequest, "User cannot be null.");
+            }
+            var projects = _dbContext
+               .Projects
+               .Where(x => x.CreatorId == UserId);
+            if (projects == null)
+            {
+                return new Result<List<OptionsProject>>(ErrorCode.NotFound, $"There are no projects created with this account");
+            }
+            
+            var payments = await _dbContext.Payments.ToListAsync();
+            List<Reward> rewards = new();
+            List<Project> backedProjects = new();
+            var result_payments = payments.Where(x => x.MemberId == UserId).ToList();
+            result_payments.ForEach(x => rewards.Add(_dbContext.Rewards.Find(x.RewardId)));
+            rewards.ForEach(x => backedProjects.Add(_dbContext.Projects.Find(x.ProjectId)));
+
+            return new Result<List<OptionsProject>>
+            {
+                Data = _mapper.Map<List<OptionsProject>>(backedProjects)
+            };
+
+        }
 
     }
 }
