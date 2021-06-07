@@ -25,6 +25,7 @@ namespace Fundraising.App.Web
             services.AddSingleton<ICurrentUserService, CurrentUserService>();
             services.AddHttpContextAccessor();
             services.AddControllersWithViews();
+            services.AddAutoMapper(typeof(Startup));
 
         }
 
