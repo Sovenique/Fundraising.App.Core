@@ -10,6 +10,7 @@ using Fundraising.App.Database;
 using Fundraising.App.Core.Interfaces;
 using Fundraising.App.Web.Services;
 using Fundraising.App.Core.Options;
+using System.Diagnostics;
 
 namespace Fundraising.App.Web.Controllers
 {
@@ -62,23 +63,34 @@ namespace Fundraising.App.Web.Controllers
         [HttpGet("GetPaymentsOfProjects")]
         public ActionResult<IEnumerable<ProjectPayments>> GetPaymentsOfProjects()
         {
+            List<ProjectPayments> projectPayments = new();
+
             var members = _memberService.GetAllMembers();
-            var payments = _paymentService.GetAllPayments();
-            return new[]
-            {
-                new ProjectPayments {
-                    ProjectName = "project1",
-                    MemberEmail = "vasilas.cei@gmail.com" ,
-                    Value = 100,
-                    Date = DateTime.Now
-                },
-                new ProjectPayments {
-                    ProjectName = "project2",
-                    MemberEmail = "vasilas.cei@gmail.com" ,
-                    Value = 200,
-                    Date = DateTime.Now
-                }
-            };
+            var projects = _projectService.GetAllProjects();
+            var rewards = _rewardService.GetAllRewards();
+            projects.ForEach(project => {
+
+                var payments = _paymentService.GetAllPaymentsByProjectId(project.Id);
+                payments.ForEach(payment => {
+                    var reward = rewards.Where(re => re.Id == payment.RewardId).ToList();
+                    var member = members.Where(mem => mem.Id == payment.MemberId).ToList();
+
+                    // Debug.WriteLine($"Member:{member[0].Email} : {member[0].Id} , project:{project.Title} , reward:{reward[0].Title} ");
+                    if (member.Count != 0)
+                    {
+                        projectPayments.Add(new ProjectPayments
+                        {
+                            ProjectName = project.Title,
+                            MemberEmail = member[0].Email,
+                            Value = reward[0].Value,
+                            Date = payment.PaymentDate.Date.ToShortDateString() + "  -  " + payment.PaymentDate.Hour +":"+ payment.PaymentDate.Minute
+                        });
+                    }
+                });
+            });
+
+
+            return projectPayments.ToArray();
         }
 
         public class ProjectPayments
@@ -86,7 +98,7 @@ namespace Fundraising.App.Web.Controllers
             public string ProjectName { get; set; }
             public string MemberEmail { get; set; }
             public decimal Value { get; set; }
-            public DateTime Date { get; set; }
+            public string Date { get; set; }
 
         }
 

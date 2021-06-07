@@ -307,21 +307,21 @@ namespace Fundraising.App.Core.Services
             };
         }
 
-        public async Task<Result<List<OptionsProject>>> GetMyBackedProjectsAsync(string UserId)
+        public async Task<Result<List<Project>>> GetMyBackedProjectsAsync(string UserId)
         {
 
             if (UserId == null)
             {
-                return new Result<List<OptionsProject>>(ErrorCode.BadRequest, "User cannot be null.");
+                return new Result<List<Project>>(ErrorCode.BadRequest, "User cannot be null.");
             }
             var projects = _dbContext
                .Projects
                .Where(x => x.CreatorId == UserId);
             if (projects == null)
             {
-                return new Result<List<OptionsProject>>(ErrorCode.NotFound, $"There are no projects created with this account");
+                return new Result<List<Project>>(ErrorCode.NotFound, $"There are no projects created with this account");
             }
-            
+
             var payments = await _dbContext.Payments.ToListAsync();
             List<Reward> rewards = new();
             List<Project> backedProjects = new();
@@ -329,9 +329,9 @@ namespace Fundraising.App.Core.Services
             result_payments.ForEach(x => rewards.Add(_dbContext.Rewards.Find(x.RewardId)));
             rewards.ForEach(x => backedProjects.Add(_dbContext.Projects.Find(x.ProjectId)));
 
-            return new Result<List<OptionsProject>>
+            return new Result<List<Project>>
             {
-                Data = _mapper.Map<List<OptionsProject>>(backedProjects)
+                Data = backedProjects
             };
 
         }

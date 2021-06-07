@@ -139,6 +139,23 @@ namespace Fundraising.App.Core.Services
             };
         }
 
+        public List<OptionPayment> GetAllPaymentsByProjectId(int ProjectId) 
+        {
+            var projects = _dbContext.Projects.Where(project => project.Id == ProjectId).ToList();
+           List<OptionPayment> optionPayments = new();
+            projects.ForEach(project => {
+                var rewards = _dbContext.Rewards.Where(re => re.ProjectId == project.Id).ToList();
+                rewards.ForEach(reward => {
+                    var payments = _dbContext.Payments.Where(payment => payment.RewardId == reward.Id).ToList();
+                    payments.ForEach(payment =>
+                        optionPayments.Add(new OptionPayment(payment))
+                    );
+                });
+            });
+            
+            return optionPayments;
+        }
+
 
     }
 }

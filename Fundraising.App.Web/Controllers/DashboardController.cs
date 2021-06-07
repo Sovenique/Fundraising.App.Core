@@ -35,16 +35,16 @@ namespace Fundraising.App.Web.Controllers
             return RedirectToAction("Dashboard");
             
         }
-        public IActionResult Dashboard()
+        public async Task<IActionResult> Dashboard()
         {
             List<OptionsProject> userOptionProjects = _projectService.GetProjectByCreatorId(_currentUserService.UserId);
             List<OptionsProject> optionProjects = _projectService.GetAllProjects();
-            var myProjects = _projectService.GetMyBackedProjectsAsync(_currentUserService.UserId);
+            var myProjects = await _projectService.GetMyBackedProjectsAsync(_currentUserService.UserId);
             
             ViewData["User"] = _currentUserService;
             ViewData["UserOptionProjects"] = userOptionProjects;
             ViewData["OptionProjects"] = optionProjects;
-            ViewData["myProjects"] = myProjects;
+            ViewData["myProjects"] = myProjects.Data;
 
             return View();
         }
