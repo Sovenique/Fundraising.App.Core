@@ -8,65 +8,100 @@
 <br />
 <br />
 <h3> @ViewBag.User.Name Projects</h3>
-<ul class="list-group">
-    @{ var i = 0; }
-    @foreach (var project in @ViewBag.UserOptionProjects)
-    {
-        i++;
-        <li class="@(i % 2 == 0 ? "list-group-item list-group-item-secondary" : "list-group-item")">
-            <div class="row">
-                <div class="col-8">
-                    @i @project.Title:
-                </div>
-                <div class="col-2">
-                    @project.AmountGathered / @project.TargetAmount
-                </div>
-                <div class="col-2">
-                    <a asp-action="EditProject" asp-route-ProjectId="@project.Id">Edit Project</a>
-                </div>
-            </div>
-        </li>
-    }
-</ul>
+<table class="table table-striped">
 
+    <thead class="thead-dark">
+        <tr>
+            <th scope="col">#</th>
+            <th scope="col">Project Title</th>
+            <th scope="col">Amount Gathered</th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
 
-
-<br />
-<br />
-<h3>All Projects</h3>
-<ul class="list-group">
-    @{ i = 0; }
-    @foreach (var project in @ViewBag.OptionProjects)
-    {
-        i++;
-        <li class="@(i % 2 == 0 ? "list-group-item list-group-item-secondary" : "list-group-item")">
-            <div class="row">
-                <div class="col-8">
-                    @project.Title:
-                </div>
-                <div class="col-2">
-                    @project.AmountGathered / @project.TargetAmount
-                </div>
-                <div class="col-2">
-                    <a asp-action="BuyReward" asp-route-UserId="@ViewBag.User.UserId" asp-route-ProjectId="@project.Id">Buy a Package</a>
-                </div>
-            </div>
-        </li>
-    }
-</ul>
-
-
+        @{ var i = 0; }
+        @foreach (var project in @ViewBag.UserOptionProjects)
+        {
+            i++;
+            <tr>
+                <td>@i</td>
+                <td>@project.Title</td>
+                <td> @project.AmountGathered / @project.TargetAmount</td>
+                <td>
+                    <a asp-controller="Projects" asp-action="Edit" asp-route-Id="@project.Id">Edit Project</a>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
 
 
 <br />
 <br />
 <h3>My Backed Projects</h3>
-<ul class="list-group">
-    @{ i = 0; }
-    @foreach (var project in @ViewBag.myProjects)
-    { 
-        <br />
-        @project.Title
-    }
+<table class="table table-striped">
+    <thead class="thead-dark">
+        <tr>
+            <th scope="col">#</th>
+            <th scope="col">Project Title</th>
+            <th scope="col">Description</th>
+            <th></th>
+
+        </tr>
+    </thead>
+    <tbody>
+        @{ i = 0; }
+        @foreach (var project in @ViewBag.myProjects)
+        {
+            i++;
+            <tr>
+                <td>@i</td>
+                <td>@project.Title</td>
+                <td>@project.Description</td>
+                <td>
+                    <a asp-controller="Projects" asp-action="Details" asp-route-id="@project.Id">Details</a>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
+
+
+<br />
+<br />
+<h3>All Projects</h3>
+<table class="table table-striped">
+
+    <thead class="thead-dark">
+        <tr>
+            <th scope="col">#</th>
+            <th scope="col">Project Title</th>
+            <th scope="col">Amount Gathered</th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+
+        @{ i = 0; }
+        @foreach (var project in @ViewBag.OptionProjects)
+        {
+            i++;
+            <tr>
+                <td>@i</td>
+                <td>@project.Title</td>
+                <td> @project.AmountGathered / @project.TargetAmount</td>
+                <td>
+                    <a asp-action="BuyReward" asp-route-UserId="@ViewBag.User.UserId" asp-route-ProjectId="@project.Id">Buy a Package</a>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
+
+
+
+
+
 
 

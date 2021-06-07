@@ -307,31 +307,54 @@ namespace Fundraising.App.Core.Services
             };
         }
 
-        public async Task<Result<List<Project>>> GetMyBackedProjectsAsync(string UserId)
+        public async Task<Result<List<OptionsProject>>> GetMyBackedProjectsAsync(string UserId)
         {
 
             if (UserId == null)
             {
-                return new Result<List<Project>>(ErrorCode.BadRequest, "User cannot be null.");
-            }
-            var projects = _dbContext
-               .Projects
-               .Where(x => x.CreatorId == UserId);
-            if (projects == null)
-            {
-                return new Result<List<Project>>(ErrorCode.NotFound, $"There are no projects created with this account");
+                return new Result<List<OptionsProject>>(ErrorCode.BadRequest, "User cannot be null.");
             }
 
+            // FIND ALL PAYMENTS USER MADE
+            List<OptionPayment> mypayments = new();
             var payments = await _dbContext.Payments.ToListAsync();
-            List<Reward> rewards = new();
-            List<Project> backedProjects = new();
-            var result_payments = payments.Where(x => x.MemberId == UserId).ToList();
-            result_payments.ForEach(x => rewards.Add(_dbContext.Rewards.Find(x.RewardId)));
-            rewards.ForEach(x => backedProjects.Add(_dbContext.Projects.Find(x.ProjectId)));
+            payments.ForEach(payment => {
+                if (payment.MemberId == UserId)
+                    mypayments.Add(new OptionPayment(payment));
+            });
 
-            return new Result<List<Project>>
+            // FIND THE RELEVANT REWARDS
+            var rewards = await _dbContext.Rewards.ToListAsync();
+            List<OptionReward> rewardsUserPayed = new();
+            rewards.ForEach(reward => {
+                mypayments.ForEach(payment => {
+                    if (payment.RewardId == reward.Id)
+                        rewardsUserPayed.Add(new OptionReward(reward));
+                });
+            });
+
+            // FINALY FIND ALL THE PROJECTS THE USER BACKED 
+            List<OptionsProject> projectsUserBacked = new();
+            rewardsUserPayed.ForEach(reward =>  {
+                var project = _dbContext.Projects.Where(pro => pro.Id == reward.ProjectId).ToList();
+                projectsUserBacked.Add(new OptionsProject(project[0]));
+            });
+
+            // GET UNIQUE PROJECTS
+            List<OptionsProject> returnDistinctProjects = new();
+            projectsUserBacked.ForEach(project => {
+                bool isUnique = true;
+                returnDistinctProjects.ForEach(distinctProject => {
+                    if (distinctProject.Id == project.Id)
+                        isUnique = false;
+                });
+                if(isUnique)
+                    returnDistinctProjects.Add(project);
+            });
+
+            return new Result<List<OptionsProject>>
             {
-                Data = backedProjects
+                Data = returnDistinctProjects
             };
 
         }
