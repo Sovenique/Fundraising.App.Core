@@ -75,9 +75,10 @@ namespace Fundraising.App.Web.Controllers
                     var reward = rewards.Where(re => re.Id == payment.RewardId).ToList();
                     var member = members.Where(mem => mem.Id == payment.MemberId).ToList();
 
-                    // Debug.WriteLine($"Member:{member[0].Email} : {member[0].Id} , project:{project.Title} , reward:{reward[0].Title} ");
+                    
                     if (member.Count != 0)
                     {
+                        // Debug.WriteLine($"Member:{member[0].Email} : {member[0].Id} , project:{project.Title} , reward:{reward[0].Title} ");
                         projectPayments.Add(new ProjectPayments
                         {
                             ProjectName = project.Title,
