@@ -15,7 +15,7 @@ namespace Fundraising.App.Core.Options
         public string CreatorId { get; set; }
         public Member Creator { get; set; }
         public DateTime CreatedDate { get; set; }
-        public ProjectStatus ProjectStatus { get; set; }
+        public string ProjectStatus { get; set; }
         public decimal AmountGathered { get; set; }
         public decimal TargetAmount { get; set; }
         public string ImagePath { get; set; }

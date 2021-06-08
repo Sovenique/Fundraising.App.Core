@@ -12,7 +12,7 @@ namespace Fundraising.App.Core.Entities
         public string Description { get; set; }
         public string Status { get; set; }
         public Category Category { get; set; }
-        public ProjectStatus ProjectStatus { get; set; }
+        public string ProjectStatus { get; set; }
         public DateTime CreatedDate { get; set; }
         public decimal AmountGathered { get; set; }
         public decimal TargetAmount { get; set; }
@@ -21,12 +21,6 @@ namespace Fundraising.App.Core.Entities
         public string CreatorId { get; set; }
         public Member Creator { get; set; }
         public List<Reward> Rewards { get; set; }
-    }
-    public enum ProjectStatus
-    {
-        ON_HOLD,
-        IN_PROGRESS,
-        COMPLETED
     }
 
     public enum Category
@@ -37,7 +31,7 @@ namespace Fundraising.App.Core.Entities
         ELECTRICAL,
         FOOD,
         MUSIC,
-        SOCIAL
+        SOCIAL,
     }
 
 }
