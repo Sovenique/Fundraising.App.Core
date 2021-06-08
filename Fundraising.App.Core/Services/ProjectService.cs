@@ -233,6 +233,7 @@ namespace Fundraising.App.Core.Services
             dbContextProject.Title = optionsProject.Title;
             dbContextProject.Description = optionsProject.Description;
             dbContextProject.AmountGathered = optionsProject.AmountGathered;
+            dbContextProject.Status = optionsProject.Status;
             dbContextProject.TargetAmount = optionsProject.TargetAmount;
             dbContextProject.Creator = optionsProject.Creator;
 
@@ -251,6 +252,7 @@ namespace Fundraising.App.Core.Services
             projectToUpdate.Title = optionsProject.Title;
             projectToUpdate.Creator = optionsProject.Creator;
             projectToUpdate.Description = optionsProject.Description;
+            projectToUpdate.Status = optionsProject.Status;
             projectToUpdate.AmountGathered = optionsProject.AmountGathered;
             projectToUpdate.Category = optionsProject.Category;
             try
@@ -281,6 +283,19 @@ namespace Fundraising.App.Core.Services
             return new OptionsProject(dbContextProject);
 
         }
+
+        public OptionsProject UpdateProjectStatus(OptionsProject optionsProject, int Id)
+        {
+            Project dbContextProject = _dbContext.Projects.Find(Id);
+            if (dbContextProject == null) return null;
+
+            dbContextProject.Status = optionsProject.Status;
+
+            _dbContext.SaveChanges();
+            return new OptionsProject(dbContextProject);
+
+        }
+
 
         // SEARCH BY TITLE
         // --------------------------------------------------------

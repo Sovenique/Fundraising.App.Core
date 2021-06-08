@@ -126,7 +126,6 @@ namespace Fundraising.App.Web.Controllers
                     Title = project.Title,
                     Description = project.Description,
                     Category = project.Category,
-                    ProjectStatus = project.ProjectStatus,
                     CreatedDate = DateTime.Now,
                     TargetAmount = project.TargetAmount,
                     CreatorId = _currentUserService.UserId,
@@ -154,15 +153,7 @@ namespace Fundraising.App.Web.Controllers
             }
             ViewData["CreatorId"] = new SelectList(_context.Members, "Id", "Id", project.Data.CreatorId);
             
-            // PROJECT STATUS SELECT LIST
-            var enumProjectStatus = from ProjectStatus e in Enum.GetValues(typeof(ProjectStatus))
-                select new
-                {
-                    ID = (int)e,
-                    Name = e.ToString()
-                };
-            ViewData["ProjectStatus"] = new SelectList(enumProjectStatus, "ID", "Name");
-
+       
             // PROJECT CATEGORY SELECT LIST
             var enumCategory = from Category e in Enum.GetValues(typeof(Category))
                     select new
@@ -181,7 +172,7 @@ namespace Fundraising.App.Web.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("Id,Title,Description,Category,ProjectStatus,CreatedDate,AmountGathered,TargetAmount,CreatorId")] Project project)
+        public async Task<IActionResult> Edit(int id, [Bind("Id,Title,Description,Category,Status,CreatedDate,AmountGathered,TargetAmount,CreatorId")] Project project)
         {
             if (id != project.Id)
             {

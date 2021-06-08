@@ -12,7 +12,6 @@ namespace Fundraising.App.Core.Entities
         public string Description { get; set; }
         public string Status { get; set; }
         public Category Category { get; set; }
-        public string ProjectStatus { get; set; }
         public DateTime CreatedDate { get; set; }
         public decimal AmountGathered { get; set; }
         public decimal TargetAmount { get; set; }

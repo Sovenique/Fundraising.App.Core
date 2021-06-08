@@ -15,7 +15,6 @@ namespace Fundraising.App.Core.Options
         public string CreatorId { get; set; }
         public Member Creator { get; set; }
         public DateTime CreatedDate { get; set; }
-        public string ProjectStatus { get; set; }
         public decimal AmountGathered { get; set; }
         public decimal TargetAmount { get; set; }
         public string ImagePath { get; set; }
@@ -32,7 +31,6 @@ namespace Fundraising.App.Core.Options
                 Status = project.Status;
                 AmountGathered = project.AmountGathered;
                 Category = project.Category;
-                ProjectStatus = project.ProjectStatus;
                 CreatorId = project.CreatorId;
                 Creator = project.Creator;
                 TargetAmount = project.TargetAmount;

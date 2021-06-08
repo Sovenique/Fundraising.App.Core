@@ -32,5 +32,7 @@ namespace Fundraising.App.Core.Interfaces
         public OptionsProject UpdateProjectAmount(OptionsProject optionsProject, int Id);
 
         Task<Result<List<OptionsProject>>> GetMyBackedProjectsAsync(string UserId);
+
+        public OptionsProject UpdateProjectStatus(OptionsProject optionsProject, int Id);
     }
 }
