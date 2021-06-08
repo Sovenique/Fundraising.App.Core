@@ -68,6 +68,45 @@
 </table>
 
 
+
+
+<br />
+<br />
+<h3>Trending now (TOP 5)</h3>
+<table class="table table-striped">
+
+    <thead class="thead-dark">
+        <tr>
+            <th scope="col">#</th>
+            <th scope="col">Project Title</th>
+            <th scope="col">Amount Gathered</th>
+            <th scope="col">#Funds</th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+
+        @{ i = 0; }
+        @foreach (var trendingProject in @ViewBag.TrendingProjects)
+        {
+            i++;
+            <tr>
+                <td>@i</td>
+                <td>@trendingProject.Key.Title</td>
+                <td> @trendingProject.Key.AmountGathered / @trendingProject.Key.TargetAmount</td>
+                <td>@trendingProject.Value</td>
+                <td>
+                    <a asp-action="BuyReward" asp-route-UserId="@ViewBag.User.UserId" asp-route-ProjectId="@trendingProject.Key.Id">Buy a Package</a>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
+
+
+
+
+
 <br />
 <br />
 <h3>All Projects</h3>

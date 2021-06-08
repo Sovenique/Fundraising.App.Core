@@ -35,8 +35,6 @@ namespace Fundraising.App.Web.Controllers
         // GET: Projects
         public async Task<IActionResult> Index()
         {
-            //var applicationDbContext = _context.Projects.Include(p => p.Creator);
-            //return View(await applicationDbContext.ToListAsync());
             var result = await _projectService.GetAllProjectsAsync();
             return View(result.Data);
         }
@@ -82,17 +80,8 @@ namespace Fundraising.App.Web.Controllers
         {
             ViewData["CreatorId"] = _currentUserService.UserId;
 
-            // PROJECT STATUS SELECT LIST
-            var enumProjectStatus = from ProjectStatus e in Enum.GetValues(typeof(ProjectStatus))
-                                    select new
-                                    {
-                                        ID = (int)e,
-                                        Name = e.ToString()
-                                    };
-            ViewData["ProjectStatus"] = new SelectList(enumProjectStatus, "ID", "Name");
-
             // PROJECT CATEGORY SELECT LIST
-            var enumCategory = from Category e in Enum.GetValues(typeof(Category))
+            var enumCategory = from Category e in Enum.GetValues(typeof(Fundraising.App.Core.Entities.Category))
                                select new
                                {
                                    ID = (int)e,
@@ -234,24 +223,5 @@ namespace Fundraising.App.Web.Controllers
             return _context.Projects.Any(e => e.Id == id);
         }
 
-
-
-        public enum ProjectStatus
-        {
-            ON_HOLD,
-            IN_PROGRESS,
-            COMPLETED
-        }
-
-        public enum Category
-        {
-            ARTS,
-            TECHNOLOGY,
-            CHEMICAL,
-            ELECTRICAL,
-            FOOD,
-            MUSIC,
-            SOCIAL
-        }
     }
 }

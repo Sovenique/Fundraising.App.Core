@@ -374,6 +374,52 @@ namespace Fundraising.App.Core.Services
 
         }
 
+
+
+
+        public Dictionary<OptionsProject, int> GetTrendingProjects(int top) 
+        {
+            var allProjects = _dbContext.Projects.ToList();
+            var allRewards = _dbContext.Rewards.ToList();
+            var allPayments = _dbContext.Payments.ToList();
+
+            IDictionary<Project, int> projectPaymentsCounter = new Dictionary<Project, int>();
+
+            // Initialize Dictionary (PROJECT_ID , PAYMENTS_COUNT)
+            allProjects.ForEach(project => {
+                projectPaymentsCounter.Add(project, 0);
+            });
+
+
+            // START COUNTING HOW MANY PAYMENTS EACH PROJECT HAS
+            allProjects.ForEach(project => {
+                // GET ALL REWARDS PER PROJECT
+                var projectRewards = allRewards.Where(re => re.ProjectId == project.Id).ToList();
+                projectRewards.ForEach(re => {
+                    // GET ALL PAYMENTS PER REWARD
+                    var rewardPaymets = allPayments.Where(pay => pay.RewardId == re.Id).ToList();
+                    rewardPaymets.ForEach(pay => {
+                        //OptionsProject optionsProject = new OptionsProject(project);
+                        projectPaymentsCounter[project] = projectPaymentsCounter[project] + 1;
+                    });
+                });
+            });
+
+            var sortDict = from entry in projectPaymentsCounter orderby entry.Value descending select entry;
+            var tempDict = sortDict.ToDictionary<KeyValuePair<Project, int>, Project, int>(pair => pair.Key, pair => pair.Value);
+            
+            // convert Projects to OptionProjects
+            Dictionary<OptionsProject, int> ret_projectPaymentsCounter = new();
+            for (int i = 0; i <tempDict.Count; i++) {
+                if (i == top) break;
+                ret_projectPaymentsCounter.Add(new OptionsProject(tempDict.ElementAt(i).Key), tempDict.ElementAt(i).Value);
+                
+            }
+
+            return ret_projectPaymentsCounter;
+
+        }
+
     }
 }
 

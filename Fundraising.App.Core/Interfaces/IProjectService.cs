@@ -1,4 +1,5 @@
-﻿using Fundraising.App.Core.Models;
+﻿using Fundraising.App.Core.Entities;
+using Fundraising.App.Core.Models;
 using Fundraising.App.Core.Options;
 using System.Collections.Generic;
 using System.Threading.Tasks;
@@ -33,5 +34,6 @@ namespace Fundraising.App.Core.Interfaces
         Task<Result<List<OptionsProject>>> GetMyBackedProjectsAsync(string UserId);
 
         public OptionsProject UpdateProjectStatus(OptionsProject optionsProject, int Id);
+        public Dictionary<OptionsProject, int> GetTrendingProjects(int top);
     }
 }

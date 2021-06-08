@@ -38,6 +38,7 @@ namespace Fundraising.App.Web.Controllers
         }
         public async Task<IActionResult> Dashboard()
         {
+            var trendingProjects = _projectService.GetTrendingProjects(5);
             List<OptionsProject> userOptionProjects = _projectService.GetProjectByCreatorId(_currentUserService.UserId);
             List<OptionsProject> optionProjects = _projectService.GetAllProjects();
             var myProjects = await _projectService.GetMyBackedProjectsAsync(_currentUserService.UserId);
@@ -46,6 +47,7 @@ namespace Fundraising.App.Web.Controllers
             ViewData["UserOptionProjects"] = userOptionProjects;
             ViewData["OptionProjects"] = optionProjects;
             ViewData["myProjects"] = myProjects.Data;
+            ViewData["TrendingProjects"] = trendingProjects;
 
             return View();
         }
