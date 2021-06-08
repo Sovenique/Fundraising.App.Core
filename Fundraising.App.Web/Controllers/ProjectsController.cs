@@ -6,7 +6,6 @@ using Fundraising.App.Core.Interfaces;
 using Fundraising.App.Core.Options;
 using Microsoft.AspNetCore.Authorization;
 using Fundraising.App.Web.Services;
-using Microsoft.EntityFrameworkCore;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using System.Linq;
 using Microsoft.AspNetCore.Http;

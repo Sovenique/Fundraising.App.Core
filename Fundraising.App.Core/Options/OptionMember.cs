@@ -30,10 +30,7 @@ namespace Fundraising.App.Core.Options
                 Phone = Member.Phone;
                 Birthday = Member.Birthday;
                 CreatedDate = Member.CreatedDate;
-
-
             }
-
         }
 
     }

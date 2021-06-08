@@ -1,16 +1,12 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Fundraising.App.Core.Entities;
-using Fundraising.App.Database;
 using Fundraising.App.Core.Interfaces;
 using Fundraising.App.Web.Services;
 using Fundraising.App.Core.Options;
-using System.Diagnostics;
 
 namespace Fundraising.App.Web.Controllers
 {

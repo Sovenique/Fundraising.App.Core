@@ -1,5 +1,4 @@
-﻿using Fundraising.App.Core.Entities;
-using Fundraising.App.Core.Models;
+﻿using Fundraising.App.Core.Models;
 using Fundraising.App.Core.Options;
 using System.Collections.Generic;
 using System.Threading.Tasks;

@@ -1,14 +1,15 @@
 ﻿using Fundraising.App.Core.Interfaces;
 using Fundraising.App.Core.Options;
 using Fundraising.App.Web.Services;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Threading.Tasks;
 
 namespace Fundraising.App.Web.Controllers
 {
+    [Authorize]
     public class DashboardController : Controller
     {
         private readonly ICurrentUserService _currentUserService;

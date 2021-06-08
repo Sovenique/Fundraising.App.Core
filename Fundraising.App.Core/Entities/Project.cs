@@ -1,7 +1,5 @@
-﻿using Microsoft.AspNetCore.Http;
-using System;
+﻿using System;
 using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
 
 namespace Fundraising.App.Core.Entities
 {
@@ -26,8 +24,7 @@ namespace Fundraising.App.Core.Entities
     {
         ARTS,
         TECHNOLOGY,
-        CHEMICAL,
-        ELECTRICAL,
+        SCIENCE,
         FOOD,
         MUSIC,
         SOCIAL,
