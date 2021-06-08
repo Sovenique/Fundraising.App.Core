@@ -4,20 +4,76 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>@ViewData["Title"] - Fundraising.App.Web</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+    <link href="https://fonts.googleapis.com/css?family=Montserrat" rel="stylesheet">
     <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
-    <link rel="stylesheet" href="~/css/site.css" />
+    <link rel="stylesheet" href="/css/site.css" />
+    <style>
+        body {
+            font: 20px Montserrat, sans-serif;
+            line-height: 1.8;
+            color: #f5f6f7;
+        }
+
+        p {
+            font-size: 16px;
+        }
+        .bg-1 {
+            background-color: #1abc9c; /* Green */
+            color: #ffffff;
+        }
+
+        .bg-2 {
+            background-color: aliceblue; /* Dark Blue */
+            color: black;
+        }
+
+        .bg-3 {
+            background-color: #ffffff; /* White */
+            color: #555555;
+        }
+
+        .bg-4 {
+            background-color: #2f2f2f; /* Black Gray */
+            color: #fff;
+        }
+
+        .container-fluid {
+            padding-top: 70px;
+            padding-bottom: 70px;
+        }
+
+        .navbar {
+            padding-top: 15px;
+            padding-bottom: 15px;
+            border: 0;
+            border-radius: 0;
+            margin-bottom: 0;
+            font-size: 12px;
+            letter-spacing: 5px;
+        }
+
+        .navbar-nav li a:hover {
+            color: #1abc9c !important;
+        }
+        
+    </style>
 </head>
 <body>
     <header>
-        <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-dark bg-dark border-bottom box-shadow mb-3">
-            <div class="container">
-                <a class="navbar-brand" asp-area="" asp-controller="Home" asp-action="Index">Fundraising.App.Web</a>
-                <button class="navbar-toggler" type="button" data-toggle="collapse" data-target=".navbar-collapse" aria-controls="navbarSupportedContent"
-                        aria-expanded="false" aria-label="Toggle navigation">
-                    <span class="navbar-toggler-icon"></span>
-                </button>
-                <div class="navbar-collapse collapse d-sm-inline-flex justify-content-between">
-                    <ul class="navbar-nav flex-grow-1">
+        <!-- Navbar -->
+        <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-dark bg-dark border-bottom box-shadow border-bottom-0">
+            <div class="container col-md-12">
+                <div class="navbar-header col-md-3">
+                    <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#myNavbar">
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                    </button>
+                    <a class="navbar-brand" asp-area="" asp-controller="Home" asp-action="Index">7777</a>
+                </div>
+                <div class="collapse navbar-collapse col-md-9" id="myNavbar ">
+                    <ul class="nav navbar-nav mr-md-auto">
                         <li class="nav-item">
                             <a class="nav-link font-weight-bold" asp-area="" asp-controller="Home" asp-action="Index">Home</a>
                         </li>
@@ -39,23 +95,52 @@
                         <li class="nav-item">
                             <a class="nav-link font-weight-bold" asp-area="" asp-controller="Home" asp-action="API">API</a>
                         </li>
-                        <partial name="_LoginPartial" />
                     </ul>
+                    <ul class="nav navbar-nav " >
+                        <partial name="_LoginPartial" /> 
+                    </ul>
+                        
                 </div>
             </div>
         </nav>
     </header>
-    <div class="container">
-        <main role="main" class="pb-3">
+    <!-- First Container -->
+    <div class="container-fluid bg-1 text-center">
+        <img width="100" height="100" src="~/Images/logo-7777.png"  />
+    </div>
+    <!-- Second Container -->
+    <div class="container-fluid bg-2 text-center">
+        
+        <main role="main" class="pb-3 col-sm-12 text-left">
             @RenderBody()
         </main>
     </div>
+    <!-- Third Container (Grid) -->
+    <div class="container-fluid bg-3 text-center">
+        <h3 class="margin">Where To Find Me?</h3><br>
+        <div class="row">
+            <div class="col-sm-4">
+                <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</p>
+                <img src="birds1.jpg" class="img-responsive margin" style="width:100%" alt="Image">
+            </div>
+            <div class="col-sm-4">
+                <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</p>
+                <img src="birds2.jpg" class="img-responsive margin" style="width:100%" alt="Image">
+            </div>
+            <div class="col-sm-4">
+                <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</p>
+                <img src="birds3.jpg" class="img-responsive margin" style="width:100%" alt="Image">
+            </div>
+        </div>
+    </div>
 
-    <footer class="border-top footer text-muted">
+    <footer class="container-fluid bg-4 text-center">
         <div class="container">
             &copy; 2021 - Fundraising.App.Web - <a asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
         </div>
     </footer>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
     <script src="~/lib/jquery/dist/jquery.min.js"></script>
     <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
     <script src="~/js/site.js" asp-append-version="true"></script>
