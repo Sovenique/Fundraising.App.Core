@@ -22,6 +22,8 @@ namespace Fundraising.App.Web
         {
             services.AddPersistence(Configuration);
             services.AddCore();
+            services.AddApplicationInsights(Configuration);
+
             services.AddSingleton<ICurrentUserService, CurrentUserService>();
             services.AddHttpContextAccessor();
             services.AddControllersWithViews();
