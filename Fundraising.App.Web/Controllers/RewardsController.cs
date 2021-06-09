@@ -164,7 +164,15 @@ namespace Fundraising.App.Web.Controllers
             {
                 return NotFound();
             }
+            var payments = await _context.Payments.ToListAsync();
+            var result_payments = payments.Where(x => x.RewardId == id);
 
+
+            foreach (var payment in result_payments)
+            {
+                 _context.Payments.Remove(payment);
+            }
+           
             var reward = await _context.Rewards
                 .Include(p => p.Project)
                 .FirstOrDefaultAsync(m => m.Id == id);
@@ -182,6 +190,15 @@ namespace Fundraising.App.Web.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
+            var payments = await _context.Payments.ToListAsync();
+            var result_payments = payments.Where(x => x.RewardId == id);
+
+
+            foreach (var payment in result_payments)
+            {
+                _context.Payments.Remove(payment);
+            }
+
             var reward = await _context.Rewards.FindAsync(id);
             _context.Rewards.Remove(reward);
             await _context.SaveChangesAsync();
