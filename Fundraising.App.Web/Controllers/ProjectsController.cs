@@ -63,15 +63,6 @@ namespace Fundraising.App.Web.Controllers
                 return NotFound();
             }
             var project = await _projectService.GetProjectByIdAsync(id ?? -1);
-
-            //var project = await _context.Projects
-            //    .Include(p => p.Creator)
-            //    .FirstOrDefaultAsync(m => m.Id == id);
-            //if (project == null)
-            //{
-            //    return NotFound();
-            //}
-
             return View(project.Data);
         }
 
@@ -109,7 +100,6 @@ namespace Fundraising.App.Web.Controllers
                 }
 
                 _projectService.CreateProject(new OptionsProject
-
                 {
                     Title = project.Title,
                     Description = project.Description,
@@ -139,7 +129,7 @@ namespace Fundraising.App.Web.Controllers
             {
                 return NotFound();
             }
-            ViewData["CreatorId"] = new SelectList(_context.Members, "Id", "Id", project.Data.CreatorId);
+            
             
        
             // PROJECT CATEGORY SELECT LIST
@@ -181,7 +171,6 @@ namespace Fundraising.App.Web.Controllers
                 }
                 return RedirectToAction(nameof(Index));
             }
-            ViewData["CreatorId"] = new SelectList(_context.Members, "Id", "Id", project.CreatorId);
             return View(project);
         }
 
@@ -192,19 +181,8 @@ namespace Fundraising.App.Web.Controllers
             {
                 return NotFound();
             }
-
-
-            
-
-            //var project = await _context.Projects
-            //    .Include(p => p.Creator)
-            //    .FirstOrDefaultAsync(m => m.Id == id);
-            //if (project == null)
-            //{
-            //    return NotFound();
-            //}
-
-            return View();
+            var project = await _projectService.GetProjectByIdAsync(id ?? -1);
+            return View(project.Data);
         }
 
         // POST: Projects/Delete/5
@@ -212,15 +190,10 @@ namespace Fundraising.App.Web.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
-            var project = await _context.Projects.FindAsync(id);
-            _context.Projects.Remove(project);
-            await _context.SaveChangesAsync();
+            var project = await _projectService.GetProjectByIdAsync(id);
+            await _projectService.DeleteProjectAsync(project.Data.Id);
+            
             return RedirectToAction(nameof(Index));
-        }
-
-        private bool ProjectExists(int id)
-        {
-            return _context.Projects.Any(e => e.Id == id);
         }
 
     }
