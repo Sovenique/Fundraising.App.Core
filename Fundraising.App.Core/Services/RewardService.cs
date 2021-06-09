@@ -204,11 +204,25 @@ namespace Fundraising.App.Core.Services
 
         public async Task<Result<int>> DeleteRewardByIdAsync(int Id)
         {
+            if(Id < 0)
+            {
+                return new Result<int>(ErrorCode.NotFound, $"Reward with id #{Id} is invalid.");
+            }
+
             var rewardToDelete = await _dbContext.Rewards.SingleOrDefaultAsync(reward => reward.Id == Id);
             if (rewardToDelete == null)
             {
                 return new Result<int>(ErrorCode.NotFound, $"Reward with id #{Id} not found.");
             }
+            var payments = await _dbContext.Payments.ToListAsync();
+            var result_payments = payments.Where(x => x.RewardId == Id);
+
+
+            foreach (var payment in result_payments)
+            {
+                _dbContext.Payments.Remove(payment);
+            }
+
             _dbContext.Rewards.Remove(rewardToDelete);
             try
             {
@@ -220,6 +234,8 @@ namespace Fundraising.App.Core.Services
 
                 return new Result<int>(ErrorCode.InternalServerError, "Could not delete reward.");
             }
+
+
             return new Result<int>
             {
                 Data = Id

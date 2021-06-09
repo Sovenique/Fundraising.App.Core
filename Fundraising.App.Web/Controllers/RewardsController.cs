@@ -164,25 +164,12 @@ namespace Fundraising.App.Web.Controllers
             {
                 return NotFound();
             }
-            var payments = await _context.Payments.ToListAsync();
-            var result_payments = payments.Where(x => x.RewardId == id);
 
+            var rewards = _rewardService.DeleteRewardByIdAsync(id??-1);
 
-            foreach (var payment in result_payments)
-            {
-                 _context.Payments.Remove(payment);
-            }
-           
-            var reward = await _context.Rewards
-                .Include(p => p.Project)
-                .FirstOrDefaultAsync(m => m.Id == id);
+            
 
-            if (reward == null)
-            {
-                return NotFound();
-            }
-
-            return View(reward);
+            return View();
         }
 
         // Delete Confirmed
