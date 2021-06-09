@@ -4,16 +4,16 @@
 }
 
 <div class="text-center ">
-    <h1 class="display-4">Greetings from Group7</h1>
-    <p>Learn about <a href="https://docs.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
-    <!-- Third Container (Grid) -->
+    <h1 class="display-4">Share your wildest idea!</h1>
+    <p>We believe that art and creative expression are essential to a healthy and vibrant society,<br/> and the space to create requires protection.</p>
+  
     <div class="container-fluid bg-3 text-center">
-        <h3 class="margin">Where To Find Me?</h3><br>
+        <h3 class="margin">Today's Trending Projects!</h3><br>
         <div class="row">
             @{var i = 0;}
             @foreach (var projectTrend in @ViewBag.TrendingProjects)
             {
-                <a class="alert alert-primary col-sm-4 " asp-area="" asp-controller="Projects" asp-action="Details" asp-route-id=" @projectTrend.Id">
+                <a class="alert col-sm-4 " asp-area="" asp-controller="Projects" asp-action="Details" asp-route-id=" @projectTrend.Id">
                     <div>
                         <img src="/ProjectImages/@projectTrend.ImagePath" width="300" height="300" />
                         <p>@projectTrend.Title</p>
@@ -23,8 +23,6 @@
                 </a>
                 i++;
                 }
-
-
         </div>
     </div>
 </div>
