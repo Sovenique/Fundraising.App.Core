@@ -369,11 +369,10 @@ namespace Fundraising.App.Core.Services
 
             return new Result<List<OptionsProject>>
             {
-                Data = returnDistinctProjects
+                Data =   returnDistinctProjects
             };
 
         }
-
 
 
 
