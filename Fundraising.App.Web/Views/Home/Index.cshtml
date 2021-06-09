@@ -1,8 +1,30 @@
-﻿@{
+﻿@model List<Fundraising.App.Core.Options.OptionsProject>
+@{
     ViewData["Title"] = "Home Page";
 }
 
-<div class="text-center">
+<div class="text-center ">
     <h1 class="display-4">Greetings from Group7</h1>
     <p>Learn about <a href="https://docs.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
+    <!-- Third Container (Grid) -->
+    <div class="container-fluid bg-3 text-center">
+        <h3 class="margin">Where To Find Me?</h3><br>
+        <div class="row">
+            @{var i = 0;}
+            @foreach (var projectTrend in @ViewBag.TrendingProjects)
+            {
+                <a class="alert alert-primary col-sm-4 " asp-area="" asp-controller="Projects" asp-action="Details" asp-route-id=" @projectTrend.Id">
+                    <div>
+                        <img src="/ProjectImages/@projectTrend.ImagePath" width="300" height="300" />
+                        <p>@projectTrend.Title</p>
+                        <p>@projectTrend.Description</p>
+                       
+                    </div>
+                </a>
+                i++;
+                }
+
+
+        </div>
+    </div>
 </div>
