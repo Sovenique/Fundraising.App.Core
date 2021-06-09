@@ -36,6 +36,8 @@ namespace Fundraising.App.Core.Options
                 TargetAmount = project.TargetAmount;
                 Rewards = project.Rewards;
                 ImagePath = project.ImagePath;
+                CreatedDate = project.CreatedDate;
+                Status = project.Status;
             }
 
         }
