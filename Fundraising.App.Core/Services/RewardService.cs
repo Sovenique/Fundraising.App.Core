@@ -8,7 +8,7 @@ using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using System.Linq;
-
+using AutoMapper;
 
 namespace Fundraising.App.Core.Services
 {
@@ -16,11 +16,16 @@ namespace Fundraising.App.Core.Services
     {
         private readonly IApplicationDbContext _dbContext;
         private readonly ILogger<RewardService> _logger;
+        private readonly IProjectService _projectService;
+        private readonly IMapper _mapper;
 
-        public RewardService(IApplicationDbContext dbContext, ILogger<RewardService> logger)
+        public RewardService(IApplicationDbContext dbContext, ILogger<RewardService> logger,
+            IProjectService projectService, IMapper mapper)
         {
             _dbContext = dbContext;
             _logger = logger;
+            _projectService = projectService;
+            _mapper = mapper;
         }
         // CREATE
         // --------------------------------------------------------
@@ -84,7 +89,7 @@ namespace Fundraising.App.Core.Services
         public List<OptionReward> GetAllRewardByProjectId(int ProjectId)
         {
             List<OptionReward> optionRewards = new();
-            List<Reward> rewards = _dbContext.Rewards.Where(reward => reward.ProjectId == ProjectId).ToList();
+            var rewards = _dbContext.Rewards.Where(reward => reward.ProjectId == ProjectId).ToList();
             rewards.ForEach(reward =>
                optionRewards.Add(new OptionReward(reward))
                 );
@@ -176,15 +181,15 @@ namespace Fundraising.App.Core.Services
         public async Task<Result<OptionReward>> UpdateRewardAsync(OptionReward optionReward, int Id)
         {
             var rewardToUpdate = await _dbContext.Rewards.SingleOrDefaultAsync(reward => reward.Id == Id);
-            if(rewardToUpdate == null)
+            if (rewardToUpdate == null)
             {
                 return new Result<OptionReward>(ErrorCode.NotFound, $"Reward with id #{Id} not found.");
             }
-            
+
             rewardToUpdate.Title = optionReward.Title;
             rewardToUpdate.Description = optionReward.Description;
             rewardToUpdate.Value = optionReward.Value;
-            rewardToUpdate.ProjectId = optionReward.ProjectId;
+
 
             try
             {
@@ -204,7 +209,7 @@ namespace Fundraising.App.Core.Services
 
         public async Task<Result<int>> DeleteRewardByIdAsync(int Id)
         {
-            if(Id < 0)
+            if (Id < 0)
             {
                 return new Result<int>(ErrorCode.NotFound, $"Reward with id #{Id} is invalid.");
             }
@@ -241,5 +246,33 @@ namespace Fundraising.App.Core.Services
                 Data = Id
             };
         }
+
+        public async Task<Result<List<OptionReward>>> GetMyRewardsAsync(string UserId)
+        {
+
+            if (UserId == null)
+            {
+                return new Result<List<OptionReward>>(ErrorCode.BadRequest, "User cannot be null.");
+            }
+            var currentProjects = _projectService.GetProjectByCreatorId(UserId);
+
+            List<OptionReward> rewardsUserCreated = new();
+
+            currentProjects.ForEach(x => {
+                var tempRewards = GetAllRewardByProjectId(x.Id);
+                tempRewards.ForEach(tmp => {
+                    rewardsUserCreated.Add(tmp);
+                });
+
+            });
+
+            return new Result<List<OptionReward>>
+            {
+                Data = rewardsUserCreated
+            };
+
+        }
+
     }
 }
+
