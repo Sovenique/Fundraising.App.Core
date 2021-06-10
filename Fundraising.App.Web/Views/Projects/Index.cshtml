@@ -23,7 +23,7 @@
 
 
 
-<table class="table">
+<table class="table table-hover">
     <thead>
         <tr>
             @*<th>
@@ -58,10 +58,8 @@
     </thead>
     <tbody>
 @foreach (var item in Model) {
-        <tr>
-            @*<td>
-                @Html.DisplayFor(modelItem => item.ImagePath)
-            </td>*@
+        <tr style="cursor:pointer" onclick="window.location = '/Projects/Details/@item.Id';" >
+            
             <td>
                 <img src="./ProjectImages/@item.ImagePath" width="80" height="80">
             </td>
