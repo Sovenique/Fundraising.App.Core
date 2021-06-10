@@ -19,33 +19,34 @@ namespace Fundraising.App.Web.Controllers
     {
 
         private readonly ICurrentUserService _currentUserService;
-        private readonly IApplicationDbContext _context;
         private readonly ILogger<PaymentService> _logger;
         private readonly IRewardService _rewardService;
         private readonly IProjectService _projectService;
+        private readonly IPaymentService _paymentService;
 
 
         public RewardsController(
             ICurrentUserService currentUserService,
             ILogger<PaymentService> logger,
-            IApplicationDbContext context,
             IRewardService rewardService,
-            IProjectService projectService
+            IProjectService projectService,
+            IPaymentService paymentService
             )
         {
             _currentUserService = currentUserService;
-            _context = context;
             _logger = logger;
             _rewardService = rewardService;
             _projectService = projectService;
+            _paymentService = paymentService;
         }
 
 
         // GET: Rewards
         public async Task<IActionResult> Index()
         {
-            var applicationDbContext = _context.Rewards.Include(p => p.Project);
-            return View(await applicationDbContext.ToListAsync());
+            var result = await _rewardService.GetAllRewardsAsync();
+            return View(result.Data);
+
         }
 
         // Details
@@ -56,15 +57,12 @@ namespace Fundraising.App.Web.Controllers
                 return NotFound();
             }
 
-            var reward = await _context.Rewards
-                .Include(p => p.Project)
-                .FirstOrDefaultAsync(m => m.Id == id);
-
+            var reward = await _rewardService.GetRewardByIdAsync(id ?? -1);
             if (reward == null)
             {
                 return NotFound();
             }
-            return View(reward);
+            return View(reward.Data);
         }
 
 
@@ -90,7 +88,7 @@ namespace Fundraising.App.Web.Controllers
 
             if (ModelState.IsValid)
             {
-                _rewardService.CreateReward(new OptionReward
+                 _rewardService.CreateReward(new OptionReward
                 {
                     Title = reward.Title,
                     Description = reward.Description,
@@ -111,13 +109,13 @@ namespace Fundraising.App.Web.Controllers
                 return NotFound();
             }
 
-            var reward = await _context.Rewards.FindAsync(id);
+            var reward = await _rewardService.GetRewardByIdAsync(id ?? -1);
             if (reward == null)
             {
                 return NotFound();
             }
-            ViewData["ProjectId"] = new SelectList(_context.Projects, "Id", "Id", reward.ProjectId);
-            return View(reward);
+          
+            return View(reward.Data);
         }
 
         // Edit
@@ -135,13 +133,13 @@ namespace Fundraising.App.Web.Controllers
             {
                 try
                 {
-                    _context.Rewards.Update(reward);
-                    await _context.SaveChangesAsync();
+                    OptionReward optionReward = new(reward);
+                    await _rewardService.UpdateRewardAsync(optionReward, id);
                 }
 
                 catch (DbUpdateConcurrencyException)
                 {
-                    if (!RewardExists(reward.Id))
+                    if (reward != null)
                     {
                         return NotFound();
                     }
@@ -153,7 +151,7 @@ namespace Fundraising.App.Web.Controllers
                 return RedirectToAction(nameof(Index));
 
             }
-            ViewData["ProjectId"] = new SelectList(_context.Projects, "Id", "Id", reward.ProjectId);
+           
             return View(reward);
         }
 
@@ -165,7 +163,7 @@ namespace Fundraising.App.Web.Controllers
                 return NotFound();
             }
 
-            var rewards = _rewardService.DeleteRewardByIdAsync(id??-1);
+            var rewards = await _rewardService.DeleteRewardByIdAsync(id??-1);
 
             
 
@@ -177,25 +175,21 @@ namespace Fundraising.App.Web.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
-            var payments = await _context.Payments.ToListAsync();
-            var result_payments = payments.Where(x => x.RewardId == id);
+            var payments = await _paymentService.GetAllPaymentsAsync();
+   
 
-
-            foreach (var payment in result_payments)
+            foreach (var payment in payments.Data)
             {
-                _context.Payments.Remove(payment);
+                if (payment.RewardId == id)
+                    await _paymentService.DeletePaymentByIdAsync(payment.Id);
             }
 
-            var reward = await _context.Rewards.FindAsync(id);
-            _context.Rewards.Remove(reward);
-            await _context.SaveChangesAsync();
+           
+            await _rewardService.DeleteRewardByIdAsync(id);
+        
             return RedirectToAction(nameof(Index));
         }
 
-        private bool RewardExists(int id)
-        {
-            return _context.Rewards.Any(e => e.Id == id);
-        }
     }
 
 

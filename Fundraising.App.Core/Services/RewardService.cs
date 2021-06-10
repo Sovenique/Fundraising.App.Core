@@ -184,7 +184,7 @@ namespace Fundraising.App.Core.Services
             rewardToUpdate.Title = optionReward.Title;
             rewardToUpdate.Description = optionReward.Description;
             rewardToUpdate.Value = optionReward.Value;
-            rewardToUpdate.ProjectId = optionReward.ProjectId;
+         
 
             try
             {
