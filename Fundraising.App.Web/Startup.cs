@@ -28,6 +28,7 @@ namespace Fundraising.App.Web
             services.AddHttpContextAccessor();
             services.AddControllersWithViews();
             services.AddAutoMapper(typeof(Startup));
+            services.AddApplicationInsightsTelemetry(Configuration["APPINSIGHTS_CONNECTIONSTRING"]);
 
         }
 

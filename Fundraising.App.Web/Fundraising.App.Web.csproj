@@ -3,6 +3,7 @@
   <PropertyGroup>
     <TargetFramework>net5.0</TargetFramework>
     <UserSecretsId>e9618802-29c5-479f-a921-1b54c9988fb4</UserSecretsId>
+    <ApplicationInsightsResourceId>/subscriptions/7942bef6-629b-43e2-bc4b-41f59c0ef9b0/resourceGroups/demoVM_group/providers/microsoft.insights/components/Fundraising-App-Ai</ApplicationInsightsResourceId>
   </PropertyGroup>
 
   <ItemGroup>
