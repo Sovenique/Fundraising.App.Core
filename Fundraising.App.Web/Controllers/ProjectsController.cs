@@ -19,15 +19,17 @@ namespace Fundraising.App.Web.Controllers
         private readonly ICurrentUserService _currentUserService;
         private readonly IApplicationDbContext _context;
         private readonly IProjectService _projectService;
+        private readonly IRewardService _rewardService;
 
         public ProjectsController(ICurrentUserService currentUserService,
             IApplicationDbContext context,
-            IProjectService projectService)
+            IProjectService projectService, IRewardService rewardService)
 
         {
             _currentUserService = currentUserService;
             _context = context;
             _projectService = projectService;
+            _rewardService = rewardService;
 
         }
 
@@ -190,6 +192,13 @@ namespace Fundraising.App.Web.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
+            var rewards = await _rewardService.GetAllRewardsAsync();
+
+            foreach (var reward in rewards.Data)
+            {
+                if (reward.ProjectId == id)
+                    await _rewardService.DeleteRewardByIdAsync(reward.Id);
+            }
             var project = await _projectService.GetProjectByIdAsync(id);
             await _projectService.DeleteProjectAsync(project.Data.Id);
             
