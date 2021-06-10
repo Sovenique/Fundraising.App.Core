@@ -23,6 +23,7 @@ namespace Fundraising.App.Core.Interfaces
         // DELETE
         public bool DeleteReward(int Id);
         Task<Result<int>> DeleteRewardByIdAsync(int Id);
+        Task<Result<List<OptionReward>>> GetMyRewardsAsync(string UserId);
 
 
     }

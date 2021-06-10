@@ -44,7 +44,7 @@ namespace Fundraising.App.Web.Controllers
         // GET: Rewards
         public async Task<IActionResult> Index()
         {
-            var result = await _rewardService.GetAllRewardsAsync();
+            var result = await _rewardService.GetMyRewardsAsync(_currentUserService.UserId);
             return View(result.Data);
 
         }
