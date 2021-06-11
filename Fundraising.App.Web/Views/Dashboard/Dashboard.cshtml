@@ -30,6 +30,8 @@
                 <td> @project.AmountGathered / @project.TargetAmount</td>
                 <td>
                     <a asp-controller="Projects" asp-action="Edit" asp-route-Id="@project.Id">Edit Project</a>
+                    <br />
+                    <a asp-controller="Projects" asp-action="Delete" asp-route-Id="@project.Id">Delete Project</a>
                 </td>
             </tr>
         }
@@ -61,6 +63,8 @@
                 <td>@project.Description</td>
                 <td>
                     <a asp-controller="Projects" asp-action="Details" asp-route-id="@project.Id">Details</a>
+                    <br/>
+
                 </td>
             </tr>
         }
@@ -96,7 +100,7 @@
                 <td> @trendingProject.Key.AmountGathered / @trendingProject.Key.TargetAmount</td>
                 <td>@trendingProject.Value</td>
                 <td>
-                    <a asp-action="BuyReward" asp-route-UserId="@ViewBag.User.UserId" asp-route-ProjectId="@trendingProject.Key.Id">Buy a Package</a>
+                    <a asp-action="BuyReward" asp-route-UserId="@ViewBag.User.UserId" asp-route-ProjectId="@trendingProject.Key.Id">Back this Project</a>
                 </td>
             </tr>
         }
@@ -131,7 +135,7 @@
                 <td>@project.Title</td>
                 <td> @project.AmountGathered / @project.TargetAmount</td>
                 <td>
-                    <a asp-action="BuyReward" asp-route-UserId="@ViewBag.User.UserId" asp-route-ProjectId="@project.Id">Buy a Package</a>
+                    <a asp-action="BuyReward" asp-route-UserId="@ViewBag.User.UserId" asp-route-ProjectId="@project.Id">Back this Project</a>
                 </td>
             </tr>
         }
