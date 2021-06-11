@@ -152,7 +152,7 @@ namespace Fundraising.App.Web.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("Id,Title,Description,Category,Status,CreatedDate,AmountGathered,TargetAmount,CreatorId")] Project project)
+        public async Task<IActionResult> Edit(int id, [Bind("Id,Title,Description,Category,Status,TargetAmount,CreatorId")] Project project)
         {
             if (id != project.Id)
             {

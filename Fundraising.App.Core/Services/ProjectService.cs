@@ -232,7 +232,6 @@ namespace Fundraising.App.Core.Services
 
             dbContextProject.Title = optionsProject.Title;
             dbContextProject.Description = optionsProject.Description;
-            dbContextProject.AmountGathered = optionsProject.AmountGathered;
             dbContextProject.Status = optionsProject.Status;
             dbContextProject.TargetAmount = optionsProject.TargetAmount;
             dbContextProject.Creator = optionsProject.Creator;
@@ -253,7 +252,6 @@ namespace Fundraising.App.Core.Services
             projectToUpdate.Creator = optionsProject.Creator;
             projectToUpdate.Description = optionsProject.Description;
             projectToUpdate.Status = optionsProject.Status;
-            projectToUpdate.AmountGathered = optionsProject.AmountGathered;
             projectToUpdate.Category = optionsProject.Category;
             try
             {
