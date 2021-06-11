@@ -25,7 +25,7 @@ namespace Fundraising.App.Core.ApplicationInsights
 
         public void Process(ITelemetry item)
         {
-            // To filter out an item just return
+
             if (!OkToSend(item))
             {
                 return;
@@ -34,11 +34,6 @@ namespace Fundraising.App.Core.ApplicationInsights
             next.Process(item);
         }
 
-        /// <summary>
-        /// Filter static web assets request telemetry items to be sent to app insights
-        /// </summary>
-        /// <param name="item">ITelemetry item.</param>
-        /// <returns>Whether it is ok to send this telemetry item or not.</returns>
         private bool OkToSend(ITelemetry item)
         {
             var requestTelemetry = item as RequestTelemetry;

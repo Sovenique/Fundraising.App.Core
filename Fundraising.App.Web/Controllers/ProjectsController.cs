@@ -17,17 +17,14 @@ namespace Fundraising.App.Web.Controllers
     public class ProjectsController : Controller
     {
         private readonly ICurrentUserService _currentUserService;
-        private readonly IApplicationDbContext _context;
         private readonly IProjectService _projectService;
         private readonly IRewardService _rewardService;
 
         public ProjectsController(ICurrentUserService currentUserService,
-            IApplicationDbContext context,
             IProjectService projectService, IRewardService rewardService)
 
         {
             _currentUserService = currentUserService;
-            _context = context;
             _projectService = projectService;
             _rewardService = rewardService;
 
