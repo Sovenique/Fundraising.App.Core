@@ -1,0 +1,150 @@
+﻿@model List<Fundraising.App.Core.Options.OptionsProject>
+
+@{
+    ViewData["Title"] = "Index";
+
+}
+
+<br />
+<br />
+<h3> @ViewBag.User.Name Projects</h3>
+<table class="table table-striped" style=" ">
+
+    <thead class="thead-dark">
+        <tr>
+            <th scope="col">#</th>
+            <th scope="col">Project Title</th>
+            <th scope="col">Amount Gathered</th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+
+        @{ var i = 0; }
+        @foreach (var project in @ViewBag.UserOptionProjects)
+        {
+            i++;
+            <tr>
+                <td>@i</td>
+                <td>@project.Title</td>
+                <td> @project.AmountGathered / @project.TargetAmount</td>
+                <td>
+                    <a asp-controller="Projects" asp-action="Edit" asp-route-Id="@project.Id">Edit Project</a>
+                    <br />
+                    <a asp-controller="Projects" asp-action="Delete" asp-route-Id="@project.Id">Delete Project</a>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
+
+
+<br />
+<br />
+<h3>My Backed Projects</h3>
+<table class="table table-striped">
+    <thead class="thead-dark">
+        <tr>
+            <th scope="col">#</th>
+            <th scope="col">Project Title</th>
+            <th scope="col">Description</th>
+            <th></th>
+
+        </tr>
+    </thead>
+    <tbody>
+        @{ i = 0; }
+        @foreach (var project in @ViewBag.myProjects)
+        {
+            i++;
+            <tr>
+                <td>@i</td>
+                <td>@project.Title</td>
+                <td>@project.Description</td>
+                <td>
+                    <a asp-controller="Projects" asp-action="Details" asp-route-id="@project.Id">Details</a>
+                    <br/>
+
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
+
+
+
+
+<br />
+<br />
+<h3>Trending now (TOP 5)</h3>
+<table class="table table-striped">
+
+    <thead class="thead-dark">
+        <tr>
+            <th scope="col">#</th>
+            <th scope="col">Project Title</th>
+            <th scope="col">Amount Gathered</th>
+            <th scope="col">#Funds</th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+
+        @{ i = 0; }
+        @foreach (var trendingProject in @ViewBag.TrendingProjects)
+        {
+            i++;
+            <tr>
+                <td>@i</td>
+                <td>@trendingProject.Key.Title</td>
+                <td> @trendingProject.Key.AmountGathered / @trendingProject.Key.TargetAmount</td>
+                <td>@trendingProject.Value</td>
+                <td>
+                    <a asp-action="BuyReward" asp-route-UserId="@ViewBag.User.UserId" asp-route-ProjectId="@trendingProject.Key.Id">Back this Project</a>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
+
+
+
+
+
+<br />
+<br />
+<h3>All Projects</h3>
+<table class="table table-striped">
+
+    <thead class="thead-dark">
+        <tr>
+            <th scope="col">#</th>
+            <th scope="col">Project Title</th>
+            <th scope="col">Amount Gathered</th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+
+        @{ i = 0; }
+        @foreach (var project in @ViewBag.OptionProjects)
+        {
+            i++;
+            <tr>
+                <td>@i</td>
+                <td>@project.Title</td>
+                <td> @project.AmountGathered / @project.TargetAmount</td>
+                <td>
+                    <a asp-action="BuyReward" asp-route-UserId="@ViewBag.User.UserId" asp-route-ProjectId="@project.Id">Back this Project</a>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
+
+
+
+
+
+
+

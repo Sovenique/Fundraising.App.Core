@@ -1,0 +1,28 @@
+﻿@model List<Fundraising.App.Core.Options.OptionsProject>
+@{
+    ViewData["Title"] = "Home Page";
+}
+
+<div class="text-center ">
+    <h1 class="display-4">Share your wildest idea!</h1>
+    <p>We believe that art and creative expression are essential to a healthy and vibrant society,<br/> and the space to create requires protection.</p>
+  
+    <div class="container-fluid bg-3 text-center">
+        <h3 class="margin">Today's Trending Projects!</h3><br>
+        <div class="row">
+            @{var i = 0;}
+            @foreach (var projectTrend in @ViewBag.TrendingProjects)
+            {
+                <a class="alert col-sm-4 " asp-area="" asp-controller="Projects" asp-action="Details" asp-route-id=" @projectTrend.Id">
+                    <div>
+                        <img src="/ProjectImages/@projectTrend.ImagePath" width="300" height="300" />
+                        <p>@projectTrend.Title</p>
+                        <p>@projectTrend.Description</p>
+                       
+                    </div>
+                </a>
+                i++;
+                }
+        </div>
+    </div>
+</div>

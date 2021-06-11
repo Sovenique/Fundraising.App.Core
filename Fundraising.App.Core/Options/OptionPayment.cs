@@ -1,5 +1,4 @@
 ﻿using Fundraising.App.Core.Entities;
-
 using System;
 
 namespace Fundraising.App.Core.Options
@@ -7,22 +6,26 @@ namespace Fundraising.App.Core.Options
     public class OptionPayment
     {
         public int Id { get; set; }
-        public Member Backer { get; set; }
-        public string Name { get; set; }
-        public Reward Reward { get; set; }
+        public decimal Amount { get; set; }
+        public string CreditCard { get; set; }
         public DateTime PaymentDate { get; set; }
 
-
+        public Reward Reward { get; set; }
+        public int? RewardId { get; set; }
+        public Member Member { get; set; }
+        public string MemberId { get; set; }
         public OptionPayment() { }
+
         public OptionPayment(Payment Payment)
         {
-            if (Payment != null)
-            {
-                Id = Payment.Id;
-                Name = Payment.Backer.FirstName;
-                PaymentDate = DateTime.Now;
-            }
-
+            Id = Payment.Id;
+            Amount = Payment.Amount;
+            CreditCard = Payment.CreditCard;
+            PaymentDate = Payment.PaymentDate;
+            Reward = Payment.Reward;
+            RewardId = Payment.RewardId;
+            Member = Payment.Member;
+            MemberId = Payment.MemberId;
         }
     }
 }

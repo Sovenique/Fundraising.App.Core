@@ -1,0 +1,135 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <link rel="icon" href="/Images/logo-7777.png">
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Fundraising-Group7 - @ViewData["Title"]</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+    <link href="https://fonts.googleapis.com/css?family=Montserrat" rel="stylesheet">
+    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="/css/site.css" />
+    <style>
+        body {
+            font: 20px Montserrat, sans-serif;
+            line-height: 1.8;
+            color: #f5f6f7;
+        }
+
+        p {
+            font-size: 16px;
+        }
+
+        .container-fluid {
+            padding-top: 70px;
+            padding-bottom: 70px;
+        }
+
+        .bg-1 {
+            background-color: #1abc9c; /* Green */
+            color: #ffffff;
+            padding-top: 20px;
+            padding-bottom: 20px;
+        }
+
+        .bg-2 {
+            background-color: aliceblue; /* Dark Blue */
+            color: black;
+        }
+
+        .bg-3 {
+            background-color: #ffffff; /* White */
+            color: #555555;
+        }
+
+        .bg-4 {
+            background-color: #2f2f2f; /* Black Gray */
+            color: #fff;
+            position: absolute;
+            bottom: 0;
+            padding-top: 10px;
+            padding-bottom: 0px;
+        }
+
+
+
+        .navbar {
+            padding-top: 15px;
+            padding-bottom: 15px;
+            border: 0;
+            border-radius: 0;
+            margin-bottom: 0;
+            font-size: 12px;
+            letter-spacing: 5px;
+        }
+
+        .navbar-nav li a:hover {
+            color: #1abc9c !important;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <!-- Navbar -->
+        <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-dark bg-dark border-bottom box-shadow border-bottom-0">
+            <div class="container col-md-12">
+                <div class="navbar-header col-md-3">
+                    <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#myNavbar">
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                    </button>
+                    <a class="navbar-brand" asp-area="" asp-controller="Home" asp-action="Index">Group 7</a>
+                </div>
+                <div class="collapse navbar-collapse col-md-7" id="myNavbar ">
+                    <ul class="nav navbar-nav mr-md-auto">
+                        <li class="nav-item">
+                            <a class="nav-link font-weight-bold" asp-area="" asp-controller="Home" asp-action="Index">Home</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link font-weight-bold" asp-area="" asp-controller="Projects" asp-action="Index">Projects</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link font-weight-bold" asp-area="" asp-controller="Dashboard" asp-action="Index">Dashboard</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link font-weight-bold" asp-area="" asp-controller="Rewards" asp-action="Index">MyRewards</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link font-weight-bold" asp-area="" asp-controller="Home" asp-action="API">API</a>
+                        </li>
+                    </ul>
+                    <ul class="nav navbar-nav " >
+                        <partial name="_LoginPartial" /> 
+                    </ul>
+                        
+                </div>
+            </div>
+        </nav>
+    </header>
+    <!-- First Container -->
+    <div class="container-fluid bg-1 text-center">
+        <img width="100" height="100" src="~/Images/logo-7777.png"  />
+    </div>
+    <!-- Second Container -->
+    <div class="container-fluid bg-2 text-center">
+        
+        <main role="main" class="pb-3 col-sm-12 text-left">
+            @RenderBody()
+        </main>
+    </div>
+    
+
+    <footer class="container-fluid bg-4  text-center">
+        <div class="container">
+            &copy; 2021 - Group7 - Fundraising Application - PF6
+        </div>
+    </footer>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+    <script src="~/lib/jquery/dist/jquery.min.js"></script>
+    <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="~/js/site.js" asp-append-version="true"></script>
+    @await RenderSectionAsync("Scripts", required: false)
+</body>
+</html>

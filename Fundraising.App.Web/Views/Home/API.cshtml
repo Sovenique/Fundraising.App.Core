@@ -1,0 +1,79 @@
+﻿@{
+    Layout = "";
+    
+}
+
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Fundraising.App.API</title>
+
+    <link href="~/lib/tabulator/dist/css/tabulator_site.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="~/css/site.css" />
+    <link rel="stylesheet" href="~/css/api.css" />
+</head>
+<body>
+
+    <header>
+        <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+            @*HOME BRAND MAIN PAGE*@
+            <a class="navbar-brand" asp-controller="Home" asp-action="API">API</a>
+            @*BUTTON TO SHOW NAVIGATION BAR CONTENT IN CASE OF SMALL SCREEN*@
+            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarText" aria-controls="navbarText" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            @*ACTUAL CONTENTS OF NAV BAR*@
+            <div class="collapse navbar-collapse" id="navbarText">
+                <ul class="navbar-nav mr-auto">
+                    <li class="nav-item">
+                        <a class="nav-link" href="./">Return </a>
+                    </li>
+                    <li class="nav-item active">
+                        <a class="nav-link" onclick="GetProjects()" href="#">Projects </a>
+                    </li>
+
+                </ul>
+            </div>
+        </nav>
+    </header>
+
+    <div class="container">
+        @*<main id="main" class="pb-3">
+            <h1>Projects API</h1>
+        </main>*@
+        <h3>My Projects</h3>
+        <div id="tabulator_id_My_Projects"></div>
+        <br />
+        <br />
+        <h3>All Projects</h3>
+        <div id="tabulator_id_All_Projects"></div>
+        <br />
+        <br />
+        <h3>All Payments</h3>
+        <div id="tabulator_id_All_Payments"></div>
+    </div>
+
+
+
+
+
+
+
+
+    <footer class="border-top footer text-muted">
+        <div class="container">
+            &copy; 2021 - Fundraising.App.Web - <a asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
+        </div>
+    </footer>
+
+    <script src="~/lib/jquery/dist/jquery.min.js"></script>
+    <script src="~/lib/bootstrap/dist/js/bootstrap.js"></script>
+    <script type="text/javascript" src="~/lib/tabulator/dist/js/tabulator.min.js"></script>
+    <script src="~/js/api.js" asp-append-version="true"></script>
+
+</body>
+</html>

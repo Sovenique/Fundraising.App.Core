@@ -1,0 +1,95 @@
+﻿@model IEnumerable<Fundraising.App.Core.Options.OptionsProject>
+
+@{
+    ViewData["Title"] = "Index";
+}
+
+<h1>All Projects</h1>
+
+<p>
+    <a asp-action="Create">Create New</a>
+</p>
+
+    <form method="get" asp-action="Index">
+        <p>
+            <input type="search" placeholder="Enter Project Name" 
+                   value="@ViewData["GetProjectName"]"
+                   name="projectSearch" style="width:auto;"/>
+            <input type="submit" value="search" class="="btn btn-primary"/>
+
+        </p>
+    </form>
+
+
+
+    <div style="height: 600px; overflow: auto;">
+        <table id="projectTable" class="table table-hover">
+            <thead>
+                <tr>
+                    <th>
+                        Image
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.Title)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.Description)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.Category)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.Status)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.CreatedDate)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.AmountGathered)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.TargetAmount)
+                    </th>
+                    <th></th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var item in Model)
+                {
+
+                    <tr style="cursor:pointer" onclick="window.location = '/Projects/Details/@item.Id';">
+
+                        <td>
+                            <img src="./ProjectImages/@item.ImagePath" width="80" height="80">
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Title)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Description)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Category)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Status)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.CreatedDate)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.AmountGathered)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.TargetAmount)
+                        </td>
+                        <td>
+                   
+                            <a asp-action="Details" asp-route-id="@item.Id">Details</a> 
+                         
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+</div>

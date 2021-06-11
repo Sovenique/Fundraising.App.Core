@@ -1,34 +1,33 @@
 ﻿using Fundraising.App.Core.Entities;
 using System;
-using System.Collections.Generic;
-
 
 namespace Fundraising.App.Core.Options
 {
     public class OptionReward
     {
-        public int Id { get; set; }
-        public string Title { get; set; }
-        public string Description { get; set; }
+        public int Id { set; get; }
+        public string Title { set; get; }
+        public string Description { set; get; }
+        public decimal Value { get; set; }
+        public Project Project { get; set; }
+        public int ProjectId { get; set; }
         public DateTime CreatedDate { get; set; }
-
-
+        
         public OptionReward() { }
-        public OptionReward(Reward Reward)
+        public OptionReward(Reward reward)
         {
-            if (Reward != null)
-            {
-                Id = Reward.Id;
-                Title = Reward.Title;
-                Description = Reward.Description;
-                CreatedDate = DateTime.Now;
-            }
+            Id = reward.Id;
+            Title = reward.Title;
+            Description = reward.Description;
+            Value = reward.Value;
+            CreatedDate = DateTime.Now;
+            Project = reward.Project;
+            ProjectId = reward.ProjectId;
         }
+
     }
 
-}        
-
-
+}
 
 
 
